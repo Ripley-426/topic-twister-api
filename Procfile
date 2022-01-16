@@ -1,1 +1,1 @@
-web: java -jar build/libs/topic-twister-api.jar --server.port=$PORT
+web: java -jar build/libs/topic-twister-api-0.0.1.jar --server.port=$PORT
