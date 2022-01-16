@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.http.MediaType
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import services.LetterRandomizer
 import java.net.URI
-import javax.sql.DataSource
 
 @RestController
 class GreetingController {
@@ -68,5 +68,12 @@ class GreetingController {
         val dbUrl = "jdbc:postgresql://${dbUri.getHost()}:${dbUri.getPort()}${dbUri.getPath()}"
         config.setJdbcUrl(dbUrl)
         return HikariDataSource(config)
+    }
+
+    @GetMapping("/letterRandomizer")
+
+    fun get() : String {
+        val randomizer = LetterRandomizer()
+        return randomizer.getRandomLetter()
     }
 }
