@@ -42,31 +42,31 @@ class GreetingController {
         return "Here are the names: $names"
     }
 
-    internal fun initDb() {
+    private fun initDb() {
         val stmt = connection.createStatement()
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS names (name text)")
     }
 
-    internal fun dataSource(): HikariDataSource {
+    private fun dataSource(): HikariDataSource {
         val config = HikariConfig()
         var dbUri = URI(System.getenv("DATABASE_URL") ?: "postgresql://localhost:5432/")
-        var dbUserInfo =  dbUri.getUserInfo()
+        var dbUserInfo =  dbUri.userInfo
         var username: String?; var password: String?;
         if (dbUserInfo != null) {
-            username = dbUserInfo.split(":").get(0)
-            password = dbUserInfo.split(":").get(1)
+            username = dbUserInfo.split(":")[0]
+            password = dbUserInfo.split(":")[1]
         } else {
             username = System.getenv("DATABASE_USERNAME") ?: null
             password = System.getenv("DATABASE_PASSWORD") ?: null
         }
         if (username != null) {
-            config.setUsername(username)
+            config.username = username
         }
         if (password != null) {
-            config.setPassword(password)
+            config.password = password
         }
-        val dbUrl = "jdbc:postgresql://${dbUri.getHost()}:${dbUri.getPort()}${dbUri.getPath()}"
-        config.setJdbcUrl(dbUrl)
+        val dbUrl = "jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}"
+        config.jdbcUrl = dbUrl
         return HikariDataSource(config)
     }
 
