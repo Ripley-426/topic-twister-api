@@ -5,7 +5,7 @@ import com.example.tempPermanence.LoadedTopics
 
 class WordValidator {
     private val topicLoader = LoadedTopics()
-    private val topics:List<Topic> = topicLoader.GetTopics()
+    private val topics:List<Topic> = topicLoader.LoadTopics()
 
     fun validate(topic:String, word:String): Boolean{
 

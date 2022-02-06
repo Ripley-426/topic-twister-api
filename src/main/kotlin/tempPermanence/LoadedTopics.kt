@@ -1,9 +1,10 @@
 package com.example.tempPermanence
 
+import com.example.interfaces.ITopicLoader
 import com.example.model.Topic
 import com.example.model.TopicList
 
-class LoadedTopics {
+class LoadedTopics : ITopicLoader {
     private var topicList:TopicList = TopicList()
 
     init {
@@ -32,11 +33,11 @@ class LoadedTopics {
 
     fun AddAlphabet(topic: Topic) {
         for (letter in ('A'..'Z')) {
-            topic.AddWords(letter.toString())
+            topic.AddWord(letter.toString())
         }
     }
 
-    fun GetTopics():MutableList<Topic>{
+    override fun LoadTopics(): MutableList<Topic> {
         return topicList.GetTopics()
     }
 }

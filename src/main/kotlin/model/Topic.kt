@@ -5,8 +5,12 @@ class Topic(name: String)
     val name = name
     private var words: MutableList<String> = mutableListOf()
 
-    fun AddWords(newWord: String) {
+    fun AddWord(newWord: String) {
         words.add(newWord)
+    }
+
+    fun AddWords(newWords: List<String>){
+        newWords.forEach { AddWord(it) }
     }
 
     fun RemoveWord(wordToRemove: String) {
