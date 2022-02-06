@@ -1,7 +1,8 @@
 package com.example.model
 
-class Topic(val name: String)
+class Topic(name: String)
 {
+    val name = name
     private lateinit var words: MutableList<String>
 
     fun AddWords(newWord: String) {
@@ -10,5 +11,9 @@ class Topic(val name: String)
 
     fun RemoveWord(wordToRemove: String) {
         words.remove(wordToRemove)
+    }
+
+    fun GetWords(): MutableList<String> {
+        return words
     }
 }

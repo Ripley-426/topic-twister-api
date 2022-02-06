@@ -1,12 +1,9 @@
 package com.example
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import com.example.services.WordValidator
 import org.springframework.http.MediaType
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.springframework.web.bind.annotation.*
 import services.LetterRandomizer
 import java.net.URI
 
@@ -75,5 +72,13 @@ class GreetingController {
     fun get() : String {
         val randomizer = LetterRandomizer()
         return randomizer.getRandomLetter()
+    }
+
+    @GetMapping("/wordValidator")
+
+    fun get(@RequestParam topic: String, @RequestParam word: String): Boolean{
+        val validator = WordValidator()
+
+        return validator.Validate(topic, word)
     }
 }

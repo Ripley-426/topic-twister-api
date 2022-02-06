@@ -7,5 +7,13 @@ class WordValidator {
     private val topicLoader = LoadedTopics()
     private val topics:List<Topic> = topicLoader.GetTopics()
 
-    
+    fun Validate(topic:String, word:String): Boolean{
+
+        val topicExists = topics.any { it.name == topic }
+        if (!topicExists) { return false }
+
+        val foundTopic = topics.first() { it.name == topic}
+
+        return foundTopic.GetWords().contains(word)
+    }
 }
