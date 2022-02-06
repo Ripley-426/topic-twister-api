@@ -8,6 +8,7 @@ class LoadedTopics {
 
     init {
         AddTopics()
+        AddAlphabetToTopicList()
     }
 
     fun AddTopics() {

@@ -2,7 +2,7 @@ package com.example.model
 
 class TopicList{
 
-    private lateinit var topicList: MutableList<Topic>
+    private var topicList: MutableList<Topic> = mutableListOf()
 
     fun AddTopic(topic: Topic){
         topicList.add(topic)

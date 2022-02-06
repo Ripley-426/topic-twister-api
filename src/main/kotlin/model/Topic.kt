@@ -3,7 +3,7 @@ package com.example.model
 class Topic(name: String)
 {
     val name = name
-    private lateinit var words: MutableList<String>
+    private var words: MutableList<String> = mutableListOf()
 
     fun AddWords(newWord: String) {
         words.add(newWord)
