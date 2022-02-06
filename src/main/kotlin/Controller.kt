@@ -16,8 +16,7 @@ class APIController {
     @GetMapping("/wordValidator")
 
     fun getValidation(@RequestParam topic: String, @RequestParam word: String): Boolean {
-        //val validator = WordValidator()
-        //return validator.validate(topic, word)
-        return true
+        val validator = WordValidator()
+        return validator.validate(topic, word)
     }
 }
