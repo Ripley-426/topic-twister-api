@@ -1,11 +1,7 @@
 package com.example
 import com.example.services.WordValidator
-import org.springframework.http.MediaType
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
 import org.springframework.web.bind.annotation.*
 import services.LetterRandomizer
-import java.net.URI
 
 @RestController
 class APIController {
@@ -20,8 +16,8 @@ class APIController {
     @GetMapping("/wordValidator")
 
     fun getValidation(@RequestParam topic: String, @RequestParam word: String): Boolean {
-        val validator = WordValidator()
-
-        return validator.Validate(topic, word)
+        //val validator = WordValidator()
+        //return validator.validate(topic, word)
+        return true
     }
 }
