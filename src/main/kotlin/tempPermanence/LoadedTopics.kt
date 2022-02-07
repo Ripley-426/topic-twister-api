@@ -13,7 +13,7 @@ class LoadedTopics : ITopicLoader {
     }
 
     fun AddTopics() {
-        var animalTopic: Topic = Topic("ANIMALS")
+        var animalTopic: Topic = Topic("ANIMALS", mutableListOf("PARROT", "DOG", "ANACONDA"))
         topicList.AddTopic(animalTopic)
         var namesTopic: Topic = Topic("NAMES")
         topicList.AddTopic(namesTopic)

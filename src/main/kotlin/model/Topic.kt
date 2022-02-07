@@ -1,9 +1,9 @@
 package com.example.model
 
-class Topic(name: String)
+class Topic(name: String, wordList: MutableList<String> = mutableListOf())
 {
     val name = name
-    private var words: MutableList<String> = mutableListOf()
+    private var words = wordList
 
     fun AddWord(newWord: String) {
         words.add(newWord)
