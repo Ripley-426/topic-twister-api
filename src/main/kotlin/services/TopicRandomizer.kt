@@ -9,11 +9,14 @@ class TopicRandomizer {
 
     fun GetRandomTopics(numberOfTopics: Int): List<String> {
         var randomTopicList: MutableList<String> = mutableListOf()
-        val topicList = topics.shuffled().take(numberOfTopics).toList()
+        val topicList = ShuffleTopicsAndGet(numberOfTopics)
+
         topicList.forEach {
             randomTopicList.add(it.name)
         }
 
         return randomTopicList
     }
+
+    private fun ShuffleTopicsAndGet(numberOfTopics: Int) = topics.shuffled().take(numberOfTopics).toList()
 }

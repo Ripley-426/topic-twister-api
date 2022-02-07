@@ -1,4 +1,5 @@
 package com.example
+import com.example.debugTools.WordValidatorJSON
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import org.springframework.web.bind.annotation.*
@@ -18,7 +19,7 @@ class APIController {
 
     fun getValidation(@RequestParam topic: String, @RequestParam word: String): Boolean {
         val validator = WordValidator()
-        return validator.validate(topic, word)
+        return validator.Validate(topic, word)
     }
 
     @GetMapping("/randomTopics")
@@ -26,5 +27,13 @@ class APIController {
     fun getRandomTopics(@RequestParam numberOfTopics: Int) : List<String> {
         val randomizer = TopicRandomizer()
         return randomizer.GetRandomTopics(numberOfTopics)
+    }
+
+    @GetMapping("/debugTools/wordValidation")
+
+    fun getValidationJsonExample(): String {
+        val jsonCreator = WordValidatorJSON()
+
+        return jsonCreator.GetJsonExample()
     }
 }
