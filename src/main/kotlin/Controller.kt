@@ -28,7 +28,7 @@ class APIController {
 
     @GetMapping("/wordsValidator")
 
-    fun getValidation(@RequestBody jsonString:String): BooleanArray {
+    fun getValidation(@RequestBody jsonString:String): MutableList<Boolean> {
         val validationContainer:ValidationContainer = gson.fromJson(jsonString, ValidationContainer::class.java)
 
         val validator = WordValidator()

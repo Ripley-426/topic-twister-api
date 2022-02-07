@@ -9,14 +9,12 @@ class WordValidator {
     private val topicLoader = LoadedTopics()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
-    fun GetValidationResult(validationData:ValidationContainer) : BooleanArray {
+    fun GetValidationResult(validationData:ValidationContainer) : MutableList<Boolean> {
 
-        val result = BooleanArray(5)
-        result[0] = ValidateAnswer(validationData.topicAndWord1, validationData.letter)
-        result[1] = ValidateAnswer(validationData.topicAndWord2, validationData.letter)
-        result[2] = ValidateAnswer(validationData.topicAndWord3, validationData.letter)
-        result[3] = ValidateAnswer(validationData.topicAndWord4, validationData.letter)
-        result[4] = ValidateAnswer(validationData.topicAndWord5, validationData.letter)
+        val result = mutableListOf<Boolean>()
+        validationData.topicsAndWords.forEach() {
+            result.add(ValidateAnswer(it, validationData.letter))
+        }
 
         return result
     }

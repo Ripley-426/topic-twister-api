@@ -7,21 +7,32 @@ import com.google.gson.Gson
 class WordValidatorJSON {
 
     var gson = Gson()
-    val topicAndWord1: TopicAndWord = TopicAndWord("ANIMALS", "A")
-    val topicAndWord2: TopicAndWord = TopicAndWord("NAMES", "AA")
-    val topicAndWord3: TopicAndWord = TopicAndWord("COUNTRIES", "B")
-    val topicAndWord4: TopicAndWord = TopicAndWord("PLANTS", "AA")
-    val topicAndWord5: TopicAndWord = TopicAndWord("JOBS", "A")
-
+    var topicsAndWords = AddTopicsAndWords()
     val letter = "A"
-
-    val validationContainer:ValidationContainer = ValidationContainer(
-        letter, topicAndWord1, topicAndWord2, topicAndWord3, topicAndWord4, topicAndWord5)
+    val validationContainer:ValidationContainer = ValidationContainer(letter, topicsAndWords)
 
     fun GetJsonExample(): String {
         var jsonString = gson.toJson(validationContainer)
 
         return jsonString
+    }
+
+    fun AddTopicsAndWords(): List<TopicAndWord> {
+
+        val topicAndWord1 = TopicAndWord("ANIMALS", "A")
+        val topicAndWord2 = TopicAndWord("NAMES", "AA")
+        val topicAndWord3 = TopicAndWord("COUNTRIES", "B")
+        val topicAndWord4 = TopicAndWord("PLANTS", "AA")
+        val topicAndWord5 = TopicAndWord("JOBS", "A")
+
+        var topicsAndWordsList = mutableListOf<TopicAndWord>()
+        topicsAndWordsList.add(topicAndWord1)
+        topicsAndWordsList.add(topicAndWord2)
+        topicsAndWordsList.add(topicAndWord3)
+        topicsAndWordsList.add(topicAndWord4)
+        topicsAndWordsList.add(topicAndWord5)
+
+        return topicsAndWordsList
     }
 
 }
