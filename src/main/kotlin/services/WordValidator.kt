@@ -26,7 +26,7 @@ class WordValidator {
         return Validate(topicAndWord.topic, topicAndWord.word)
     }
 
-    fun Validate(topic:String, word:String): Boolean{
+    fun Validate(topic:String, word:String): Boolean {
 
         val topicExists = topics.any { it.name == topic }
         if (!topicExists) { return false }
