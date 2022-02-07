@@ -11,7 +11,7 @@ class WordValidator {
 
     fun GetValidationResult(validationData:ValidationContainer) : BooleanArray {
 
-        val result = booleanArrayOf()
+        val result = BooleanArray(5)
         result[0] = ValidateAnswer(validationData.topicAndWord1, validationData.letter)
         result[1] = ValidateAnswer(validationData.topicAndWord2, validationData.letter)
         result[2] = ValidateAnswer(validationData.topicAndWord3, validationData.letter)
