@@ -11,18 +11,19 @@ import services.LetterRandomizer
 class APIController {
 
     var gson = Gson()
+    val validator = WordValidator()
+    val letterRandomizer = LetterRandomizer()
+    val topicRandomizer = TopicRandomizer()
 
     @GetMapping("/letterRandomizer")
 
     fun getLetter() : String {
-        val randomizer = LetterRandomizer()
-        return randomizer.getRandomLetter()
+        return letterRandomizer.getRandomLetter()
     }
 
     @GetMapping("/wordValidator")
 
     fun getValidation(@RequestParam topic: String, @RequestParam word: String): Boolean {
-        val validator = WordValidator()
         return validator.Validate(topic, word)
     }
 
@@ -31,16 +32,13 @@ class APIController {
     fun getValidation(@RequestBody jsonString:String): MutableList<Boolean> {
         val validationContainer:ValidationContainer = gson.fromJson(jsonString, ValidationContainer::class.java)
 
-        val validator = WordValidator()
-
         return validator.GetValidationResult(validationContainer)
     }
 
     @GetMapping("/randomTopics")
 
     fun getRandomTopics(@RequestParam numberOfTopics: Int) : List<String> {
-        val randomizer = TopicRandomizer()
-        return randomizer.GetRandomTopics(numberOfTopics)
+        return topicRandomizer.GetRandomTopics(numberOfTopics)
     }
 
     @GetMapping("/debugTools/wordValidation")

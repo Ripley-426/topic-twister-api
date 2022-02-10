@@ -1,5 +1,6 @@
 package services
 
+import com.example.model.TopicAndWord
 import com.example.services.WordValidator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -10,7 +11,7 @@ class WordValidatorShould {
     @Test
     fun `validate a correct word and return true`() {
 
-        val result = sut.Validate("ANIMALS", "A")
+        val result = sut.Validate("ANIMALS", "ANACONDA")
 
         assertTrue(result)
     }
@@ -18,7 +19,17 @@ class WordValidatorShould {
     @Test
     fun `validate an incorrect word and return false`() {
 
-        val result = sut.Validate("ANIMALS", "AS")
+        val result = sut.Validate("ANIMALS", "ANACOND")
+
+        assertFalse(result)
+    }
+
+    @Test
+    fun `return false when a word has a different starting letter`() {
+        val topicAndWord= TopicAndWord("ANIMALS", "ANACONDA")
+        val letter = "B"
+
+        val result = sut.ValidateAnswer(topicAndWord, letter)
 
         assertFalse(result)
     }

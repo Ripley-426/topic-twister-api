@@ -2,22 +2,38 @@ package com.example.model
 
 class Topic(name: String, wordList: MutableList<String> = mutableListOf())
 {
-    val name = name
-    private var words = wordList
+    val name = FilterNonLettersOrSpacesAndConvertToUppercase(name)
+    private var words: MutableList<String> = mutableListOf()
 
-    fun AddWord(newWord: String) {
-        words.add(newWord)
+    init {
+        if (wordList.isNotEmpty()) { AddWords(wordList) }
     }
 
-    fun AddWords(newWords: List<String>){
+    fun AddWord(newWord: String) {
+        if (!words.contains(newWord) and (!newWord.isNullOrBlank())) {
+            words.add(FilterNonLettersOrSpacesAndConvertToUppercase(newWord))
+        }
+    }
+
+    fun AddWords(newWords: List<String>) {
         newWords.forEach { AddWord(it) }
     }
 
     fun RemoveWord(wordToRemove: String) {
-        words.remove(wordToRemove)
+        if (words.contains(wordToRemove)) {
+            words.remove(wordToRemove)
+        }
+    }
+
+    fun RemoveWords(wordsToRemove: List<String>) {
+        wordsToRemove.forEach { RemoveWord(it) }
     }
 
     fun GetWords(): MutableList<String> {
         return words
+    }
+
+    private fun FilterNonLettersOrSpacesAndConvertToUppercase(message:String): String {
+        return message.uppercase().filter { it.isLetter() or (it == ' ')  }
     }
 }

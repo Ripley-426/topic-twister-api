@@ -1,12 +1,13 @@
 package com.example.services
 
+import com.example.interfaces.ITopicLoader
 import com.example.model.Topic
 import com.example.model.TopicAndWord
 import com.example.model.ValidationContainer
-import com.example.tempPermanence.LoadedTopics
+import com.example.tempPermanence.InMemoryTopicLoader
 
 class WordValidator {
-    private val topicLoader = LoadedTopics()
+    private val topicLoader:ITopicLoader = InMemoryTopicLoader()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
     fun GetValidationResult(validationData:ValidationContainer) : MutableList<Boolean> {
@@ -25,6 +26,9 @@ class WordValidator {
     }
 
     fun Validate(topic:String, word:String): Boolean {
+
+        val topic = topic.uppercase()
+        val word = word.uppercase()
 
         val topicExists = topics.any { it.name == topic }
         if (!topicExists) { return false }

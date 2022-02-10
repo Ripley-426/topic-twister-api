@@ -1,10 +1,10 @@
 package com.example.services
 
 import com.example.model.Topic
-import com.example.tempPermanence.LoadedTopics
+import com.example.tempPermanence.InMemoryTopicLoader
 
 class TopicRandomizer {
-    private val topicLoader = LoadedTopics()
+    private val topicLoader = InMemoryTopicLoader()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
     fun GetRandomTopics(numberOfTopics: Int): List<String> {
