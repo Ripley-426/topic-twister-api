@@ -4,7 +4,7 @@ import com.example.model.Topic
 import com.example.tempPermanence.InMemoryTopicLoader
 
 class TopicRandomizer {
-    private val topicLoader = InMemoryTopicLoader()
+    private val topicLoader = DBTopicLoader()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
     fun GetRandomTopics(numberOfTopics: Int): List<String> {

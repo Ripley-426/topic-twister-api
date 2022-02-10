@@ -7,7 +7,7 @@ import com.example.model.ValidationContainer
 import com.example.tempPermanence.InMemoryTopicLoader
 
 class WordValidator {
-    private val topicLoader:ITopicLoader = InMemoryTopicLoader()
+    private val topicLoader:ITopicLoader = DBTopicLoader()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
     fun GetValidationResult(validationData:ValidationContainer) : MutableList<Boolean> {

@@ -39,7 +39,23 @@ class DBTopicLoader: ITopicLoader {
     }
 
     override fun LoadTopics(): MutableList<Topic> {
-        var topics: MutableList<Topic> = mutableListOf()
+        return GetAllTopicsFromDB()
+    }
+
+    fun GetAllTopicsFromDB():MutableList<Topic> {
+        initDb()
+        var topics:MutableList<Topic> = mutableListOf()
+        val stmt = connection.createStatement()
+        val topicListString = stmt.executeQuery("SELECT topic FROM TOPICS")
+
+        while (topicListString.next()) {
+            val topicName = topicListString.getString("topic")
+            val wordsString = stmt.executeQuery("SELECT words from $topicName")
+            wordsString.next()
+            val words = wordsString.getString("words").replace(", ", ",").replace(" ,", ",")
+            val wordsList:MutableList<String> = words.split(",").toMutableList()
+            topics.add(Topic(topicListString.getString("topic"), wordsList))
+        }
 
         return topics
     }

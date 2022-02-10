@@ -19,7 +19,7 @@ class AddTopicsToDB {
 
     private fun dataSource(): HikariDataSource {
         val config = HikariConfig()
-        var dbUri = URI(System.getenv("DATABASE_URL") ?: "postgres://ssbjakmpycxnpo:3c868f613a973b52876ad1664be913f8ad23938d7d9b14870b2eeaecb26fe8cd@ec2-34-230-198-12.compute-1.amazonaws.com:5432/d3fq5745pjvp8i:5432/")
+        var dbUri = URI(System.getenv("DATABASE_URL") ?: "postgres://ssbjakmpycxnpo:3c868f613a973b52876ad1664be913f8ad23938d7d9b14870b2eeaecb26fe8cd@ec2-34-230-198-12.compute-1.amazonaws.com:5432/d3fq5745pjvp8i")
         var dbUserInfo =  dbUri.userInfo
         var username: String?; var password: String?;
         if (dbUserInfo != null) {
@@ -35,19 +35,22 @@ class AddTopicsToDB {
         if (password != null) {
             config.password = password
         }
-        val dbUrl = "postgres://ssbjakmpycxnpo:3c868f613a973b52876ad1664be913f8ad23938d7d9b14870b2eeaecb26fe8cd@ec2-34-230-198-12.compute-1.amazonaws.com:5432/d3fq5745pjvp8i"
+        val dbUrl = "jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}"
         config.jdbcUrl = dbUrl
         return HikariDataSource(config)
     }
 
     fun addTopic(topicName:String, words:MutableList<String>) {
         val stmt = connection.createStatement()
-        stmt.executeUpdate("INSERT INTO TOPICS values $topicName")
-        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS $topicName (words text)")
+        val upperTopicName = topicName.uppercase()
+        stmt.executeUpdate("INSERT INTO TOPICS values ('$upperTopicName')")
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS $upperTopicName (words text)")
 
-        val wordsString = words.joinToString()
+        var upperWords:MutableList<String> = mutableListOf()
+        words.forEach { upperWords.add(it.uppercase()) }
+        val wordsString = upperWords.joinToString()
 
-        stmt.executeUpdate("INSERT INTO $topicName values $wordsString")
+        stmt.executeUpdate("INSERT INTO $upperTopicName values ('$wordsString')")
     }
 
     fun run() {
