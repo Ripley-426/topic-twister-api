@@ -32,14 +32,12 @@ class Round (
         wordsValidations = wordsValidator.GetValidationResult(convertToValidationContainer(words))
     }
 
-    private fun convertToValidationContainer(wordList: MutableList<String>):ValidationContainer {
+    private fun convertToValidationContainer(wordList: MutableList<String>): ValidationContainer {
         var topicAndWordList: MutableList<TopicAndWord> = mutableListOf()
         topics.forEachIndexed { index, element ->
             topicAndWordList.add(TopicAndWord(element, wordList[index]))
         }
 
-        val container = ValidationContainer(letter, topicAndWordList)
-
-        return container
+        return ValidationContainer(letter, topicAndWordList)
     }
 }
