@@ -5,12 +5,13 @@ import com.example.services.WordValidator
 
 class Round (
     val letter: String
-        ) {
+    )
+{
 
     var topics: List<String> = arrayListOf()
     val topicRandomizer = TopicRandomizer()
     val wordsValidator = WordValidator()
-    val wordsValidations = mutableListOf<Boolean>()
+    var wordsValidations = mutableListOf<Boolean>()
     var words: MutableList<String> = mutableListOf()
 
     init {
@@ -27,12 +28,18 @@ class Round (
     }
 
     fun validateWords() {
-        convertToTopicsAndWords()
 
-        wordsValidations = wordsValidator.Validate()
+        wordsValidations = wordsValidator.GetValidationResult(convertToValidationContainer(words))
     }
 
-    private fun convertToTopicsAndWords() {
+    private fun convertToValidationContainer(wordList: MutableList<String>):ValidationContainer {
+        var topicAndWordList: MutableList<TopicAndWord> = mutableListOf()
+        topics.forEachIndexed { index, element ->
+            topicAndWordList.add(TopicAndWord(element, wordList[index]))
+        }
 
+        val container = ValidationContainer(letter, topicAndWordList)
+
+        return container
     }
 }
