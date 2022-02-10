@@ -1,4 +1,5 @@
 package com.example
+import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
 import com.example.model.ValidationContainer
 import com.example.services.TopicRandomizer
@@ -11,14 +12,14 @@ import services.LetterRandomizer
 class APIController {
 
     var gson = Gson()
-    val validator = WordValidator()
-    val letterRandomizer = LetterRandomizer()
-    val topicRandomizer = TopicRandomizer()
+    private val validator = WordValidator()
+    private val letterRandomizer = LetterRandomizer()
+    private val topicRandomizer = TopicRandomizer()
 
     @GetMapping("/letterRandomizer")
 
     fun getLetter() : String {
-        return letterRandomizer.getRandomLetter()
+        return letterRandomizer.getRandomLetter().toString()
     }
 
     @GetMapping("/wordValidator")
@@ -46,5 +47,12 @@ class APIController {
     fun getValidationJsonExample(): String {
         val jsonCreator = WordValidatorJSON()
         return jsonCreator.GetJsonExample()
+    }
+
+    @GetMapping("/debugTools/populateTopics")
+
+    fun populateTopicsInDB() {
+        val addTopicsToDB = AddTopicsToDB()
+        addTopicsToDB.run()
     }
 }

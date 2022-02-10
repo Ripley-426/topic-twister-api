@@ -38,8 +38,7 @@ class RoundShould {
         val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
         round.addWords(mutableListOf("A", "B", "A", "B", "A"))
 
-
-        val result = round.getPlayerAWordsValidation()
+        val result = round.wordsValidations
 
         assertEquals(expectedBoolList, result)
     }
