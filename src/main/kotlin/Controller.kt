@@ -1,4 +1,5 @@
 package com.example
+import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
 import com.example.model.ValidationContainer
 import com.example.services.TopicRandomizer
@@ -46,5 +47,12 @@ class APIController {
     fun getValidationJsonExample(): String {
         val jsonCreator = WordValidatorJSON()
         return jsonCreator.GetJsonExample()
+    }
+
+    @GetMapping("/debugTools/populateTopics")
+
+    fun populateTopicsInDB() {
+        val addTopicsToDB = AddTopicsToDB()
+        addTopicsToDB.run()
     }
 }
