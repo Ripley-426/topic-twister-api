@@ -2,9 +2,9 @@ package services
 
 class LetterRandomizer {
 
-    fun getRandomLetter(): String {
+    fun getRandomLetter(): Char {
 
-        return ('A'..'Z').random().toString()
+        return ('A'..'Z').random()
 
     }
 }

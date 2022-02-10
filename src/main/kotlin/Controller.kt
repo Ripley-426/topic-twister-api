@@ -18,7 +18,7 @@ class APIController {
     @GetMapping("/letterRandomizer")
 
     fun getLetter() : String {
-        return letterRandomizer.getRandomLetter()
+        return letterRandomizer.getRandomLetter().toString()
     }
 
     @GetMapping("/wordValidator")
