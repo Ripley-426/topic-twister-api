@@ -1,5 +1,7 @@
 package com.example.model
 
+import com.example.enumClasses.RoundWinner
+import com.example.enumClasses.Turn
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import services.LetterRandomizer

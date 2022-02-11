@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.enumClasses
 
 enum class RoundWinner {
     PLAYERA,

@@ -1,8 +1,8 @@
 package model
 
 import com.example.model.Round
-import com.example.model.RoundWinner
-import com.example.model.Turn
+import com.example.enumClasses.RoundWinner
+import com.example.enumClasses.Turn
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
