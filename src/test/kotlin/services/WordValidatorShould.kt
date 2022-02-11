@@ -27,7 +27,7 @@ class WordValidatorShould {
     @Test
     fun `return false when a word has a different starting letter`() {
         val topicAndWord= TopicAndWord("ANIMALS", "ANACONDA")
-        val letter = "B"
+        val letter = 'B'
 
         val result = sut.ValidateAnswer(topicAndWord, letter)
 

@@ -21,8 +21,8 @@ class WordValidator {
         return result
     }
 
-    fun ValidateAnswer(topicAndWord: TopicAndWord, letter:String): Boolean {
-        if (topicAndWord.word[0].toString() != letter) return false
+    fun ValidateAnswer(topicAndWord: TopicAndWord, letter:Char): Boolean {
+        if (topicAndWord.word[0] != letter) return false
         return Validate(topicAndWord.topic, topicAndWord.word)
     }
 

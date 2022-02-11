@@ -1,6 +1,7 @@
 package model
 
 import com.example.model.Round
+import com.example.model.RoundWinner
 import com.example.model.Turn
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -8,75 +9,107 @@ import org.junit.jupiter.api.Test
 
 class RoundShould {
 
-    private lateinit var letter: String
-    private lateinit var round: Round
-    private lateinit var listOfWords: MutableList<String>
+    private lateinit var firstRound: Round
+    private lateinit var listOfWordsPlayerA: MutableList<String>
+    private lateinit var listOfWordsPlayerB: MutableList<String>
 
     @BeforeEach
     fun setup(){
-        letter = "A"
-        round = Round(letter)
-        listOfWords = mutableListOf("A", "B", "A", "B", "A")
+        firstRound = Round(1)
+        listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
+        listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
 
     @Test
     fun `Have A Letter`() {
 
         //When
-        val result = round.letter
+        val result = firstRound.letter
 
         //Then
-        assertEquals(letter, result)
+        assertTrue(result.isLetter())
     }
 
     @Test
     fun `Have Topics`() {
 
-        assertEquals(5,round.readTopics().count())
+        assertEquals(5,firstRound.readTopics().count())
     }
 
     @Test
-    fun `Validate Words After Adding them`() {
+    fun `Add Player A Words`() {
+
+        firstRound.addWords(listOfWordsPlayerA)
+        val result = firstRound.playerAWords
+
+
+        assertEquals(listOfWordsPlayerA, result)
+    }
+
+    @Test
+    fun `Validate Player A Words After Adding Them`() {
 
         val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
-        round.addWords(listOfWords)
+        firstRound.addWords(listOfWordsPlayerA)
 
-
-        val result = round.wordsValidations
+        val result = firstRound.playerAWordsValidation
 
         assertEquals(expectedBoolList, result)
     }
 
 
     @Test
-    fun `Change To Second Turn After Adding Words`() {
+    fun `Change To Second Turn After Adding First Words`() {
 
-        round.addWords(listOfWords)
+        firstRound.addWords(listOfWordsPlayerA)
 
-        val result = round.turn
+        val result = firstRound.turn
 
         assertEquals(Turn.SECOND, result)
     }
 
     @Test
-    fun `Add Player A Words`() {
+    fun `Add Player B Words`() {
 
-        round.addWords(listOfWords)
-        val result = round.playerAWords
+        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWords(listOfWordsPlayerB)
+        val result = firstRound.playerBWords
 
-
-        assertEquals(listOfWords, result)
+        assertEquals(listOfWordsPlayerB, result)
     }
 
     @Test
-    fun `Add Player B Words`() {
+    fun `Validate Player B Words After Adding Them`() {
 
-        round.addWords(listOfWords)
-        round.addWords(listOfWords)
-        val result = round.playerBWords
+        val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
+        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWords(listOfWordsPlayerB)
 
+        val result = firstRound.playerBWordsValidation
 
-        assertEquals(listOfWords, result)
+        assertEquals(expectedBoolList, result)
+    }
+
+    @Test
+    fun `Change To Finished Turn After Adding Second Words`() {
+
+        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWords(listOfWordsPlayerB)
+
+        val result = firstRound.turn
+
+        assertEquals(Turn.FINISHED, result)
+    }
+
+    @Test
+    fun `Calculate Score When Turn is Over`() {
+
+        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWords(listOfWordsPlayerB)
+
+        val result = firstRound.roundWinner
+
+        assertEquals(RoundWinner.PLAYERA, result)
     }
 
 }

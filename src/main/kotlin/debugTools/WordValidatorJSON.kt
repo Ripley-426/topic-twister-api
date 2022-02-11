@@ -8,7 +8,7 @@ class WordValidatorJSON {
 
     var gson = Gson()
     var topicsAndWords = AddTopicsAndWords()
-    val letter = "A"
+    val letter = 'A'
     val validationContainer:ValidationContainer = ValidationContainer(letter, topicsAndWords)
 
     fun GetJsonExample(): String {
