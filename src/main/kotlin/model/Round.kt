@@ -8,11 +8,13 @@ class Round (
     )
 {
 
+    var turn: Turn = Turn.FIRST
     var topics: List<String> = arrayListOf()
     val topicRandomizer = TopicRandomizer()
     val wordsValidator = WordValidator()
     var wordsValidations = mutableListOf<Boolean>()
-    var words: MutableList<String> = mutableListOf()
+    var playerAWords: MutableList<String> = mutableListOf()
+    var playerBWords: MutableList<String> = mutableListOf()
 
     init {
         topics = topicRandomizer.GetRandomTopics(5)
@@ -23,13 +25,24 @@ class Round (
     }
 
     fun addWords(wordsList: MutableList<String>) {
-        words = wordsList
+        playerAWords = wordsList
+
+        if (turn == Turn.SECOND) {
+            playerBWords = wordsList
+        }
+
+
         validateWords()
+        changeTurn()
+    }
+
+    private fun changeTurn() {
+        turn = Turn.SECOND
     }
 
     fun validateWords() {
 
-        wordsValidations = wordsValidator.GetValidationResult(convertToValidationContainer(words))
+        wordsValidations = wordsValidator.GetValidationResult(convertToValidationContainer(playerAWords))
     }
 
     private fun convertToValidationContainer(wordList: MutableList<String>): ValidationContainer {
