@@ -16,7 +16,9 @@ class DBMatchIDLoader: IMatchIDLoader {
         dbID.next()
         val currentMatchID = dbID.getInt("id")
 
-        stmt.executeUpdate("UPDATE MATCHID SET (id = '${currentMatchID + 1}'")
+        val nextMatchID = currentMatchID + 1
+
+        stmt.executeUpdate("UPDATE MATCHID SET id = '$nextMatchID'")
 
         return currentMatchID
     }
