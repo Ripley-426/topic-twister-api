@@ -13,7 +13,6 @@ class AddTopicsToDB {
     private val db = HikariDBConnection
     private val connection = db.getConnection()
 
-
     fun addTopic(topicName:String, words:MutableList<String>) {
         val stmt = connection.createStatement()
         val upperTopicName = topicName.uppercase()
