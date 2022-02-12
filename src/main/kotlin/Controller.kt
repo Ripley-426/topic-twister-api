@@ -1,7 +1,9 @@
 package com.example
 import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
+import com.example.interfaces.IMatchIDLoader
 import com.example.model.ValidationContainer
+import com.example.services.DBMatchIDLoader
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import com.google.gson.Gson
@@ -55,4 +57,11 @@ class APIController {
         val addTopicsToDB = AddTopicsToDB()
         addTopicsToDB.run()
     }
+
+    @GetMapping("/getMatchID")
+    fun getMatchID(): Int {
+        val matchIDLoader: IMatchIDLoader = DBMatchIDLoader()
+        return matchIDLoader.getID()
+    }
+
 }
