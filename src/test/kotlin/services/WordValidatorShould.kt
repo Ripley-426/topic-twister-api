@@ -25,6 +25,12 @@ class WordValidatorShould {
     }
 
     @Test
+    fun `return false when topic does not exist`() {
+
+        val result = sut.Validate("AAAAAA", "AAAAAA")
+    }
+
+    @Test
     fun `return false when a word has a different starting letter`() {
         val topicAndWord= TopicAndWord("ANIMALS", "ANACONDA")
         val letter = 'B'
