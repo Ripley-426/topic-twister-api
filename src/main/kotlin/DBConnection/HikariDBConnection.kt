@@ -9,11 +9,6 @@ object HikariDBConnection {
     private val dataSource = dataSource()
     private val connection: Connection = dataSource.connection
 
-    private fun initDb() {
-        val stmt = connection.createStatement()
-        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS TOPICS (topic text)")
-    }
-
     private fun dataSource(): HikariDataSource {
         val config = HikariConfig()
         var dbUri = URI(System.getenv("DATABASE_URL") ?: "postgres://ssbjakmpycxnpo:3c868f613a973b52876ad1664be913f8ad23938d7d9b14870b2eeaecb26fe8cd@ec2-34-230-198-12.compute-1.amazonaws.com:5432/d3fq5745pjvp8i")

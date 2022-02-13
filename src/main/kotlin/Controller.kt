@@ -58,10 +58,16 @@ class APIController {
         addTopicsToDB.run()
     }
 
-    @GetMapping("/getMatchID")
+    @GetMapping("match/getMatchID")
     fun getMatchID(): Int {
         val matchIDLoader: IMatchIDLoader = DBMatchIDLoader()
         return matchIDLoader.getID()
+    }
+
+    @GetMapping("match/resetMatchID")
+    fun resetMatchID() {
+        val matchIDLoader: IMatchIDLoader = DBMatchIDLoader()
+        matchIDLoader.resetID()
     }
 
 }
