@@ -4,7 +4,6 @@ import com.example.enumClasses.Turn
 import com.example.model.Match
 import com.example.model.Player
 import com.example.services.DBMatchIDLoader
-import com.example.services.TopicRandomizer
 import com.example.tempPermanence.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -24,15 +23,17 @@ class MatchShould {
     @BeforeEach
     fun setUp(){
 
-        val matchIDLoaderDependency = Mockito.mock(DBMatchIDLoader::class.java)
-        Mockito.`when`(matchIDLoaderDependency.getID()).thenReturn(1)
+        val mockMatchIDLoaderDependency = Mockito.mock(DBMatchIDLoader::class.java)
+        Mockito.`when`(mockMatchIDLoaderDependency.getID()).thenReturn(1)
 
-        val letterRandomizerDependency = LetterRandomizer()
+        val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
+        Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
+
         val topicLoaderDependency = InMemoryTopicLoader()
 
         playerA = Player(1, "Juan")
         playerB = Player(2, "Pedro")
-        match = Match(playerA, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency)
+        match = Match(playerA, mockMatchIDLoaderDependency, mockLetterRandomizerDependency, topicLoaderDependency)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
@@ -95,6 +96,7 @@ class MatchShould {
 */
     @Test
     fun `Calculate winner when match is completed` () {
+
         match.addWords(listOfWordsPlayerA)
         match.addPlayerB(playerB)
         match.addWords(listOfWordsPlayerB)
@@ -107,7 +109,7 @@ class MatchShould {
 
         val result = match.winner
 
-        assertNotNull(result)
+        assertEquals(playerA.id, result)
     }
 
 

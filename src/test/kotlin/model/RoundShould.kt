@@ -21,14 +21,14 @@ class RoundShould {
     @BeforeEach
     fun setup(){
 
-        val mockLetterRandomizer = Mockito.mock(LetterRandomizer::class.java)
-        Mockito.`when`(mockLetterRandomizer.getRandomLetter()).thenReturn('A')
+        val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
+        Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
 
         val topicLoaderDependency = InMemoryTopicLoader()
         val topicRandomizer = TopicRandomizer(topicLoaderDependency)
         val wordValidator = WordValidator(topicLoaderDependency)
 
-        firstRound = Round(1, topicRandomizer, mockLetterRandomizer, wordValidator)
+        firstRound = Round(1, topicRandomizer, mockLetterRandomizerDependency, wordValidator)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
