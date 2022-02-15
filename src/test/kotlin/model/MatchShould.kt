@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test
 
 class MatchShould {
 
-    lateinit var match: Match
-    lateinit var playerA: Player
-    lateinit var playerB: Player
-    lateinit var listOfWordsPlayerA: MutableList<String>
-    lateinit var listOfWordsPlayerB: MutableList<String>
+    private lateinit var match: Match
+    private lateinit var playerA: Player
+    private lateinit var playerB: Player
+    private lateinit var listOfWordsPlayerA: MutableList<String>
+    private lateinit var listOfWordsPlayerB: MutableList<String>
 
 
     @BeforeEach
-    fun SetUp(){
+    fun setUp(){
         playerA = Player(1, "Juan")
         playerB = Player(2, "Pedro")
         match = Match(playerA)
@@ -38,7 +38,9 @@ class MatchShould {
 
         match.addWords(listOfWordsPlayerA)
 
-        assertTrue(match.getCurrentRound().turn == Turn.SECOND)
+        val result = match.getCurrentRound().turn
+
+        assertTrue(result == Turn.SECOND)
     }
 
     @Test
@@ -61,7 +63,6 @@ class MatchShould {
 
         assertEquals(2, result)
     }
-
 
     /*
     @Test
@@ -92,7 +93,7 @@ class MatchShould {
         match.addWords(listOfWordsPlayerA)
         match.addWords(listOfWordsPlayerB)
 
-        var result = match.winner
+        val result = match.winner
 
         assertNotNull(result)
     }

@@ -2,11 +2,14 @@ package services
 
 import com.example.model.TopicAndWord
 import com.example.services.WordValidator
+import com.example.tempPermanence.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class WordValidatorShould {
-    private val sut = WordValidator()
+
+    private val topicLoaderDependency = InMemoryTopicLoader()
+    private val sut = WordValidator(topicLoaderDependency)
 
     @Test
     fun `validate a correct word and return true`() {

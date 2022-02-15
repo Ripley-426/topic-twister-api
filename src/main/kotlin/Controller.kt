@@ -4,6 +4,7 @@ import com.example.debugTools.WordValidatorJSON
 import com.example.interfaces.IMatchIDLoader
 import com.example.model.ValidationContainer
 import com.example.services.DBMatchIDLoader
+import com.example.services.DBTopicLoader
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import com.google.gson.Gson
@@ -14,7 +15,7 @@ import services.LetterRandomizer
 class APIController {
 
     var gson = Gson()
-    private val validator = WordValidator()
+    private val validator = WordValidator(DBTopicLoader())
     private val letterRandomizer = LetterRandomizer()
     private val topicRandomizer = TopicRandomizer()
 

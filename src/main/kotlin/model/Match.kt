@@ -2,11 +2,9 @@ package com.example.model
 
 import com.example.enumClasses.RoundWinner
 import com.example.enumClasses.Turn
-import com.example.interfaces.ILetterRandomizer
-import com.example.interfaces.IMatchIDLoader
-import com.example.interfaces.ITopicRandomizer
-import com.example.interfaces.IWordValidator
+import com.example.interfaces.*
 import com.example.services.DBMatchIDLoader
+import com.example.services.DBTopicLoader
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import services.LetterRandomizer
@@ -16,7 +14,8 @@ class Match (val playerA: Player) {
     private val matchIDLoader: IMatchIDLoader = DBMatchIDLoader()
     private val letterRandomizer:ILetterRandomizer = LetterRandomizer()
     private val topicRandomizer: ITopicRandomizer = TopicRandomizer()
-    private val wordValidator:IWordValidator = WordValidator()
+    private val topicLoader: ITopicLoader = DBTopicLoader()
+    private val wordValidator:IWordValidator = WordValidator(topicLoader)
 
     var id: Int = matchIDLoader.getID()
     var playerB: Player? = null
