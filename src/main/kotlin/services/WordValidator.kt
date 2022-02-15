@@ -1,17 +1,18 @@
 package com.example.services
 
 import com.example.interfaces.ITopicLoader
+import com.example.interfaces.IWordValidator
 import com.example.model.Topic
 import com.example.model.TopicAndWord
 import com.example.model.ValidationContainer
 import com.example.tempPermanence.InMemoryTopicLoader
 
-class WordValidator {
+class WordValidator: IWordValidator {
     //private val topicLoader:ITopicLoader = DBTopicLoader()
     private val topicLoader:ITopicLoader = InMemoryTopicLoader()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
-    fun GetValidationResult(validationData:ValidationContainer) : MutableList<Boolean> {
+    override fun getValidationResult(validationData:ValidationContainer) : MutableList<Boolean> {
 
         val result = mutableListOf<Boolean>()
         validationData.topicsAndWords.forEach() {

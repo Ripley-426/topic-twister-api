@@ -1,15 +1,16 @@
 package com.example.services
 
 import com.example.interfaces.ITopicLoader
+import com.example.interfaces.ITopicRandomizer
 import com.example.model.Topic
 import com.example.tempPermanence.InMemoryTopicLoader
 
-class TopicRandomizer {
+class TopicRandomizer: ITopicRandomizer {
     //private val topicLoader:ITopicLoader = DBTopicLoader()
     private val topicLoader:ITopicLoader = InMemoryTopicLoader()
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
-    fun GetRandomTopics(numberOfTopics: Int): List<String> {
+    override fun getRandomTopics(numberOfTopics: Int): List<String> {
         var randomTopicList: MutableList<String> = mutableListOf()
         val topicList = ShuffleTopicsAndGet(numberOfTopics)
 

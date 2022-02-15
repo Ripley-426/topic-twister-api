@@ -2,17 +2,21 @@ package com.example.model
 
 import com.example.enumClasses.RoundWinner
 import com.example.enumClasses.Turn
-import com.example.services.TopicRandomizer
-import com.example.services.WordValidator
-import services.LetterRandomizer
+import com.example.interfaces.ILetterRandomizer
+import com.example.interfaces.ITopicRandomizer
+import com.example.interfaces.IWordValidator
 
-class Round (val roundNumber: Int)
+class Round (val roundNumber: Int,
+             val topicRandomizerDependency: ITopicRandomizer,
+             val letterRandomizerDependency: ILetterRandomizer,
+             val wordValidatorDependency: IWordValidator
+)
 {
     var letter: Char
     var topics: List<String> = arrayListOf()
-    private val topicRandomizer = TopicRandomizer()
-    private val letterRandomizer = LetterRandomizer()
-    private val wordsValidator = WordValidator()
+    private val topicRandomizer = topicRandomizerDependency
+    private val letterRandomizer = letterRandomizerDependency
+    private val wordsValidator = wordValidatorDependency
 
     var playerAWords: MutableList<String> = mutableListOf()
     var playerBWords: MutableList<String> = mutableListOf()
@@ -23,7 +27,7 @@ class Round (val roundNumber: Int)
     lateinit var roundWinner: RoundWinner
 
     init {
-        topics = topicRandomizer.GetRandomTopics(5)
+        topics = topicRandomizer.getRandomTopics(5)
         letter = letterRandomizer.getRandomLetter()
     }
 
@@ -60,7 +64,7 @@ class Round (val roundNumber: Int)
     }
 
     private fun validatePlayerAWords() {
-        playerAWordsValidation = wordsValidator.GetValidationResult(convertToValidationContainer(playerAWords))
+        playerAWordsValidation = wordsValidator.getValidationResult(convertToValidationContainer(playerAWords))
     }
 
     private fun setWordsToPlayerBAndValidate(wordsList: MutableList<String>){
@@ -69,7 +73,7 @@ class Round (val roundNumber: Int)
     }
 
     private fun validatePlayerBWords() {
-        playerBWordsValidation = wordsValidator.GetValidationResult(convertToValidationContainer(playerBWords))
+        playerBWordsValidation = wordsValidator.getValidationResult(convertToValidationContainer(playerBWords))
     }
 
     private fun convertToValidationContainer(wordList: MutableList<String>): ValidationContainer {

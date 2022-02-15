@@ -23,7 +23,7 @@ class DBMatchIDLoader: IMatchIDLoader {
         return currentMatchID
     }
 
-    fun resetID() {
+    override fun resetID() {
         val stmt = connection.createStatement()
         stmt.executeUpdate("UPDATE MATCHID SET id = '1'")
     }

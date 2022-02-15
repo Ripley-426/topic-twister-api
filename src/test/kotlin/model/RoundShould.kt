@@ -3,9 +3,13 @@ package model
 import com.example.model.Round
 import com.example.enumClasses.RoundWinner
 import com.example.enumClasses.Turn
+import com.example.services.TopicRandomizer
+import com.example.services.WordValidator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import services.LetterRandomizer
 
 class RoundShould {
 
@@ -15,7 +19,14 @@ class RoundShould {
 
     @BeforeEach
     fun setup(){
-        firstRound = Round(1)
+
+        val mockLetterRandomizer = Mockito.mock(LetterRandomizer::class.java)
+        Mockito.`when`(mockLetterRandomizer.getRandomLetter()).thenReturn('A')
+
+        val topicRandomizer = TopicRandomizer()
+        val wordValidator = WordValidator()
+
+        firstRound = Round(1, topicRandomizer, mockLetterRandomizer, wordValidator)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }

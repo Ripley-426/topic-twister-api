@@ -1,8 +1,10 @@
 package services
 
-class LetterRandomizer {
+import com.example.interfaces.ILetterRandomizer
 
-    fun getRandomLetter(): Char {
+class LetterRandomizer: ILetterRandomizer {
+
+    override fun getRandomLetter(): Char {
 
         return ('A'..'Z').random()
 

@@ -35,13 +35,13 @@ class APIController {
     fun getValidation(@RequestBody jsonString:String): MutableList<Boolean> {
         val validationContainer:ValidationContainer = gson.fromJson(jsonString, ValidationContainer::class.java)
 
-        return validator.GetValidationResult(validationContainer)
+        return validator.getValidationResult(validationContainer)
     }
 
     @GetMapping("/randomTopics")
 
     fun getRandomTopics(@RequestParam numberOfTopics: Int) : List<String> {
-        return topicRandomizer.GetRandomTopics(numberOfTopics)
+        return topicRandomizer.getRandomTopics(numberOfTopics)
     }
 
     @GetMapping("/debugTools/wordValidation")
