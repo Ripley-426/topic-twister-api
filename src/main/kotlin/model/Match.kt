@@ -9,13 +9,16 @@ import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import services.LetterRandomizer
 
-class Match (val playerA: Player) {
+class Match (val playerA: Player,
+             val matchIDLoaderDependency: IMatchIDLoader,
+             val letterRandomizerDependency: ILetterRandomizer,
+             val topicLoaderDependency: ITopicLoader
+) {
 
-    private val matchIDLoader: IMatchIDLoader = DBMatchIDLoader()
-    private val letterRandomizer:ILetterRandomizer = LetterRandomizer()
-    private val topicRandomizer: ITopicRandomizer = TopicRandomizer()
-    private val topicLoader: ITopicLoader = DBTopicLoader()
-    private val wordValidator:IWordValidator = WordValidator(topicLoader)
+    private val matchIDLoader = matchIDLoaderDependency
+    private val letterRandomizer = letterRandomizerDependency
+    private val topicRandomizer = TopicRandomizer(topicLoaderDependency)
+    private val wordValidator = WordValidator(topicLoaderDependency)
 
     var id: Int = matchIDLoader.getID()
     var playerB: Player? = null

@@ -3,9 +3,14 @@ package model
 import com.example.enumClasses.Turn
 import com.example.model.Match
 import com.example.model.Player
+import com.example.services.DBMatchIDLoader
+import com.example.services.TopicRandomizer
+import com.example.tempPermanence.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import services.LetterRandomizer
 
 class MatchShould {
 
@@ -18,9 +23,16 @@ class MatchShould {
 
     @BeforeEach
     fun setUp(){
+
+        val matchIDLoaderDependency = Mockito.mock(DBMatchIDLoader::class.java)
+        Mockito.`when`(matchIDLoaderDependency.getID()).thenReturn(1)
+
+        val letterRandomizerDependency = LetterRandomizer()
+        val topicLoaderDependency = InMemoryTopicLoader()
+
         playerA = Player(1, "Juan")
         playerB = Player(2, "Pedro")
-        match = Match(playerA)
+        match = Match(playerA, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }

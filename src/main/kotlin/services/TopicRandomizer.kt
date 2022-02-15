@@ -5,9 +5,8 @@ import com.example.interfaces.ITopicRandomizer
 import com.example.model.Topic
 import com.example.tempPermanence.InMemoryTopicLoader
 
-class TopicRandomizer: ITopicRandomizer {
-    //private val topicLoader:ITopicLoader = DBTopicLoader()
-    private val topicLoader:ITopicLoader = InMemoryTopicLoader()
+class TopicRandomizer(val topicLoaderDependency: ITopicLoader): ITopicRandomizer {
+    private val topicLoader = topicLoaderDependency
     private val topics:List<Topic> = topicLoader.LoadTopics()
 
     override fun getRandomTopics(numberOfTopics: Int): List<String> {

@@ -15,9 +15,10 @@ import services.LetterRandomizer
 class APIController {
 
     var gson = Gson()
-    private val validator = WordValidator(DBTopicLoader())
+    private val topicLoaderDependency = DBTopicLoader()
+    private val validator = WordValidator(topicLoaderDependency)
     private val letterRandomizer = LetterRandomizer()
-    private val topicRandomizer = TopicRandomizer()
+    private val topicRandomizer = TopicRandomizer(topicLoaderDependency)
 
     @GetMapping("/letterRandomizer")
 

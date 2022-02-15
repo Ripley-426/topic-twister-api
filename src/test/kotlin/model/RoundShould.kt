@@ -24,8 +24,9 @@ class RoundShould {
         val mockLetterRandomizer = Mockito.mock(LetterRandomizer::class.java)
         Mockito.`when`(mockLetterRandomizer.getRandomLetter()).thenReturn('A')
 
-        val topicRandomizer = TopicRandomizer()
-        val wordValidator = WordValidator(InMemoryTopicLoader())
+        val topicLoaderDependency = InMemoryTopicLoader()
+        val topicRandomizer = TopicRandomizer(topicLoaderDependency)
+        val wordValidator = WordValidator(topicLoaderDependency)
 
         firstRound = Round(1, topicRandomizer, mockLetterRandomizer, wordValidator)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
