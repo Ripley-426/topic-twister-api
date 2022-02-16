@@ -3,13 +3,10 @@ package com.example.model
 import com.example.enumClasses.RoundWinner
 import com.example.enumClasses.Turn
 import com.example.interfaces.*
-import com.example.services.DBMatchIDLoader
-import com.example.services.DBTopicLoader
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
-import services.LetterRandomizer
 
-class Match (val playerA: Player,
+class Match (val playerAID: Int,
              val matchIDLoaderDependency: IMatchIDLoader,
              val letterRandomizerDependency: ILetterRandomizer,
              val topicLoaderDependency: ITopicLoader
@@ -21,7 +18,7 @@ class Match (val playerA: Player,
     private val wordValidator = WordValidator(topicLoaderDependency)
 
     var id: Int = matchIDLoader.getID()
-    var playerB: Player? = null
+    var playerBID: Int? = null
     var winner: Int? = null
     var rounds: MutableList<Round> = mutableListOf()
 
@@ -39,12 +36,12 @@ class Match (val playerA: Player,
         return true
     }
 
-    fun addPlayerB(player: Player) {
-        playerB = player
+    fun addPlayerB(playerID: Int) {
+        playerBID = playerID
     }
 
     private fun verifyCantAddWordsWithoutPlayerB(): Boolean {
-        return playerB == null && getCurrentRound().roundNumber == 1 && getCurrentRound().turn == Turn.SECOND
+        return playerBID == null && getCurrentRound().roundNumber == 1 && getCurrentRound().turn == Turn.SECOND
     }
 
     private fun verifyMatchIsFinished() {
@@ -54,11 +51,13 @@ class Match (val playerA: Player,
     }
 
     private fun calculateWinner() {
-        if  (rounds.count() { it.roundWinner == RoundWinner.PLAYERA } > 1 ) {
-            winner = playerA.id
+        winner = if  (rounds.count() { it.roundWinner == RoundWinner.PLAYERA } > 1 ) {
+            playerAID
         } else if (rounds.count() { it.roundWinner == RoundWinner.PLAYERB } > 1 ) {
-            winner = playerB?.id
-        } else { winner = 0 }
+            playerBID
+        } else {
+            0
+        }
 
     }
 

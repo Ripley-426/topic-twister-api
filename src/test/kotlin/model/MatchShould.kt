@@ -33,7 +33,7 @@ class MatchShould {
 
         playerA = Player(1, "Juan")
         playerB = Player(2, "Pedro")
-        match = Match(playerA, mockMatchIDLoaderDependency, mockLetterRandomizerDependency, topicLoaderDependency)
+        match = Match(playerA.id, mockMatchIDLoaderDependency, mockLetterRandomizerDependency, topicLoaderDependency)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
@@ -69,7 +69,7 @@ class MatchShould {
     fun `Change turn when two set of words are added` () {
 
         match.addWords(listOfWordsPlayerA)
-        match.addPlayerB(playerB)
+        match.addPlayerB(playerB.id)
         match.addWords(listOfWordsPlayerB)
 
         val result = match.getCurrentRound().roundNumber
@@ -98,7 +98,7 @@ class MatchShould {
     fun `Calculate winner when match is completed` () {
 
         match.addWords(listOfWordsPlayerA)
-        match.addPlayerB(playerB)
+        match.addPlayerB(playerB.id)
         match.addWords(listOfWordsPlayerB)
 
         match.addWords(listOfWordsPlayerB)
