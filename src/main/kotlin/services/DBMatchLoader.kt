@@ -22,7 +22,9 @@ class DBMatchLoader {
             Pair("playerAID", convertToDBInt(match.playerAID)),
             Pair("playerBID", convertToDBInt(match.playerBID)),
             Pair("winner", convertToDBInt(match.winner))
-        )))
+            )
+        ))
+
         saveRounds()
     }
 
@@ -41,8 +43,9 @@ class DBMatchLoader {
             Pair("playerBWords", convertToDBText(round.playerBWords.joinToString(separator = ","))),
             Pair("playerBWordsValidation", convertToDBText(round.playerBWordsValidation.joinToString(separator = ","))),
             Pair("turn", convertToDBInt(round.getTurnInt())),
-            Pair("roundWinner", convertToDBInt(round.getWinnerInt())),
-        )))
+            Pair("roundWinner", convertToDBInt(round.getWinnerInt()))
+            )
+        ))
     }
 
     fun createTableOnDB() {
