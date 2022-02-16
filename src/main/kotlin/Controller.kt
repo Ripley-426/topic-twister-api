@@ -3,10 +3,7 @@ import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
 import com.example.interfaces.IMatchIDLoader
 import com.example.model.ValidationContainer
-import com.example.services.DBMatchIDLoader
-import com.example.services.DBTopicLoader
-import com.example.services.TopicRandomizer
-import com.example.services.WordValidator
+import com.example.services.*
 import com.google.gson.Gson
 import org.springframework.web.bind.annotation.*
 import services.LetterRandomizer
@@ -70,6 +67,12 @@ class APIController {
     fun resetMatchID() {
         val matchIDLoader: IMatchIDLoader = DBMatchIDLoader()
         matchIDLoader.resetID()
+    }
+
+    @GetMapping("table/createTables")
+    fun createTables() {
+        val dbMatchLoader = DBMatchLoader()
+        dbMatchLoader.createTableOnDB()
     }
 
 }
