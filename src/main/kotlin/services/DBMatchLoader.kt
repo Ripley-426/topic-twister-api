@@ -22,9 +22,9 @@ class DBMatchLoader {
     private fun createPlayerTable(stmt: Statement) {
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS PLAYER (" +
                 "idPlayer int, " +
-                "name string, " +
+                "name text, " +
                 "email text, " +
-                "passWord text")
+                "passWord text)")
     }
 
     private fun createMatchTable(stmt: Statement) {
@@ -32,7 +32,7 @@ class DBMatchLoader {
                 "idMatch int, " +
                 "playerAID int, " +
                 "playerBID int, " +
-                "winner int, ")
+                "winner int)")
     }
 
     private fun createRoundTable(stmt: Statement) {
@@ -45,6 +45,6 @@ class DBMatchLoader {
                 "playerBWords text, " +
                 "playerBWordsValidation text, " +
                 "turn int, " +
-                "roundWinner int, ")
+                "roundWinner int)")
     }
 }
