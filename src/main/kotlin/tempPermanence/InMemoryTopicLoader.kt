@@ -8,11 +8,11 @@ class InMemoryTopicLoader : ITopicLoader {
     private var topicList:TopicList = TopicList()
 
     init {
-        AddTopics()
-        AddAlphabetToTopicList()
+        addTopics()
+        addAlphabetToTopicList()
     }
 
-    fun AddTopics() {
+    private fun addTopics() {
         var animalTopic: Topic = Topic("ANIMALS", mutableListOf(
             "Aardvark", "Alligator", "Alpaca", "Anaconda", "Ant", "Antelope", "Ape", "Aphid", "Armadillo", "Asp", "Ass",
             "Baboon", "Badger", "Bald Eagle", "Barracuda", "Bass", "Basset Hound", "Bat", "Bear", "Beaver", "Bedbug",
@@ -101,13 +101,13 @@ class InMemoryTopicLoader : ITopicLoader {
         topicList.AddTopic(jobsTopic)
     }
 
-    fun AddAlphabetToTopicList(){
+    private fun addAlphabetToTopicList(){
         for (topic in topicList.GetTopics()){
-            AddAlphabet(topic)
+            addAlphabet(topic)
         }
     }
 
-    fun AddAlphabet(topic: Topic) {
+    private fun addAlphabet(topic: Topic) {
         for (letter in ('A'..'Z')) {
             topic.AddWord(letter.toString())
         }
