@@ -44,6 +44,22 @@ class Round (val roundNumber: Int,
         if (turn == Turn.FINISHED) { calculateRoundScore() }
     }
 
+    fun getTurnInt():Int {
+        return when (turn) {
+            Turn.FIRST -> 1
+            Turn.SECOND -> 2
+            Turn.FINISHED -> 3
+        }
+    }
+
+    fun getWinnerInt():Int {
+        return when (roundWinner) {
+            RoundWinner.PLAYERA -> 1
+            RoundWinner.PLAYERB -> 2
+            RoundWinner.DRAW -> 0
+        }
+    }
+
     private fun setWordsToPlayersAndValidate(wordsList: MutableList<String>) {
         if (roundNumber == 2) {
             when (turn) {

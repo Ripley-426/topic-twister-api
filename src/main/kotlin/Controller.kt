@@ -1,4 +1,5 @@
 package com.example
+import com.example.debugTools.AddTestMatch
 import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
 import com.example.interfaces.IMatchIDLoader
@@ -55,6 +56,13 @@ class APIController {
     fun populateTopicsInDB() {
         val addTopicsToDB = AddTopicsToDB()
         addTopicsToDB.run()
+    }
+
+    @PostMapping("/debugTools/addTestMatch")
+
+    fun addTestMatch() {
+        val addTestMatch = AddTestMatch()
+        addTestMatch.saveTestMatch()
     }
 
     @GetMapping("match/getMatchID")
