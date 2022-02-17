@@ -24,7 +24,7 @@ class Round (val roundNumber: Int,
     var playerBWordsValidation = mutableListOf<Boolean>()
 
     var turn: Turn = Turn.FIRST
-    lateinit var roundWinner: RoundWinner
+    var roundWinner: RoundWinner = RoundWinner.NONE
 
     init {
         topics = topicRandomizer.getRandomTopics(5)
@@ -56,7 +56,8 @@ class Round (val roundNumber: Int,
         return when (roundWinner) {
             RoundWinner.PLAYERA -> 1
             RoundWinner.PLAYERB -> 2
-            RoundWinner.DRAW -> 0
+            RoundWinner.DRAW -> 3
+            else -> 0
         }
     }
 

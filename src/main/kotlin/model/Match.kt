@@ -7,9 +7,9 @@ import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 
 class Match (val playerAID: Int,
-             val matchIDLoaderDependency: IMatchIDLoader,
-             val letterRandomizerDependency: ILetterRandomizer,
-             val topicLoaderDependency: ITopicLoader
+                  val matchIDLoaderDependency: IMatchIDLoader,
+                  val letterRandomizerDependency: ILetterRandomizer,
+                  val topicLoaderDependency: ITopicLoader
 ) {
 
     private val matchIDLoader = matchIDLoaderDependency

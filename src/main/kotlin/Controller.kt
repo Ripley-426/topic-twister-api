@@ -17,6 +17,7 @@ class APIController {
     private val validator = WordValidator(topicLoaderDependency)
     private val letterRandomizer = LetterRandomizer()
     private val topicRandomizer = TopicRandomizer(topicLoaderDependency)
+    private val matchLoader = DBMatchLoader()
 
     @GetMapping("/letterRandomizer")
 
@@ -59,7 +60,6 @@ class APIController {
     }
 
     @PostMapping("/debugTools/addTestMatch")
-
     fun addTestMatch() {
         val addTestMatch = AddTestMatch()
         addTestMatch.saveTestMatch()
@@ -79,8 +79,13 @@ class APIController {
 
     @GetMapping("table/createTables")
     fun createTables() {
-        val dbMatchLoader = DBMatchLoader()
-        dbMatchLoader.createTableOnDB()
+        matchLoader.createTableOnDB()
+    }
+
+    @GetMapping("match/GetMatchWithID")
+    fun getMatchWithID(@RequestParam matchID: Int): String {
+        val loadedMatch = matchLoader.getDBMatchFromDB(matchID)
+        return gson.toJson(loadedMatch)
     }
 
 }
