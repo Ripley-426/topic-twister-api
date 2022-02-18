@@ -118,4 +118,8 @@ class Round (val roundNumber: Int,
             Turn.SECOND -> turn = Turn.FINISHED
         }
     }
+
+    fun debugSetLetter() {
+        letter = 'A'
+    }
 }

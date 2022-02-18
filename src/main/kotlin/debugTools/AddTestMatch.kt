@@ -19,6 +19,7 @@ class AddTestMatch {
     private val dbMatchLoader = DBMatchLoader()
 
     fun saveTestMatch() {
+        match.getCurrentRound().debugSetLetter()
         match.addWords(listOfWordsPlayerA)
         match.addPlayerB(playerB.id)
         match.addWords(listOfWordsPlayerB)

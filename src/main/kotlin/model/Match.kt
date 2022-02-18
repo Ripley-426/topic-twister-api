@@ -51,12 +51,15 @@ class Match (val playerAID: Int,
     }
 
     private fun calculateWinner() {
-        winner = if  (rounds.count() { it.roundWinner == RoundWinner.PLAYERA } > 1 ) {
-            playerAID
-        } else if (rounds.count() { it.roundWinner == RoundWinner.PLAYERB } > 1 ) {
-            playerBID
-        } else {
+        val playerAWins = rounds.count() { it.roundWinner == RoundWinner.PLAYERA }
+        val playerBWins = rounds.count() { it.roundWinner == RoundWinner.PLAYERB }
+
+        winner = if(playerAWins == playerBWins){
             0
+        } else if(playerAWins > playerBWins){
+            playerAID
+        } else {
+            playerBID
         }
 
     }
@@ -64,4 +67,5 @@ class Match (val playerAID: Int,
     fun getCurrentRound(): Round {
         return rounds.first() { it.turn != Turn.FINISHED }
     }
+
 }
