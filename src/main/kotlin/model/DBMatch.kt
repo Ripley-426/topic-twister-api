@@ -1,6 +1,6 @@
 package com.example.model
 
-class DBMatch(
+data class DBMatch(
     val id: Int,
     val playerAID:Int,
     val playerBID:Int? = null,

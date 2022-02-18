@@ -29,7 +29,7 @@ class Match (val playerAID: Int,
     }
 
     fun addWords(words: MutableList<String>): Boolean {
-        if (verifyCantAddWordsWithoutPlayerB()) { return  false }
+        if (verifyCantAddWordsWithoutPlayerB()) { return false }
         getCurrentRound().addWords(words)
 
         verifyMatchIsFinished()
