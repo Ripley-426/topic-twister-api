@@ -68,4 +68,13 @@ class Match (val playerAID: Int,
         return rounds.first() { it.turn != Turn.FINISHED }
     }
 
+    fun currentTurnPlayerID(): Int? {
+        val currentRound = getCurrentRound()
+        return if (currentRound.roundNumber % 2 == 0) {
+            if (currentRound.turn == Turn.FIRST) { playerBID } else { playerAID }
+        } else {
+            if (currentRound.turn == Turn.FIRST) { playerAID } else { playerBID }
+        }
+    }
+
 }
