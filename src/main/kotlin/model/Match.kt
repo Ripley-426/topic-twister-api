@@ -6,12 +6,12 @@ import com.example.interfaces.*
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 
-class Match (val playerAID: Int,
-                  val matchIDLoaderDependency: IMatchIDLoader,
-                  val letterRandomizerDependency: ILetterRandomizer,
-                  val topicLoaderDependency: ITopicLoader
-) {
-
+open class Match constructor (val playerAID: Int,
+                              val matchIDLoaderDependency: IMatchIDLoader,
+                              val letterRandomizerDependency: ILetterRandomizer,
+                              val topicLoaderDependency: ITopicLoader
+)
+{
     private val matchIDLoader = matchIDLoaderDependency
     private val letterRandomizer = letterRandomizerDependency
     private val topicRandomizer = TopicRandomizer(topicLoaderDependency)
@@ -27,6 +27,7 @@ class Match (val playerAID: Int,
             rounds.add(Round(i, topicRandomizer, letterRandomizer, wordValidator))
         }
     }
+
 
     fun addWords(words: MutableList<String>): Boolean {
         if (verifyCantAddWordsWithoutPlayerB()) { return false }

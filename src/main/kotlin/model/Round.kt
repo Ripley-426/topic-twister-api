@@ -6,10 +6,10 @@ import com.example.interfaces.ILetterRandomizer
 import com.example.interfaces.ITopicRandomizer
 import com.example.interfaces.IWordValidator
 
-class Round (val roundNumber: Int,
-             val topicRandomizerDependency: ITopicRandomizer,
-             val letterRandomizerDependency: ILetterRandomizer,
-             val wordValidatorDependency: IWordValidator
+open class Round (val roundNumber: Int,
+                  val topicRandomizerDependency: ITopicRandomizer,
+                  val letterRandomizerDependency: ILetterRandomizer,
+                  val wordValidatorDependency: IWordValidator
 )
 {
     var letter: Char
