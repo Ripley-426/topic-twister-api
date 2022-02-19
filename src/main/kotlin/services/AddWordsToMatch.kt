@@ -24,7 +24,7 @@ class AddWordsToMatch() {
             matchToPlay.addWords(secondWordsList)
         }
 
-        DBMatchLoader().saveMatchToDB(matchToPlay)
+        DBMatchLoader().saveMatch(matchToPlay)
     }
 
 }

@@ -9,6 +9,13 @@ class LoadedRound(
     roundNumber: Int,
     topicRandomizerDependency: ITopicRandomizer,
     letterRandomizerDependency: ILetterRandomizer,
-    wordValidatorDependency: IWordValidator
+    wordValidatorDependency: IWordValidator,
+    Letter:Char,
+    Topics:List<String>,
+    PlayerAWords:List<String>,
+    PlayerBWords:List<String>? = null,
+    PlayerAWordsValidation:List<Boolean>,
+    PlayerBWordsValidation:List<Boolean>,
+    Turn: Int
 ) : Round(roundNumber, topicRandomizerDependency, letterRandomizerDependency, wordValidatorDependency) {
 }

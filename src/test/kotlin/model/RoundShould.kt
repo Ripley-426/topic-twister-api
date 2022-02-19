@@ -1,11 +1,11 @@
 package model
 
+import com.example.dependencies.TestDependencies
 import com.example.model.Round
 import com.example.enumClasses.RoundWinner
 import com.example.enumClasses.Turn
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
-import com.example.tempPermanence.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,12 +21,13 @@ class RoundShould {
     @BeforeEach
     fun setup(){
 
+        val testDependencies = TestDependencies()
+
         val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
         Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
 
-        val topicLoaderDependency = InMemoryTopicLoader()
-        val topicRandomizer = TopicRandomizer(topicLoaderDependency)
-        val wordValidator = WordValidator(topicLoaderDependency)
+        val topicRandomizer = TopicRandomizer(testDependencies.topicLoader)
+        val wordValidator = WordValidator(testDependencies.topicLoader)
 
         firstRound = Round(1, topicRandomizer, mockLetterRandomizerDependency, wordValidator)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")

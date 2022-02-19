@@ -30,9 +30,9 @@ class AddTestMatch {
         match.addWords(listOfWordsPlayerA)
         match.addWords(listOfWordsPlayerB)
 
-        dbMatchLoader.saveMatchToDB(match)
+        dbMatchLoader.saveMatch(match)
 
         val newMatch = Match(playerA.id, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency)
-        dbMatchLoader.saveMatchToDB(newMatch)
+        dbMatchLoader.saveMatch(newMatch)
     }
 }

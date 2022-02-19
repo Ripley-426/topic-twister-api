@@ -3,17 +3,19 @@ package com.example.services
 import com.example.DBConnection.HikariDBConnection
 import com.example.debugTools.StatementBuilderPostgresql
 import com.example.dao.DBMatch
+import com.example.dependencies.MatchDBDependencies
 import com.example.dto.LoadedMatch
+import com.example.interfaces.IMatchLoader
 import com.example.model.Match
 import com.example.model.Round
 import services.LetterRandomizer
 
-class DBMatchLoader {
+class DBMatchLoader: IMatchLoader {
     private val stmt = HikariDBConnection.getConnection().createStatement()
     private val stmtBuilder = StatementBuilderPostgresql()
     private lateinit var match:Match
 
-    fun saveMatchToDB(matchToSave:Match) {
+    override fun saveMatch(matchToSave:Match) {
         match = matchToSave
         saveMatchTable()
     }
@@ -50,7 +52,7 @@ class DBMatchLoader {
         )
     }
 
-    fun getMatchFromDB(matchID: Int): Match {
+    override fun loadMatch(matchID: Int): Match {
         val match = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
                 " = MATCH.idmatch WHERE MATCH.idmatch = $matchID")
 
@@ -98,7 +100,9 @@ class DBMatchLoader {
         val round3Turn = match.getInt("turn")
         val round3Winner = match.getInt("roundwinner")
 
-        return LoadedMatch (playeraid, DBMatchIDLoader(), LetterRandomizer(), DBTopicLoader(), matchid, playerbid,
+        val dbDependencies = MatchDBDependencies()
+
+        return LoadedMatch (playeraid, dbDependencies.matchIDLoader, dbDependencies.letterRandomizer, dbDependencies.topicLoader, matchid, playerbid,
             winner, round1Letter, round1Topics, round1PlayerAWords, round1PlayerBWords, round1PlayerAWordsValidation,
             round1PlayerBWordsValidation, round1Turn, round1Winner,
             round2Letter, round2Topics, round2PlayerAWords, round2PlayerBWords, round2PlayerAWordsValidation,
