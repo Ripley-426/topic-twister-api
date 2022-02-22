@@ -45,4 +45,8 @@ class LoadedRound(
         }
     }
 
+    override fun instantiateTopicsAndLetter() {
+
+    }
+
 }

@@ -24,6 +24,10 @@ open class Match constructor (val playerAID: Int,
 
     init {
         setMatchID()
+        instantiateRounds()
+    }
+
+    open fun instantiateRounds() {
         for (i in 1..3) {
             rounds.add(Round(i, topicRandomizer, letterRandomizer, wordValidator))
         }

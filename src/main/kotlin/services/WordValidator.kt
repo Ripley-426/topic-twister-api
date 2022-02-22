@@ -7,9 +7,9 @@ import com.example.model.TopicAndWord
 import com.example.model.ValidationContainer
 import com.example.tempPermanence.InMemoryTopicLoader
 
-class WordValidator(val topicLoaderDependency: ITopicLoader) : IWordValidator{
+class WordValidator(topicLoaderDependency: ITopicLoader) : IWordValidator{
     private val topicLoader = topicLoaderDependency
-    private val topics:List<Topic> = topicLoader.LoadTopics()
+    private var topics:List<Topic> = mutableListOf()
 
     override fun getValidationResult(validationData:ValidationContainer) : MutableList<Boolean> {
 
@@ -27,6 +27,10 @@ class WordValidator(val topicLoaderDependency: ITopicLoader) : IWordValidator{
     }
 
     fun Validate(topicToValidate:String, wordToValidate:String): Boolean {
+
+        if (topics.isEmpty()) {
+            topics = topicLoader.LoadTopics()
+        }
 
         val topic = topicToValidate.uppercase()
         val word = wordToValidate.uppercase()

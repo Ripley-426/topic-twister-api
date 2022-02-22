@@ -1,4 +1,5 @@
 package com.example
+import com.example.dao.MatchToSend
 import com.example.debugTools.AddTestMatch
 import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
@@ -12,7 +13,7 @@ import services.LetterRandomizer
 @RestController
 class APIController {
 
-    var gson = Gson()
+    private var gson = Gson()
     private val topicLoaderDependency = DBTopicLoader()
     private val validator = WordValidator(topicLoaderDependency)
     private val letterRandomizer = LetterRandomizer()
@@ -98,6 +99,20 @@ class APIController {
     fun addPlayerBToMatch(@RequestParam matchID:Int, @RequestParam playerID:Int) {
         val addPlayerBToMatch = AddPlayerBToMatch()
         addPlayerBToMatch.addPlayerBToMatch(matchID, playerID)
+    }
+
+    @GetMapping("match/GetMatchesOfPlayer")
+    fun getMatchOfPlayer(@RequestParam playerID: Int): String {
+        val matches = matchLoader.loadAllMatchesFromPlayer(playerID)
+        val matchesList = mutableListOf<MatchToSend>()
+
+        matches.forEach {
+            val matchToSend = MatchToSend()
+            matchToSend.convertMatch(it)
+            matchesList.add(matchToSend)
+        }
+
+        return gson.toJson(matchesList)
     }
 
 }

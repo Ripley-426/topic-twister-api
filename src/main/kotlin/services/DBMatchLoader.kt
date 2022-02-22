@@ -9,6 +9,8 @@ import com.example.interfaces.IMatchLoader
 import com.example.model.Match
 import com.example.model.Round
 import java.sql.ResultSet
+import java.sql.Timestamp
+import java.time.Instant
 
 class DBMatchLoader: IMatchLoader {
     private val stmt = HikariDBConnection.getConnection().createStatement()
@@ -64,6 +66,7 @@ class DBMatchLoader: IMatchLoader {
 
     fun loadAllMatchesFromPlayer(playerID: Int): MutableList<Match> {
         var matchesList = mutableListOf<Match>()
+
         val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
                 " = MATCH.idmatch WHERE MATCH.playeraid = $playerID OR MATCH.playerbid = $playerID")
 

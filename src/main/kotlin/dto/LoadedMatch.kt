@@ -9,6 +9,7 @@ import com.example.model.Round
 import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 import services.LetterRandomizer
+import java.time.Instant
 
 class LoadedMatch(
     playerAID: Int,
@@ -52,6 +53,7 @@ class LoadedMatch(
         winner = loadedWinner
 
         rounds = mutableListOf()
+
         rounds.add(LoadedRound(1, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, WordValidator(dependencies.topicLoader), loadedRound1Letter,
         loadedRound1Topics, loadedRound1PlayerAWords, loadedRound1PlayerBWords, loadedRound1PlayerAWordsValidation, loadedRound1PlayerBWordsValidation, loadedRound1Turn, loadedRound1Winner))
 
@@ -62,9 +64,13 @@ class LoadedMatch(
         rounds.add(LoadedRound(3, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, WordValidator(dependencies.topicLoader), loadedRound3Letter,
             loadedRound3Topics, loadedRound3PlayerAWords, loadedRound3PlayerBWords, loadedRound3PlayerAWordsValidation, loadedRound3PlayerBWordsValidation, loadedRound3Turn,
             loadedRound3Winner))
+
     }
 
     override fun setMatchID() {
-        id = 0
+    }
+
+    override fun instantiateRounds() {
+
     }
 }

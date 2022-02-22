@@ -12,7 +12,7 @@ open class Round (val roundNumber: Int,
                   val wordValidatorDependency: IWordValidator
 )
 {
-    var letter: Char
+    var letter: Char = 'A'
     var topics: List<String> = arrayListOf()
     private val topicRandomizer = topicRandomizerDependency
     private val letterRandomizer = letterRandomizerDependency
@@ -27,6 +27,10 @@ open class Round (val roundNumber: Int,
     var roundWinner: RoundWinner = RoundWinner.NONE
 
     init {
+        instantiateTopicsAndLetter()
+    }
+
+    open fun instantiateTopicsAndLetter() {
         topics = topicRandomizer.getRandomTopics(5)
         letter = letterRandomizer.getRandomLetter()
     }
