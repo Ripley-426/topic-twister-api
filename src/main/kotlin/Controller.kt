@@ -88,4 +88,16 @@ class APIController {
         return gson.toJson(loadedMatch)
     }
 
+    @PostMapping("/match/addWordsToMatch")
+    fun addWordsToMatch(@RequestParam matchID:Int, @RequestParam playerID:Int, @RequestParam words:String) {
+        val addWordsToMatch = AddWordsToMatch()
+        addWordsToMatch.addWords(playerID, matchID, words)
+    }
+
+    @PostMapping("/match/addPlayerBToMatch")
+    fun addPlayerBToMatch(@RequestParam matchID:Int, @RequestParam playerID:Int) {
+        val addPlayerBToMatch = AddPlayerBToMatch()
+        addPlayerBToMatch.addPlayerBToMatch(matchID, playerID)
+    }
+
 }

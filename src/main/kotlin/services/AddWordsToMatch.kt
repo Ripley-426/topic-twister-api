@@ -22,7 +22,7 @@ class AddWordsToMatch() {
             matchToPlay.addWords(secondWordsList)
         }
 
-        DBMatchLoader().saveMatch(matchToPlay)
+        DBMatchLoader().updateMatch(matchToPlay)
     }
 
 }

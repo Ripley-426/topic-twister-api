@@ -19,7 +19,7 @@ class AddTestMatch {
     private val dbMatchLoader = DBMatchLoader()
 
     fun saveTestMatch() {
-        match.getCurrentRound().debugSetLetter()
+        /*match.getCurrentRound().debugSetLetter()
         match.addWords(listOfWordsPlayerA)
         match.addPlayerB(playerB.id)
         match.addWords(listOfWordsPlayerB)
@@ -30,7 +30,7 @@ class AddTestMatch {
         match.addWords(listOfWordsPlayerA)
         match.addWords(listOfWordsPlayerB)
 
-        dbMatchLoader.saveMatch(match)
+        dbMatchLoader.saveMatch(match)*/
 
         val newMatch = Match(playerA.id, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency)
         dbMatchLoader.saveMatch(newMatch)

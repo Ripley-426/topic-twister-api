@@ -8,7 +8,6 @@ import com.example.dto.LoadedMatch
 import com.example.interfaces.IMatchLoader
 import com.example.model.Match
 import com.example.model.Round
-import services.LetterRandomizer
 
 class DBMatchLoader: IMatchLoader {
     private val stmt = HikariDBConnection.getConnection().createStatement()
@@ -18,10 +17,6 @@ class DBMatchLoader: IMatchLoader {
     override fun saveMatch(matchToSave:Match) {
         match = matchToSave
         saveMatchTable()
-    }
-
-    override fun addPlayerB(matchID: Int, playerBID: Int) {
-        stmt.executeUpdate(stmtBuilder.updateIntoTablesThisMapping("Match", "idMatch = $matchID", mapOf(Pair("PlayerBID", convertToDBInt(playerBID)))))
     }
 
     fun getDBMatchFromDB(matchid: Int): DBMatch {
@@ -110,6 +105,51 @@ class DBMatchLoader: IMatchLoader {
 
     }
 
+    override fun updateMatch(matchToUpdate: Match) {
+        match = matchToUpdate
+        updateMatchTable()
+    }
+
+    override fun addPlayerB(matchID: Int, playerID: Int) {
+        stmt.executeUpdate(stmtBuilder.updateIntoTablesThisMapping("MATCH", "idmatch = $matchID",
+        mapOf(
+            Pair("playerBID", convertToDBInt(playerID))
+            )
+        ))
+    }
+
+    fun loadDBMatchFromDB(matchid: Int): DBMatch {
+        val match = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
+                " = MATCH.idmatch WHERE MATCH.idmatch = $matchid AND ROUND.idround = 1")
+        match.next()
+
+        val round1Letter = match.getString("letter")
+        val round1Topics = match.getString("topics").split(",").toList()
+        val round1PlayerAWords = match.getString("playerawords").split(",").toList()
+        val round1PlayerBWords = match.getString("playerawordsvalidation").split(",").toList()
+        val round1PlayerAWordsValidation =
+            convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
+        val round1PlayerBWordsValidation =
+            convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
+        val round1Turn = match.getInt("turn")
+        val round1Winner = match.getInt("roundwinner")
+
+        return DBMatch(
+            match.getInt("idmatch"),
+            match.getInt("playeraid"),
+            match.getInt("playerbid"),
+            match.getInt("winner"),
+            round1Letter[0],
+            round1Topics,
+            round1PlayerAWords,
+            round1PlayerBWords,
+            round1PlayerAWordsValidation,
+            round1PlayerBWordsValidation,
+            round1Turn,
+            round1Winner,
+        )
+    }
+
     private fun saveMatchTable() {
         stmt.executeUpdate(stmtBuilder.insertIntoTablesThisMapping( "MATCH",
             mapOf(
@@ -130,10 +170,40 @@ class DBMatchLoader: IMatchLoader {
     private fun saveRoundTable(round: Round, matchID: Int) {
         stmt.executeUpdate(stmtBuilder.insertIntoTablesThisMapping( "ROUND",
             mapOf(
-
                 Pair("idRound",  convertToDBInt(round.roundNumber)),
                 Pair("matchID", convertToDBInt(matchID)),
                 Pair("letter", convertToDBText(round.letter.toString())),
+                Pair("topics", convertToDBText(round.topics.joinToString(separator = ","))),
+                Pair("playerAWords", convertToDBText(round.playerAWords.joinToString(separator = ","))),
+                Pair("playerAWordsValidation", convertToDBText(round.playerAWordsValidation.joinToString (separator = ","))),
+                Pair("playerBWords", convertToDBText(round.playerBWords.joinToString(separator = ","))),
+                Pair("playerBWordsValidation", convertToDBText(round.playerBWordsValidation.joinToString(separator = ","))),
+                Pair("turn", convertToDBInt(round.getTurnInt())),
+                Pair("roundWinner", convertToDBInt(round.getWinnerInt()))
+            )
+        ))
+    }
+
+    private fun updateMatchTable() {
+        stmt.executeUpdate(stmtBuilder.updateIntoTablesThisMapping("MATCH", "idmatch = " + convertToDBInt(match.id),
+            mapOf(
+                Pair("playerAID", convertToDBInt(match.playerAID)),
+                Pair("playerBID", convertToDBInt(match.playerBID)),
+                Pair("winner", convertToDBInt(match.winner))
+            )
+        ))
+
+        updateRounds()
+    }
+
+    private fun updateRounds() {
+        match.rounds.forEach { updateRoundTable(it, match.id)}
+    }
+
+    private fun updateRoundTable(round: Round, matchID: Int) {
+        stmt.executeUpdate(stmtBuilder.updateIntoTablesThisMapping( "ROUND",
+            "matchid = " + convertToDBInt(matchID) + " AND idround = " + convertToDBInt(round.roundNumber),
+            mapOf(
                 Pair("topics", convertToDBText(round.topics.joinToString(separator = ","))),
                 Pair("playerAWords", convertToDBText(round.playerAWords.joinToString(separator = ","))),
                 Pair("playerAWordsValidation", convertToDBText(round.playerAWordsValidation.joinToString (separator = ","))),
@@ -179,7 +249,7 @@ class DBMatchLoader: IMatchLoader {
 
     private fun convertStringListToBooleanList(originalList: List<String>): List<Boolean> {
         if (originalList[0] == "") { return listOf() }
-        var newList = mutableListOf<Boolean>()
+        val newList = mutableListOf<Boolean>()
         originalList.forEach { if (it == "true") { newList.add(true)} else { newList.add(false)} }
         return newList.toList()
     }

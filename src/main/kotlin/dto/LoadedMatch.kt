@@ -43,11 +43,15 @@ class LoadedMatch(
     loadedRound3Turn: Int,
     loadedRound3Winner: Int
 ) : Match(playerAID, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency) {
+
     init {
+
         val dependencies = MatchDBDependencies()
         id = loadedId
         playerBID = loadedPlayerBID
         winner = loadedWinner
+
+        rounds = mutableListOf()
         rounds.add(LoadedRound(1, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, WordValidator(dependencies.topicLoader), loadedRound1Letter,
         loadedRound1Topics, loadedRound1PlayerAWords, loadedRound1PlayerBWords, loadedRound1PlayerAWordsValidation, loadedRound1PlayerBWordsValidation, loadedRound1Turn, loadedRound1Winner))
 
