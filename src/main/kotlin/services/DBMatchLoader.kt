@@ -20,6 +20,10 @@ class DBMatchLoader: IMatchLoader {
         saveMatchTable()
     }
 
+    override fun addPlayerB(matchID: Int, playerBID: Int) {
+        stmt.executeUpdate(stmtBuilder.updateIntoTablesThisMapping("Match", "idMatch = $matchID", mapOf(Pair("PlayerBID", convertToDBInt(playerBID)))))
+    }
+
     fun getDBMatchFromDB(matchid: Int): DBMatch {
         val match = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
                 " = MATCH.idmatch WHERE MATCH.idmatch = $matchid AND ROUND.idround = 1")
@@ -65,12 +69,9 @@ class DBMatchLoader: IMatchLoader {
         val round1Letter = match.getString("letter")[0]
         val round1Topics = match.getString("topics").split(",").toList()
         val round1PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round1PlayerBWords = match.getString("playerawordsvalidation").split(",").toList()
-        val round1PlayerAWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
-        convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
-        val round1PlayerBWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
+        val round1PlayerBWords = match.getString("playerbwords").split(",").toList()
+        val round1PlayerAWordsValidation = convertStringListToBooleanList(match.getString("playerawordsvalidation").split(",").toList())
+        val round1PlayerBWordsValidation = convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
         val round1Turn = match.getInt("turn")
         val round1Winner = match.getInt("roundwinner")
 
@@ -79,11 +80,9 @@ class DBMatchLoader: IMatchLoader {
         val round2Letter = match.getString("letter")[0]
         val round2Topics = match.getString("topics").split(",").toList()
         val round2PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round2PlayerBWords = match.getString("playerawordsvalidation").split(",").toList()
-        val round2PlayerAWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
-        val round2PlayerBWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
+        val round2PlayerBWords = match.getString("playerbwords").split(",").toList()
+        val round2PlayerAWordsValidation = convertStringListToBooleanList(match.getString("playerawordsvalidation").split(",").toList())
+        val round2PlayerBWordsValidation = convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
         val round2Turn = match.getInt("turn")
         val round2Winner = match.getInt("roundwinner")
 
@@ -92,11 +91,9 @@ class DBMatchLoader: IMatchLoader {
         val round3Letter = match.getString("letter")[0]
         val round3Topics = match.getString("topics").split(",").toList()
         val round3PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round3PlayerBWords = match.getString("playerawordsvalidation").split(",").toList()
-        val round3PlayerAWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
-        val round3PlayerBWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
+        val round3PlayerBWords = match.getString("playerbwords").split(",").toList()
+        val round3PlayerAWordsValidation = convertStringListToBooleanList(match.getString("playerawordsvalidation").split(",").toList())
+        val round3PlayerBWordsValidation = convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
         val round3Turn = match.getInt("turn")
         val round3Winner = match.getInt("roundwinner")
 

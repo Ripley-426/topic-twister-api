@@ -17,15 +17,20 @@ open class Match constructor (val playerAID: Int,
     private val topicRandomizer = TopicRandomizer(topicLoaderDependency)
     private val wordValidator = WordValidator(topicLoaderDependency)
 
-    var id: Int = matchIDLoader.getID()
+    var id: Int = 0
     var playerBID: Int? = null
     var winner: Int? = null
     var rounds: MutableList<Round> = mutableListOf()
 
     init {
+        setMatchID()
         for (i in 1..3) {
             rounds.add(Round(i, topicRandomizer, letterRandomizer, wordValidator))
         }
+    }
+
+    open fun setMatchID() {
+        id = matchIDLoader.getID()
     }
 
 

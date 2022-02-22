@@ -9,10 +9,8 @@ class AddWordsToMatch() {
 
     fun addWords(playerID: Int, matchID: Int, words: String, secondWords:String = "") {
 
-        //TODO: Cargar match
-        val dbMatch = matchLoader.getDBMatchFromDB(matchID)
-        var matchToPlay = Match(dbMatch.playerAID, DBMatchIDLoader(), LetterRandomizer(), DBTopicLoader())
-        //TODO: Cargar match
+
+        var matchToPlay = matchLoader.loadMatch(matchID)
 
         if (playerID != matchToPlay.currentTurnPlayerID()) { return }
 

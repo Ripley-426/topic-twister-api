@@ -1,42 +1,66 @@
 package com.example.dto
 
+import com.example.dependencies.MatchDBDependencies
 import com.example.interfaces.ILetterRandomizer
 import com.example.interfaces.IMatchIDLoader
 import com.example.interfaces.ITopicLoader
 import com.example.model.Match
 import com.example.model.Round
+import com.example.services.TopicRandomizer
+import com.example.services.WordValidator
+import services.LetterRandomizer
 
 class LoadedMatch(
     playerAID: Int,
     matchIDLoaderDependency: IMatchIDLoader,
     letterRandomizerDependency: ILetterRandomizer,
     topicLoaderDependency: ITopicLoader,
-    id: Int,
-    playerBID:Int? = null,
-    winner:Int? = null,
-    round1Letter:Char,
-    round1Topics:List<String>,
-    round1PlayerAWords:List<String>,
-    round1PlayerBWords:List<String>? = null,
-    round1PlayerAWordsValidation:List<Boolean>,
-    round1PlayerBWordsValidation:List<Boolean>,
-    round1Turn: Int,
-    round1Winner: Int? = null,
-    round2Letter:Char? = null,
-    round2Topics:List<String>? = null,
-    round2PlayerAWords:List<String>? = null,
-    round2PlayerBWords:List<String>? = null,
-    round2PlayerAWordsValidation:List<Boolean>? = null,
-    round2PlayerBWordsValidation:List<Boolean>? = null,
-    round2Turn: Int? = null,
-    round2Winner: Int? = null,
-    round3Letter:Char? = null,
-    round3Topics:List<String>? = null,
-    round3PlayerAWords:List<String>? = null,
-    round3PlayerBWords:List<String>? = null,
-    round3PlayerAWordsValidation:List<Boolean>? = null,
-    round3PlayerBWordsValidation:List<Boolean>? = null,
-    round3Turn: Int? = null,
-    round3Winner: Int? = null
+    loadedId: Int,
+    loadedPlayerBID:Int? = null,
+    loadedWinner:Int? = null,
+    loadedRound1Letter:Char,
+    loadedRound1Topics:List<String>,
+    loadedRound1PlayerAWords:List<String>,
+    loadedRound1PlayerBWords:List<String>,
+    loadedRound1PlayerAWordsValidation:List<Boolean>,
+    loadedRound1PlayerBWordsValidation:List<Boolean>,
+    loadedRound1Turn: Int,
+    loadedRound1Winner: Int,
+    loadedRound2Letter:Char,
+    loadedRound2Topics:List<String>,
+    loadedRound2PlayerAWords:List<String>,
+    loadedRound2PlayerBWords:List<String>,
+    loadedRound2PlayerAWordsValidation:List<Boolean>,
+    loadedRound2PlayerBWordsValidation:List<Boolean>,
+    loadedRound2Turn: Int,
+    loadedRound2Winner: Int,
+    loadedRound3Letter:Char,
+    loadedRound3Topics:List<String>,
+    loadedRound3PlayerAWords:List<String>,
+    loadedRound3PlayerBWords:List<String>,
+    loadedRound3PlayerAWordsValidation:List<Boolean>,
+    loadedRound3PlayerBWordsValidation:List<Boolean>,
+    loadedRound3Turn: Int,
+    loadedRound3Winner: Int
 ) : Match(playerAID, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency) {
+    init {
+        val dependencies = MatchDBDependencies()
+        id = loadedId
+        playerBID = loadedPlayerBID
+        winner = loadedWinner
+        rounds.add(LoadedRound(1, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, WordValidator(dependencies.topicLoader), loadedRound1Letter,
+        loadedRound1Topics, loadedRound1PlayerAWords, loadedRound1PlayerBWords, loadedRound1PlayerAWordsValidation, loadedRound1PlayerBWordsValidation, loadedRound1Turn, loadedRound1Winner))
+
+        rounds.add(LoadedRound(2, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, WordValidator(dependencies.topicLoader), loadedRound2Letter,
+            loadedRound2Topics, loadedRound2PlayerAWords, loadedRound2PlayerBWords, loadedRound2PlayerAWordsValidation, loadedRound2PlayerBWordsValidation, loadedRound2Turn,
+            loadedRound2Winner))
+
+        rounds.add(LoadedRound(3, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, WordValidator(dependencies.topicLoader), loadedRound3Letter,
+            loadedRound3Topics, loadedRound3PlayerAWords, loadedRound3PlayerBWords, loadedRound3PlayerAWordsValidation, loadedRound3PlayerBWordsValidation, loadedRound3Turn,
+            loadedRound3Winner))
+    }
+
+    override fun setMatchID() {
+        id = 0
+    }
 }
