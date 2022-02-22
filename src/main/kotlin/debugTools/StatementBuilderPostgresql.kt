@@ -22,6 +22,17 @@ class StatementBuilderPostgresql {
         return "INSERT INTO $tableName ($tableColumnNameString) values ($tableColumnValuesString)"
     }
 
+    fun updateIntoTablesThisMapping(tableName: String, where: String, mapping: Map<String, String>): String {
+        var columnAndValuesString = ""
+        firstValue = true
+        mapping.forEach {entry: Map.Entry<String, String> ->
+            columnAndValuesString += addSeparator(", ")
+            columnAndValuesString += entry.key + " = " + mapping.getValue(entry.key)
+            if (firstValue) {firstValue = false}
+        }
+        return "UPDATE $tableName SET $columnAndValuesString WHERE $where"
+    }
+
     private fun addValueToString(value: String): String {
         return "$value"
     }
