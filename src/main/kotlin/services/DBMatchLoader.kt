@@ -8,6 +8,7 @@ import com.example.dto.LoadedMatch
 import com.example.interfaces.IMatchLoader
 import com.example.model.Match
 import com.example.model.Round
+import java.sql.ResultSet
 
 class DBMatchLoader: IMatchLoader {
     private val stmt = HikariDBConnection.getConnection().createStatement()
@@ -52,45 +53,63 @@ class DBMatchLoader: IMatchLoader {
     }
 
     override fun loadMatch(matchID: Int): Match {
-        val match = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
+        val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
                 " = MATCH.idmatch WHERE MATCH.idmatch = $matchID")
 
-        match.next()
+        dbMatch.next()
 
-        val matchid = match.getInt("idmatch")
-        val playeraid =  match.getInt("playeraid")
-        val playerbid = match.getInt("playerbid")
-        val winner = match.getInt("winner")
-        val round1Letter = match.getString("letter")[0]
-        val round1Topics = match.getString("topics").split(",").toList()
-        val round1PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round1PlayerBWords = match.getString("playerbwords").split(",").toList()
-        val round1PlayerAWordsValidation = convertStringListToBooleanList(match.getString("playerawordsvalidation").split(",").toList())
-        val round1PlayerBWordsValidation = convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
-        val round1Turn = match.getInt("turn")
-        val round1Winner = match.getInt("roundwinner")
+        return createLoadedMatchFromDBObject(dbMatch)
 
-        match.next()
+    }
 
-        val round2Letter = match.getString("letter")[0]
-        val round2Topics = match.getString("topics").split(",").toList()
-        val round2PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round2PlayerBWords = match.getString("playerbwords").split(",").toList()
-        val round2PlayerAWordsValidation = convertStringListToBooleanList(match.getString("playerawordsvalidation").split(",").toList())
-        val round2PlayerBWordsValidation = convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
-        val round2Turn = match.getInt("turn")
-        val round2Winner = match.getInt("roundwinner")
+    fun loadAllMatchesFromPlayer(playerID: Int): MutableList<Match> {
+        var matchesList = mutableListOf<Match>()
+        val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
+                " = MATCH.idmatch WHERE MATCH.playeraid = $playerID OR MATCH.playerbid = $playerID")
 
-        match.next()
+        while (dbMatch.next()) {
+            matchesList.add(createLoadedMatchFromDBObject(dbMatch))
+        }
 
-        val round3Letter = match.getString("letter")[0]
-        val round3Topics = match.getString("topics").split(",").toList()
-        val round3PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round3PlayerBWords = match.getString("playerbwords").split(",").toList()
-        val round3PlayerAWordsValidation = convertStringListToBooleanList(match.getString("playerawordsvalidation").split(",").toList())
-        val round3PlayerBWordsValidation = convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
-        val round3Turn = match.getInt("turn")
-        val round3Winner = match.getInt("roundwinner")
+        return matchesList
+    }
+
+    fun createLoadedMatchFromDBObject(dbMatch: ResultSet): LoadedMatch {
+
+        val matchid = dbMatch.getInt("idmatch")
+        val playeraid =  dbMatch.getInt("playeraid")
+        val playerbid = dbMatch.getInt("playerbid")
+        val winner = dbMatch.getInt("winner")
+        val round1Letter = dbMatch.getString("letter")[0]
+        val round1Topics = dbMatch.getString("topics").split(",").toList()
+        val round1PlayerAWords = dbMatch.getString("playerawords").split(",").toList()
+        val round1PlayerBWords = dbMatch.getString("playerbwords").split(",").toList()
+        val round1PlayerAWordsValidation = convertStringListToBooleanList(dbMatch.getString("playerawordsvalidation").split(",").toList())
+        val round1PlayerBWordsValidation = convertStringListToBooleanList(dbMatch.getString("playerbwordsvalidation").split(",").toList())
+        val round1Turn = dbMatch.getInt("turn")
+        val round1Winner = dbMatch.getInt("roundwinner")
+
+        dbMatch.next()
+
+        val round2Letter = dbMatch.getString("letter")[0]
+        val round2Topics = dbMatch.getString("topics").split(",").toList()
+        val round2PlayerAWords = dbMatch.getString("playerawords").split(",").toList()
+        val round2PlayerBWords = dbMatch.getString("playerbwords").split(",").toList()
+        val round2PlayerAWordsValidation = convertStringListToBooleanList(dbMatch.getString("playerawordsvalidation").split(",").toList())
+        val round2PlayerBWordsValidation = convertStringListToBooleanList(dbMatch.getString("playerbwordsvalidation").split(",").toList())
+        val round2Turn = dbMatch.getInt("turn")
+        val round2Winner = dbMatch.getInt("roundwinner")
+
+        dbMatch.next()
+
+        val round3Letter = dbMatch.getString("letter")[0]
+        val round3Topics = dbMatch.getString("topics").split(",").toList()
+        val round3PlayerAWords = dbMatch.getString("playerawords").split(",").toList()
+        val round3PlayerBWords = dbMatch.getString("playerbwords").split(",").toList()
+        val round3PlayerAWordsValidation = convertStringListToBooleanList(dbMatch.getString("playerawordsvalidation").split(",").toList())
+        val round3PlayerBWordsValidation = convertStringListToBooleanList(dbMatch.getString("playerbwordsvalidation").split(",").toList())
+        val round3Turn = dbMatch.getInt("turn")
+        val round3Winner = dbMatch.getInt("roundwinner")
 
         val dbDependencies = MatchDBDependencies()
 
@@ -102,7 +121,6 @@ class DBMatchLoader: IMatchLoader {
             round3Letter, round3Topics, round3PlayerAWords, round3PlayerBWords, round3PlayerAWordsValidation,
             round3PlayerBWordsValidation, round3Turn, round3Winner
         )
-
     }
 
     override fun updateMatch(matchToUpdate: Match) {
