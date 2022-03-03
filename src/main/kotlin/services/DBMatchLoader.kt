@@ -3,6 +3,7 @@ package com.example.services
 import com.example.DBConnection.HikariDBConnection
 import com.example.debugTools.StatementBuilderPostgresql
 import com.example.dao.DBMatch
+import com.example.dao.MatchToSend
 import com.example.dependencies.MatchDBDependencies
 import com.example.dto.LoadedMatch
 import com.example.interfaces.IMatchLoader
@@ -75,6 +76,32 @@ class DBMatchLoader: IMatchLoader {
         }
 
         return matchesList
+    }
+
+    fun getFirstMatchWithoutPlayerB(playerID: Int): MatchToSend {
+        var matchesList = mutableListOf<Match>()
+
+        val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid = MATCH.idmatch " +
+                "WHERE MATCH.playerbid = 0 AND MATCH.playeraid != $playerID")
+
+        dbMatch.next()
+
+        val matchToSend:MatchToSend
+
+        if (dbMatch.row == 1) {
+            val match = createLoadedMatchFromDBObject(dbMatch)
+
+            matchToSend = MatchToSend()
+
+            matchToSend.convertMatch(match)
+        } else {
+
+            val startNewMatch = StartNewMatch()
+
+            matchToSend = startNewMatch.createNewMatch(playerID)
+        }
+
+        return matchToSend
     }
 
     fun createLoadedMatchFromDBObject(dbMatch: ResultSet): LoadedMatch {

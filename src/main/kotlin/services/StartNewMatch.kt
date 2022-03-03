@@ -9,14 +9,14 @@ import com.example.services.DBMatchLoader
 import com.example.tempPermanence.InMemoryTopicLoader
 import services.LetterRandomizer
 
-class AddNewMatch {
+class StartNewMatch {
     private val dependencies = MatchDBDependencies()
     private val matchIDLoaderDependency = dependencies.matchIDLoader
     private val letterRandomizerDependency = dependencies.letterRandomizer
     private val topicLoaderDependency = dependencies.topicLoader
     private val dbMatchLoader = DBMatchLoader()
 
-    fun saveNewMatch(playerAID: Int): MatchToSend {
+    fun createNewMatch(playerAID: Int): MatchToSend {
 
         val newMatch = Match(playerAID, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency)
         dbMatchLoader.saveMatch(newMatch)

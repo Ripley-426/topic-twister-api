@@ -1,6 +1,5 @@
 package com.example
 import com.example.dao.MatchToSend
-import com.example.services.AddNewMatch
 import com.example.debugTools.AddTopicsToDB
 import com.example.debugTools.WordValidatorJSON
 import com.example.interfaces.IMatchIDLoader
@@ -86,9 +85,14 @@ class APIController {
     }
 
     @PostMapping("/match/addWordsToMatch")
-    fun addWordsToMatch(@RequestParam matchID:Int, @RequestParam playerID:Int, @RequestParam words:String) {
+    fun addWordsToMatch(@RequestParam matchID:Int, @RequestParam playerID:Int, @RequestParam words:String): String {
         val addWordsToMatch = AddWordsToMatch()
         addWordsToMatch.addWords(playerID, matchID, words)
+
+        val loadedMatch = matchLoader.loadMatch(matchID)
+        val matchToSend = MatchToSend()
+        matchToSend.convertMatch(loadedMatch)
+        return gson.toJson(matchToSend)
     }
 
     @PostMapping("/match/addPlayerBToMatch")
@@ -111,11 +115,10 @@ class APIController {
         return gson.toJson(matchesList)
     }
 
-    @PostMapping("/match/createNewMatch")
-    fun createNewMatch(@RequestParam playerID:Int): String {
-        val addNewMatch = AddNewMatch()
+    @GetMapping("/match/startNewMatch")
+    fun startNewMatch(@RequestParam playerID:Int): String {
 
-        return gson.toJson(addNewMatch.saveNewMatch(playerID))
+        return gson.toJson(matchLoader.getFirstMatchWithoutPlayerB(playerID))
     }
 
 }
