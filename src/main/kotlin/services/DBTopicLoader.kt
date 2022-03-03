@@ -8,12 +8,14 @@ class DBTopicLoader: ITopicLoader {
     private val db = HikariDBConnection
     private val connection = db.getConnection()
 
+    private var topics: MutableList<Topic> = mutableListOf()
+
     override fun LoadTopics(): MutableList<Topic> {
-        return GetAllTopicsFromDB()
+        if (topics.isEmpty()) { getAllTopicsFromDB()}
+        return topics
     }
 
-    fun GetAllTopicsFromDB():MutableList<Topic> {
-        var topics:MutableList<Topic> = mutableListOf()
+    private fun getAllTopicsFromDB() {
         val stmt = connection.createStatement()
         val topicListString = stmt.executeQuery("SELECT topic FROM TOPICS")
 
@@ -25,7 +27,5 @@ class DBTopicLoader: ITopicLoader {
             val wordsList:MutableList<String> = words.split(",").toMutableList()
             topics.add(Topic(topicListString.getString("topic"), wordsList))
         }
-
-        return topics
     }
 }
