@@ -79,7 +79,6 @@ class DBMatchLoader: IMatchLoader {
     }
 
     fun getFirstMatchWithoutPlayerB(playerID: Int): MatchToSend {
-        var matchesList = mutableListOf<Match>()
 
         val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid = MATCH.idmatch " +
                 "WHERE MATCH.playerbid = 0 AND MATCH.playeraid != $playerID")
@@ -89,11 +88,16 @@ class DBMatchLoader: IMatchLoader {
         val matchToSend:MatchToSend
 
         if (dbMatch.row == 1) {
+
             val match = createLoadedMatchFromDBObject(dbMatch)
+
+            addPlayerB(match.id, playerID)
+
+            val updatedMatch = loadMatch(match.id)
 
             matchToSend = MatchToSend()
 
-            matchToSend.convertMatch(match)
+            matchToSend.convertMatch(updatedMatch)
         } else {
 
             val startNewMatch = StartNewMatch()
