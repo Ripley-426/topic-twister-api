@@ -14,7 +14,9 @@ class AddWordsToMatch() {
 
         if (playerID != matchToPlay.currentTurnPlayerID()) { return }
 
-        var wordsList = words.split(",").toMutableList()
+        val upperWords = words.uppercase()
+
+        var wordsList = upperWords.split(",").toMutableList()
         matchToPlay.addWords(wordsList)
 
         if (secondWords != "") {
