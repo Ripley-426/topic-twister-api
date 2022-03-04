@@ -41,30 +41,11 @@ open class Round (val roundNumber: Int,
 
     fun addWords(wordsList: MutableList<String>) {
 
-        var curatedWordList: MutableList<String> = mutableListOf()
-        curatedWordList = if (wordsList.isEmpty() or (wordsList.size < 5)) {
-            FillWordList(wordsList)
-        } else {
-            wordsList
-        }
-
-        setWordsToPlayersAndValidate(curatedWordList)
+        setWordsToPlayersAndValidate(wordsList)
 
         changeTurn()
 
         if (turn == Turn.FINISHED) { calculateRoundScore() }
-    }
-
-    fun FillWordList(wordList: MutableList<String>): MutableList<String> {
-        var newList = mutableListOf<String>()
-        for (i in 1..wordList.size) {
-            newList.add(wordList[i])
-        }
-        for (i in wordList.size+1..5) {
-            newList.add("")
-        }
-
-        return newList
     }
 
     fun getTurnInt():Int {
