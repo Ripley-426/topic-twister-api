@@ -100,7 +100,11 @@ open class Round (val roundNumber: Int,
     private fun convertToValidationContainer(wordList: MutableList<String>): ValidationContainer {
         var topicAndWordList: MutableList<TopicAndWord> = mutableListOf()
         topics.forEachIndexed { index, element ->
-            topicAndWordList.add(TopicAndWord(element, wordList[index]))
+            if (wordList.size >= index) {
+                topicAndWordList.add(TopicAndWord(element, ""))
+            } else {
+                topicAndWordList.add(TopicAndWord(element, wordList[index]))
+            }
         }
 
         return ValidationContainer(letter, topicAndWordList)

@@ -22,6 +22,7 @@ class WordValidator(topicLoaderDependency: ITopicLoader) : IWordValidator{
     }
 
     fun ValidateAnswer(topicAndWord: TopicAndWord, letter:Char): Boolean {
+        if (topicAndWord.word == "") return false
         if (topicAndWord.word[0] != letter) return false
         return Validate(topicAndWord.topic, topicAndWord.word)
     }
