@@ -17,6 +17,7 @@ class AddWordsToMatch() {
         val upperWords = words.uppercase()
 
         var wordsList = upperWords.split(",").toMutableList()
+        if (wordsList.size < 6){for (i in wordsList.size..4) {wordsList.add("")}}
         matchToPlay.addWords(wordsList)
 
         if (secondWords != "") {
