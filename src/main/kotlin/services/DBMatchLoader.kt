@@ -10,8 +10,6 @@ import com.example.interfaces.IMatchLoader
 import com.example.model.Match
 import com.example.model.Round
 import java.sql.ResultSet
-import java.sql.Timestamp
-import java.time.Instant
 
 class DBMatchLoader: IMatchLoader {
     private val stmt = HikariDBConnection.getConnection().createStatement()
@@ -85,9 +83,7 @@ class DBMatchLoader: IMatchLoader {
 
         dbMatch.next()
 
-        val matchToSend:MatchToSend
-
-        if (dbMatch.row == 1) {
+        val matchToSend:MatchToSend = if (dbMatch.row == 1) {
 
             val match = createLoadedMatchFromDBObject(dbMatch)
 
@@ -95,14 +91,12 @@ class DBMatchLoader: IMatchLoader {
 
             val updatedMatch = loadMatch(match.id)
 
-            matchToSend = MatchToSend()
-
-            matchToSend.convertMatch(updatedMatch)
+            MatchToSend(updatedMatch)
         } else {
 
             val startNewMatch = StartNewMatch()
 
-            matchToSend = startNewMatch.createNewMatch(playerID)
+            startNewMatch.createNewMatch(playerID)
         }
 
         return matchToSend
@@ -167,9 +161,7 @@ class DBMatchLoader: IMatchLoader {
         val rematch = startRematch.createNewMatch(playerID)
         addPlayerB(rematch.matchid, opponentID)
         val updatedRematch = loadMatch(rematch.matchid)
-        val matchToSend = MatchToSend()
-        matchToSend.convertMatch(updatedRematch)
-        return matchToSend
+        return MatchToSend(updatedRematch)
     }
 
     override fun addPlayerB(matchID: Int, playerID: Int) {
