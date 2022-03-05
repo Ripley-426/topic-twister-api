@@ -162,6 +162,16 @@ class DBMatchLoader: IMatchLoader {
         updateMatchTable()
     }
 
+    override fun getRematch(playerID: Int, opponentID: Int): MatchToSend {
+        val startRematch = StartNewMatch()
+        val rematch = startRematch.createNewMatch(playerID)
+        addPlayerB(rematch.matchid, opponentID)
+        val updatedRematch = loadMatch(rematch.matchid)
+        val matchToSend = MatchToSend()
+        matchToSend.convertMatch(updatedRematch)
+        return matchToSend
+    }
+
     override fun addPlayerB(matchID: Int, playerID: Int) {
         stmt.executeUpdate(stmtBuilder.updateIntoTablesThisMapping("MATCH", "idmatch = $matchID",
         mapOf(

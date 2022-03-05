@@ -121,4 +121,10 @@ class APIController {
         return gson.toJson(matchLoader.getFirstMatchWithoutPlayerB(playerID))
     }
 
+    @GetMapping("/match/startRematch")
+    fun startRematch(@RequestParam playerID:Int, @RequestParam opponentID:Int): String {
+
+        return gson.toJson(matchLoader.getRematch(playerID, opponentID))
+    }
+
 }
