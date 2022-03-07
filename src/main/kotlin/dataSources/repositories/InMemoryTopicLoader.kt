@@ -30,7 +30,7 @@ class InMemoryTopicLoader : ITopicLoader {
             "Quoll", "Rabbit", "Raccoon", "Rat", "Rattlesnake", "Red Panda", "Rooster", "Sea lion", "Sheep", "Shrew",
             "Sloth", "Snail", "Snake", "Spider", "Tiger", "Turkey", "Wolf", "Wombat", "Zebra"
         ))
-        topicList.AddTopic(animalTopic)
+        topicList.addTopic(animalTopic)
 
         var namesTopic: Topic = Topic("NAMES", mutableListOf(
             "Abigail", "Addison", "Aiden", "Alexander", "Amelia", "Anthony", "Aria", "Asher", "Aurora", "Ava", "Avery",
@@ -44,7 +44,7 @@ class InMemoryTopicLoader : ITopicLoader {
             "Samuel", "Scarlett", "Sebastian", "Sofia", "Sophia", "Stella", "Violet", "William", "Willow", "Wyatt",
             "Zoey"
         ))
-        topicList.AddTopic(namesTopic)
+        topicList.addTopic(namesTopic)
 
         var countriesTopic: Topic = Topic("COUNTRIES", mutableListOf(
             "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria",
@@ -66,7 +66,7 @@ class InMemoryTopicLoader : ITopicLoader {
             "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City",
             "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
         ))
-        topicList.AddTopic(countriesTopic)
+        topicList.addTopic(countriesTopic)
 
         var plantsTopic: Topic = Topic("PLANTS", mutableListOf(
             "acorn", "agriculture", "alfalfa", "angiosperm", "annual", "antherapical meristem", "autotroph", "axil",
@@ -90,7 +90,7 @@ class InMemoryTopicLoader : ITopicLoader {
             "understory", "undulate leaf margin", "vascular plant", "vegetable", "vegetation", "vein", "venation",
             "vine", "weed", "whorled", "wood", "woody", "xerophyte", "xylem", "yucca"
         ))
-        topicList.AddTopic(plantsTopic)
+        topicList.addTopic(plantsTopic)
 
         var jobsTopic: Topic = Topic("JOBS", mutableListOf(
             "actor", "baker", "butcher", "carpenter", "cook", "doctor", "engineer", "farmer", "fireman", "fireworker",
@@ -98,22 +98,22 @@ class InMemoryTopicLoader : ITopicLoader {
             "nurse", "painter", "pilot", "plumber", "policeman", "postman", "secretary", "singer", "soldier", "tailor",
             "taxi driver", "teacher", "waiter"
         ))
-        topicList.AddTopic(jobsTopic)
+        topicList.addTopic(jobsTopic)
     }
 
     private fun addAlphabetToTopicList(){
-        for (topic in topicList.GetTopics()){
+        for (topic in topicList.getTopics()){
             addAlphabet(topic)
         }
     }
 
     private fun addAlphabet(topic: Topic) {
         for (letter in ('A'..'Z')) {
-            topic.AddWord(letter.toString())
+            topic.addWord(letter.toString())
         }
     }
 
     override fun LoadTopics(): MutableList<Topic> {
-        return topicList.GetTopics()
+        return topicList.getTopics()
     }
 }

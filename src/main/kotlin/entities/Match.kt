@@ -5,6 +5,8 @@ import com.example.dataSources.repositories.interfaces.ITopicLoader
 import com.example.entities.enumClasses.RoundWinner
 import com.example.entities.enumClasses.Turn
 import com.example.entities.interfaces.ILetterRandomizer
+import com.example.entities.useCases.TopicRandomizer
+import com.example.entities.useCases.WordValidator
 
 open class Match constructor (val playerAID: Int,
                               matchIDLoaderDependency: IMatchIDLoader,

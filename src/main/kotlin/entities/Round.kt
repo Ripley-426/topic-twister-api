@@ -1,6 +1,7 @@
 package com.example.entities
 
-import entities.ValidationContainer
+import com.example.entities.dataClasses.TopicAndWord
+import com.example.entities.dataClasses.ValidationContainer
 import com.example.entities.enumClasses.RoundWinner
 import com.example.entities.enumClasses.Turn
 import com.example.entities.interfaces.ILetterRandomizer

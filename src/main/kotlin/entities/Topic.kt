@@ -2,38 +2,28 @@ package com.example.entities
 
 class Topic(name: String, wordList: MutableList<String> = mutableListOf())
 {
-    val name = FilterNonLettersOrSpacesAndConvertToUppercase(name)
+    val name = filterNonLettersOrSpacesAndConvertToUppercase(name)
     private var words: MutableList<String> = mutableListOf()
 
     init {
-        if (wordList.isNotEmpty()) { AddWords(wordList) }
+        if (wordList.isNotEmpty()) { addWords(wordList) }
     }
 
-    fun AddWord(newWord: String) {
+    fun addWord(newWord: String) {
         if (!words.contains(newWord) and (!newWord.isNullOrBlank())) {
-            words.add(FilterNonLettersOrSpacesAndConvertToUppercase(newWord))
+            words.add(filterNonLettersOrSpacesAndConvertToUppercase(newWord))
         }
     }
 
-    fun AddWords(newWords: List<String>) {
-        newWords.forEach { AddWord(it) }
+    private fun addWords(newWords: List<String>) {
+        newWords.forEach { addWord(it) }
     }
 
-    fun RemoveWord(wordToRemove: String) {
-        if (words.contains(wordToRemove)) {
-            words.remove(wordToRemove)
-        }
-    }
-
-    fun RemoveWords(wordsToRemove: List<String>) {
-        wordsToRemove.forEach { RemoveWord(it) }
-    }
-
-    fun GetWords(): MutableList<String> {
+    fun getWords(): MutableList<String> {
         return words
     }
 
-    private fun FilterNonLettersOrSpacesAndConvertToUppercase(message:String): String {
+    private fun filterNonLettersOrSpacesAndConvertToUppercase(message:String): String {
         return message.uppercase().filter { it.isLetter() or (it == ' ')  }
     }
 }

@@ -5,8 +5,8 @@ import com.example.entities.interfaces.ILetterRandomizer
 import com.example.dataSources.repositories.interfaces.IMatchIDLoader
 import com.example.dataSources.repositories.interfaces.ITopicLoader
 import com.example.entities.Match
-import com.example.entities.TopicRandomizer
-import com.example.entities.WordValidator
+import com.example.entities.useCases.TopicRandomizer
+import com.example.entities.useCases.WordValidator
 
 class LoadedMatch(
     playerAID: Int,

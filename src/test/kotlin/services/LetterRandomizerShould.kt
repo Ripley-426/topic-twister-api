@@ -1,6 +1,6 @@
 package services
 
-import com.example.entities.LetterRandomizer
+import com.example.entities.useCases.LetterRandomizer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

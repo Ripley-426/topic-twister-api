@@ -4,11 +4,11 @@ class TopicList{
 
     private var topicList: MutableList<Topic> = mutableListOf()
 
-    fun AddTopic(topic: Topic){
+    fun addTopic(topic: Topic){
         topicList.add(topic)
     }
 
-    fun GetTopics(): MutableList<Topic> {
+    fun getTopics(): MutableList<Topic> {
         return topicList
     }
 

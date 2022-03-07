@@ -5,13 +5,13 @@ import com.example.dataSources.repositories.MatchTestDependencies
 import com.example.entities.Round
 import com.example.entities.enumClasses.RoundWinner
 import com.example.entities.enumClasses.Turn
-import com.example.entities.TopicRandomizer
-import com.example.entities.WordValidator
+import com.example.entities.useCases.TopicRandomizer
+import com.example.entities.useCases.WordValidator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import com.example.entities.LetterRandomizer
+import com.example.entities.useCases.LetterRandomizer
 
 class RoundShould {
 
