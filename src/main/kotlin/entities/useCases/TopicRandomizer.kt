@@ -1,6 +1,7 @@
-package com.example.entities
+package com.example.entities.useCases
 
 import com.example.dataSources.repositories.interfaces.ITopicLoader
+import com.example.entities.Topic
 import com.example.entities.interfaces.ITopicRandomizer
 
 class TopicRandomizer(topicLoaderDependency: ITopicLoader): ITopicRandomizer {

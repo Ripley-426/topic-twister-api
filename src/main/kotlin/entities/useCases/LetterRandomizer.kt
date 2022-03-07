@@ -1,4 +1,4 @@
-package com.example.entities
+package com.example.entities.useCases
 
 import com.example.entities.interfaces.ILetterRandomizer
 

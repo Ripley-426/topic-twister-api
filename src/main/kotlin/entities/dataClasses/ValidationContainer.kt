@@ -1,6 +1,6 @@
-package entities
+package com.example.entities.dataClasses
 
-import com.example.entities.TopicAndWord
+import com.example.entities.dataClasses.TopicAndWord
 
 data class ValidationContainer(
     val letter: Char,

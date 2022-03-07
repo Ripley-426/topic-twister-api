@@ -1,7 +1,7 @@
 package services
 
-import com.example.entities.TopicAndWord
-import com.example.entities.WordValidator
+import com.example.entities.dataClasses.TopicAndWord
+import com.example.entities.useCases.WordValidator
 import com.example.dataSources.repositories.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

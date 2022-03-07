@@ -1,4 +1,4 @@
-package com.example.entities
+package com.example.entities.dataClasses
 
 data class TopicAndWord(
     val topic:String,

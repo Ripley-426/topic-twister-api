@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import com.example.entities.LetterRandomizer
+import com.example.entities.useCases.LetterRandomizer
 
 class MatchShould {
 

@@ -1,8 +1,10 @@
-package com.example.entities
+package com.example.entities.useCases
 
 import com.example.dataSources.repositories.interfaces.ITopicLoader
+import com.example.entities.Topic
+import com.example.entities.dataClasses.TopicAndWord
 import com.example.entities.interfaces.IWordValidator
-import entities.ValidationContainer
+import com.example.entities.dataClasses.ValidationContainer
 
 class WordValidator(topicLoaderDependency: ITopicLoader) : IWordValidator {
     private val topicLoader = topicLoaderDependency
@@ -38,6 +40,6 @@ class WordValidator(topicLoaderDependency: ITopicLoader) : IWordValidator {
 
         val foundTopic = topics.first() { it.name == topic}
 
-        return foundTopic.GetWords().contains(word)
+        return foundTopic.getWords().contains(word)
     }
 }
