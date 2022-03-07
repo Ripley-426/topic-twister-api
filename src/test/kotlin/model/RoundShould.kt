@@ -1,17 +1,17 @@
 package model
 
-import com.example.dependencies.IMatchDependencies
-import com.example.dependencies.MatchTestDependencies
-import com.example.model.Round
-import com.example.enumClasses.RoundWinner
-import com.example.enumClasses.Turn
-import com.example.services.TopicRandomizer
-import com.example.services.WordValidator
+import com.example.dataSources.repositories.interfaces.IMatchDependencies
+import com.example.dataSources.repositories.MatchTestDependencies
+import com.example.entities.Round
+import com.example.entities.enumClasses.RoundWinner
+import com.example.entities.enumClasses.Turn
+import com.example.entities.TopicRandomizer
+import com.example.entities.WordValidator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import services.LetterRandomizer
+import com.example.entities.LetterRandomizer
 
 class RoundShould {
 
@@ -22,7 +22,7 @@ class RoundShould {
     @BeforeEach
     fun setup(){
 
-        val matchTestDependencies:IMatchDependencies = MatchTestDependencies()
+        val matchTestDependencies: IMatchDependencies = MatchTestDependencies()
 
         val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
         Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')

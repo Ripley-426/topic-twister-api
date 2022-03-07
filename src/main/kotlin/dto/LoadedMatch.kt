@@ -1,12 +1,12 @@
 package com.example.dto
 
-import com.example.dependencies.MatchDBDependencies
-import com.example.interfaces.ILetterRandomizer
-import com.example.interfaces.IMatchIDLoader
-import com.example.interfaces.ITopicLoader
-import com.example.model.Match
-import com.example.services.TopicRandomizer
-import com.example.services.WordValidator
+import com.example.dataSources.repositories.MatchDBDependencies
+import com.example.entities.interfaces.ILetterRandomizer
+import com.example.dataSources.repositories.interfaces.IMatchIDLoader
+import com.example.dataSources.repositories.interfaces.ITopicLoader
+import com.example.entities.Match
+import com.example.entities.TopicRandomizer
+import com.example.entities.WordValidator
 
 class LoadedMatch(
     playerAID: Int,

@@ -1,8 +1,8 @@
 package services
 
-import com.example.model.TopicAndWord
-import com.example.services.WordValidator
-import com.example.testServices.InMemoryTopicLoader
+import com.example.entities.TopicAndWord
+import com.example.entities.WordValidator
+import com.example.dataSources.repositories.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -14,7 +14,7 @@ class WordValidatorShould {
     @Test
     fun `validate a correct word and return true`() {
 
-        val result = sut.Validate("ANIMALS", "ANACONDA")
+        val result = sut.validate("ANIMALS", "ANACONDA")
 
         assertTrue(result)
     }
@@ -22,7 +22,7 @@ class WordValidatorShould {
     @Test
     fun `validate an incorrect word and return false`() {
 
-        val result = sut.Validate("ANIMALS", "ANACOND")
+        val result = sut.validate("ANIMALS", "ANACOND")
 
         assertFalse(result)
     }
@@ -30,7 +30,7 @@ class WordValidatorShould {
     @Test
     fun `return false when topic does not exist`() {
 
-        val result = sut.Validate("AAAAAA", "AAAAAA")
+        val result = sut.validate("AAAAAA", "AAAAAA")
     }
 
     @Test
@@ -38,7 +38,7 @@ class WordValidatorShould {
         val topicAndWord= TopicAndWord("ANIMALS", "ANACONDA")
         val letter = 'B'
 
-        val result = sut.ValidateAnswer(topicAndWord, letter)
+        val result = sut.validateAnswer(topicAndWord, letter)
 
         assertFalse(result)
     }

@@ -1,6 +1,6 @@
 package com.example.dao
 
-import com.example.model.Round
+import com.example.entities.Round
 
 data class RoundToSend(val round: Round) {
     var roundNumber = round.roundNumber

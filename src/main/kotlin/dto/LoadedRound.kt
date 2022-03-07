@@ -1,11 +1,11 @@
 package com.example.dto
 
-import com.example.enumClasses.RoundWinner
-import com.example.enumClasses.Turn
-import com.example.interfaces.ILetterRandomizer
-import com.example.interfaces.ITopicRandomizer
-import com.example.interfaces.IWordValidator
-import com.example.model.Round
+import com.example.entities.enumClasses.RoundWinner
+import com.example.entities.enumClasses.Turn
+import com.example.entities.interfaces.ILetterRandomizer
+import com.example.entities.interfaces.ITopicRandomizer
+import com.example.entities.interfaces.IWordValidator
+import com.example.entities.Round
 
 class LoadedRound(
     roundNumber: Int,

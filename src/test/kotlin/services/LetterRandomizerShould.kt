@@ -1,11 +1,12 @@
 package services
 
+import com.example.entities.LetterRandomizer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class LetterRandomizerShould {
 
-    private var letterRandomizer:LetterRandomizer = LetterRandomizer()
+    private var letterRandomizer: LetterRandomizer = LetterRandomizer()
     private var result:Char = letterRandomizer.getRandomLetter()
 
     @Test

@@ -1,8 +1,8 @@
 package com.example.dao
 
-import com.example.model.Match
+import com.example.entities.Match
 
-data class MatchToSend(var match:Match) {
+data class MatchToSend(var match: Match) {
     var matchid:Int = match.id
     var playerAID:Int = match.playerAID
     var playerBID:Int? = match.playerBID
