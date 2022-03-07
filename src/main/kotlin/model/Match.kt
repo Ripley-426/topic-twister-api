@@ -23,7 +23,7 @@ open class Match constructor (val playerAID: Int,
     var rounds: MutableList<Round> = mutableListOf()
 
     init {
-        setMatchID()
+        getMatchIDFromDB()
         instantiateRounds()
     }
 
@@ -33,7 +33,7 @@ open class Match constructor (val playerAID: Int,
         }
     }
 
-    open fun setMatchID() {
+    open fun getMatchIDFromDB() {
         id = matchIDLoader.getID()
     }
 

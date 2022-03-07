@@ -3,7 +3,6 @@ package com.example.services
 import com.example.interfaces.ITopicLoader
 import com.example.interfaces.ITopicRandomizer
 import com.example.model.Topic
-import com.example.tempPermanence.InMemoryTopicLoader
 
 class TopicRandomizer(topicLoaderDependency: ITopicLoader): ITopicRandomizer {
     private val topicLoader = topicLoaderDependency

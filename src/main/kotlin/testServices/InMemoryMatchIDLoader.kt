@@ -1,4 +1,4 @@
-package com.example.tempPermanence
+package com.example.testServices
 
 import com.example.interfaces.IMatchIDLoader
 
@@ -10,5 +10,5 @@ class InMemoryMatchIDLoader: IMatchIDLoader {
         return id
     }
 
-    override fun resetID() {}
+    override fun resetID() { id = 0}
 }

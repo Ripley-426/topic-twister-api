@@ -5,7 +5,6 @@ import com.example.interfaces.IWordValidator
 import com.example.model.Topic
 import com.example.model.TopicAndWord
 import com.example.model.ValidationContainer
-import com.example.tempPermanence.InMemoryTopicLoader
 
 class WordValidator(topicLoaderDependency: ITopicLoader) : IWordValidator{
     private val topicLoader = topicLoaderDependency

@@ -2,7 +2,6 @@ package com.example.services
 
 import com.example.DBConnection.HikariDBConnection
 import com.example.debugTools.StatementBuilderPostgresql
-import com.example.dao.DBMatch
 import com.example.dao.MatchToSend
 import com.example.dependencies.MatchDBDependencies
 import com.example.dto.LoadedMatch
@@ -21,38 +20,6 @@ class DBMatchLoader: IMatchLoader {
         saveMatchTable()
     }
 
-    fun getDBMatchFromDB(matchid: Int): DBMatch {
-        val match = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
-                " = MATCH.idmatch WHERE MATCH.idmatch = $matchid AND ROUND.idround = 1")
-        match.next()
-
-        val round1Letter = match.getString("letter")
-        val round1Topics = match.getString("topics").split(",").toList()
-        val round1PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round1PlayerBWords = match.getString("playerawordsvalidation").split(",").toList()
-        val round1PlayerAWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
-        val round1PlayerBWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
-        val round1Turn = match.getInt("turn")
-        val round1Winner = match.getInt("roundwinner")
-
-        return DBMatch(
-            match.getInt("idmatch"),
-            match.getInt("playeraid"),
-            match.getInt("playerbid"),
-            match.getInt("winner"),
-            round1Letter[0],
-            round1Topics,
-            round1PlayerAWords,
-            round1PlayerBWords,
-            round1PlayerAWordsValidation,
-            round1PlayerBWordsValidation,
-            round1Turn,
-            round1Winner,
-        )
-    }
-
     override fun loadMatch(matchID: Int): Match {
         val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
                 " = MATCH.idmatch WHERE MATCH.idmatch = $matchID")
@@ -64,7 +31,7 @@ class DBMatchLoader: IMatchLoader {
     }
 
     fun loadAllMatchesFromPlayer(playerID: Int): MutableList<Match> {
-        var matchesList = mutableListOf<Match>()
+        val matchesList = mutableListOf<Match>()
 
         val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
                 " = MATCH.idmatch WHERE MATCH.playeraid = $playerID OR MATCH.playerbid = $playerID")
@@ -76,7 +43,7 @@ class DBMatchLoader: IMatchLoader {
         return matchesList
     }
 
-    fun getFirstMatchWithoutPlayerB(playerID: Int): MatchToSend {
+    fun getNewMatch(playerID: Int): MatchToSend {
 
         val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid = MATCH.idmatch " +
                 "WHERE MATCH.playerbid = 0 AND MATCH.playeraid != $playerID")
@@ -85,12 +52,12 @@ class DBMatchLoader: IMatchLoader {
 
         val matchToSend:MatchToSend
 
-        if (dbMatch.row == 1) {
+        if (foundMatchWithoutPlayerB(dbMatch)) {
 
             val match = createLoadedMatchFromDBObject(dbMatch)
             addPlayerB(match.id, playerID)
-            val updatedMatch = loadMatch(match.id)
-            matchToSend = MatchToSend(updatedMatch)
+            val updatedMatchWithPlayerB = loadMatch(match.id)
+            matchToSend = MatchToSend(updatedMatchWithPlayerB)
 
         } else {
 
@@ -102,7 +69,9 @@ class DBMatchLoader: IMatchLoader {
         return matchToSend
     }
 
-    fun createLoadedMatchFromDBObject(dbMatch: ResultSet): LoadedMatch {
+    private fun foundMatchWithoutPlayerB(dbMatch: ResultSet) = dbMatch.row == 1
+
+    private fun createLoadedMatchFromDBObject(dbMatch: ResultSet): LoadedMatch {
 
         val matchid = dbMatch.getInt("idmatch")
         val playeraid =  dbMatch.getInt("playeraid")
@@ -172,38 +141,6 @@ class DBMatchLoader: IMatchLoader {
         ))
     }
 
-    fun loadDBMatchFromDB(matchid: Int): DBMatch {
-        val match = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
-                " = MATCH.idmatch WHERE MATCH.idmatch = $matchid AND ROUND.idround = 1")
-        match.next()
-
-        val round1Letter = match.getString("letter")
-        val round1Topics = match.getString("topics").split(",").toList()
-        val round1PlayerAWords = match.getString("playerawords").split(",").toList()
-        val round1PlayerBWords = match.getString("playerawordsvalidation").split(",").toList()
-        val round1PlayerAWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwords").split(",").toList())
-        val round1PlayerBWordsValidation =
-            convertStringListToBooleanList(match.getString("playerbwordsvalidation").split(",").toList())
-        val round1Turn = match.getInt("turn")
-        val round1Winner = match.getInt("roundwinner")
-
-        return DBMatch(
-            match.getInt("idmatch"),
-            match.getInt("playeraid"),
-            match.getInt("playerbid"),
-            match.getInt("winner"),
-            round1Letter[0],
-            round1Topics,
-            round1PlayerAWords,
-            round1PlayerBWords,
-            round1PlayerAWordsValidation,
-            round1PlayerBWordsValidation,
-            round1Turn,
-            round1Winner,
-        )
-    }
-
     private fun saveMatchTable() {
         stmt.executeUpdate(stmtBuilder.insertIntoTablesThisMapping( "MATCH",
             mapOf(
@@ -267,28 +204,6 @@ class DBMatchLoader: IMatchLoader {
                 Pair("roundWinner", convertToDBInt(round.getWinnerInt()))
             )
         ))
-    }
-
-    fun createTableOnDB() {
-        createPlayerTable()
-        createMatchTable()
-        createRoundTable()
-    }
-
-    private fun createPlayerTable() {
-        stmt.executeUpdate(stmtBuilder.createTableIfExists("PLAYER",
-            "idPlayer int, name text, email text, passWord text"))
-    }
-
-    private fun createMatchTable() {
-        stmt.executeUpdate(stmtBuilder.createTableIfExists("MATCH",
-        "idMatch int, playerAID int, playerBID int, winner int"))
-    }
-
-    private fun createRoundTable() {
-        stmt.executeUpdate(stmtBuilder.createTableIfExists("ROUND",
-        "idRound int, matchID int, letter text, topics text, playerAWords text, playerAWordsValidation text, " +
-                "playerBWords text, playerBWordsValidation text, turn int, roundWinner int"))
     }
 
     private fun convertToDBText(value:String?):String {

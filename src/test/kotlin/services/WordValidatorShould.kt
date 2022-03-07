@@ -2,7 +2,7 @@ package services
 
 import com.example.model.TopicAndWord
 import com.example.services.WordValidator
-import com.example.tempPermanence.InMemoryTopicLoader
+import com.example.testServices.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

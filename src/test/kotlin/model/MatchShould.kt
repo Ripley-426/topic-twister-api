@@ -2,9 +2,8 @@ package model
 
 import com.example.enumClasses.Turn
 import com.example.model.Match
-import com.example.model.Player
 import com.example.services.DBMatchIDLoader
-import com.example.tempPermanence.InMemoryTopicLoader
+import com.example.testServices.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,10 +13,10 @@ import services.LetterRandomizer
 class MatchShould {
 
     private lateinit var match: Match
-    private lateinit var playerA: Player
-    private lateinit var playerB: Player
     private lateinit var listOfWordsPlayerA: MutableList<String>
     private lateinit var listOfWordsPlayerB: MutableList<String>
+    private var playerAID: Int = 0
+    private var playerBID: Int = 0
 
 
     @BeforeEach
@@ -31,15 +30,15 @@ class MatchShould {
 
         val topicLoaderDependency = InMemoryTopicLoader()
 
-        playerA = Player(1, "Juan")
-        playerB = Player(2, "Pedro")
-        match = Match(playerA.id, mockMatchIDLoaderDependency, mockLetterRandomizerDependency, topicLoaderDependency)
+        playerAID = 1
+        playerBID = 2
+        match = Match(playerAID, mockMatchIDLoaderDependency, mockLetterRandomizerDependency, topicLoaderDependency)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
 
     @Test
-    fun `Have three rounds when created`() {
+    fun `have three rounds when created`() {
 
         val result = match.rounds.count()
 
@@ -47,7 +46,7 @@ class MatchShould {
     }
 
     @Test
-    fun `Add words to the correct round`() {
+    fun `advance the round turn after adding words`() {
 
         match.addWords(listOfWordsPlayerA)
 
@@ -57,19 +56,20 @@ class MatchShould {
     }
 
     @Test
-    fun `Cant add second set of words without playerB`() {
+    fun `not add second set of words without a playerB`() {
         match.addWords(listOfWordsPlayerA)
+        match.addWords(listOfWordsPlayerB)
 
-        val result = match.addWords(listOfWordsPlayerB)
+        val result = match.getCurrentRound().playerBWords.isEmpty()
 
-        assertFalse(result)
+        assertTrue(result)
     }
 
     @Test
-    fun `Change turn when two set of words are added` () {
+    fun `change round when two set of words are added` () {
 
         match.addWords(listOfWordsPlayerA)
-        match.addPlayerB(playerB.id)
+        match.addPlayerB(playerBID)
         match.addWords(listOfWordsPlayerB)
 
         val result = match.getCurrentRound().roundNumber
@@ -77,10 +77,11 @@ class MatchShould {
         assertEquals(2, result)
     }
 
-    /*
     @Test
-    fun `Become complete when all sets of words are added` () {
+    fun `calculate a winner when the match is finished` () {
+
         match.addWords(listOfWordsPlayerA)
+        match.addPlayerB(playerBID)
         match.addWords(listOfWordsPlayerB)
 
         match.addWords(listOfWordsPlayerB)
@@ -91,25 +92,7 @@ class MatchShould {
 
         val result = match.winner
 
-        assertNotNull(result)
-    }
-*/
-    @Test
-    fun `Calculate winner when match is completed` () {
-
-        match.addWords(listOfWordsPlayerA)
-        match.addPlayerB(playerB.id)
-        match.addWords(listOfWordsPlayerB)
-
-        match.addWords(listOfWordsPlayerB)
-        match.addWords(listOfWordsPlayerA)
-
-        match.addWords(listOfWordsPlayerA)
-        match.addWords(listOfWordsPlayerB)
-
-        val result = match.winner
-
-        assertEquals(playerA.id, result)
+        assertEquals(playerAID, result)
     }
 
 

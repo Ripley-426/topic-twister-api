@@ -1,7 +1,7 @@
 package model
 
 import com.example.dependencies.IMatchDependencies
-import com.example.dependencies.TestDependencies
+import com.example.dependencies.MatchTestDependencies
 import com.example.model.Round
 import com.example.enumClasses.RoundWinner
 import com.example.enumClasses.Turn
@@ -22,13 +22,13 @@ class RoundShould {
     @BeforeEach
     fun setup(){
 
-        val testDependencies:IMatchDependencies = TestDependencies()
+        val matchTestDependencies:IMatchDependencies = MatchTestDependencies()
 
         val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
         Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
 
-        val topicRandomizer = TopicRandomizer(testDependencies.topicLoader)
-        val wordValidator = WordValidator(testDependencies.topicLoader)
+        val topicRandomizer = TopicRandomizer(matchTestDependencies.topicLoader)
+        val wordValidator = WordValidator(matchTestDependencies.topicLoader)
 
         firstRound = Round(1, topicRandomizer, mockLetterRandomizerDependency, wordValidator)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
@@ -36,7 +36,7 @@ class RoundShould {
     }
 
     @Test
-    fun `Have A Letter`() {
+    fun `have a letter`() {
 
         //When
         val result = firstRound.letter
@@ -46,13 +46,13 @@ class RoundShould {
     }
 
     @Test
-    fun `Have Topics`() {
+    fun `have five Topics`() {
 
         assertEquals(5,firstRound.readTopics().count())
     }
 
     @Test
-    fun `Add Player A Words`() {
+    fun `add playerA words`() {
 
         firstRound.addWords(listOfWordsPlayerA)
         val result = firstRound.playerAWords
@@ -62,7 +62,7 @@ class RoundShould {
     }
 
     @Test
-    fun `Validate Player A Words After Adding Them`() {
+    fun `validate playerA words after adding them`() {
 
         val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
         firstRound.addWords(listOfWordsPlayerA)
@@ -84,7 +84,7 @@ class RoundShould {
     }
 
     @Test
-    fun `Add Player B Words`() {
+    fun `assign playerB words the second time adding words`() {
 
         firstRound.addWords(listOfWordsPlayerA)
         firstRound.addWords(listOfWordsPlayerB)
@@ -94,7 +94,7 @@ class RoundShould {
     }
 
     @Test
-    fun `Validate Player B Words After Adding Them`() {
+    fun `validate playerB words after adding them`() {
 
         val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
         firstRound.addWords(listOfWordsPlayerA)
@@ -106,7 +106,7 @@ class RoundShould {
     }
 
     @Test
-    fun `Change To Finished Turn After Adding Second Words`() {
+    fun `change to turn to finished after adding second set of words`() {
 
         firstRound.addWords(listOfWordsPlayerA)
         firstRound.addWords(listOfWordsPlayerB)
@@ -117,7 +117,7 @@ class RoundShould {
     }
 
     @Test
-    fun `Calculate Score When Turn is Over`() {
+    fun `calculate score when turn is over`() {
 
         firstRound.addWords(listOfWordsPlayerA)
         firstRound.addWords(listOfWordsPlayerB)

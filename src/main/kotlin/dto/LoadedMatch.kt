@@ -64,7 +64,7 @@ class LoadedMatch(
 
     }
 
-    override fun setMatchID() {
+    override fun getMatchIDFromDB() {
     }
 
     override fun instantiateRounds() {
