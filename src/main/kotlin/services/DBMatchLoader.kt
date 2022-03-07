@@ -213,7 +213,7 @@ class DBMatchLoader: IMatchLoader {
 
     private fun convertToDBInt(value: Int?):String {
         if (value == null) { return "NULL"}
-        return value.toString()
+        return "$value"
     }
 
     private fun convertStringListToBooleanList(originalList: List<String>): List<Boolean> {
