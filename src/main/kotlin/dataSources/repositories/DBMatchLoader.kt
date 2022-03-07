@@ -7,7 +7,7 @@ import com.example.dto.LoadedMatch
 import com.example.dataSources.repositories.interfaces.IMatchLoader
 import com.example.entities.Match
 import com.example.entities.Round
-import com.example.entities.StartNewMatch
+import com.example.entities.useCases.StartNewMatch
 import java.sql.ResultSet
 
 class DBMatchLoader: IMatchLoader {
