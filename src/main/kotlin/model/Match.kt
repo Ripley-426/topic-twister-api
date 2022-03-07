@@ -7,9 +7,9 @@ import com.example.services.TopicRandomizer
 import com.example.services.WordValidator
 
 open class Match constructor (val playerAID: Int,
-                              val matchIDLoaderDependency: IMatchIDLoader,
-                              val letterRandomizerDependency: ILetterRandomizer,
-                              val topicLoaderDependency: ITopicLoader
+                              matchIDLoaderDependency: IMatchIDLoader,
+                              letterRandomizerDependency: ILetterRandomizer,
+                              topicLoaderDependency: ITopicLoader
 )
 {
     private val matchIDLoader = matchIDLoaderDependency
@@ -23,8 +23,8 @@ open class Match constructor (val playerAID: Int,
     var rounds: MutableList<Round> = mutableListOf()
 
     init {
-        getMatchIDFromDB()
-        instantiateRounds()
+        this.getMatchIDFromDB()
+        this.instantiateRounds()
     }
 
     open fun instantiateRounds() {
@@ -37,45 +37,55 @@ open class Match constructor (val playerAID: Int,
         id = matchIDLoader.getID()
     }
 
-
-    fun addWords(words: MutableList<String>): Boolean {
-        if (verifyCantAddWordsWithoutPlayerB()) { return false }
+    fun addWords(words: MutableList<String>) {
+        if (isPlayerBMissingFromMatch()) { return }
         getCurrentRound().addWords(words)
 
-        verifyMatchIsFinished()
-        return true
+        calculateWinnerIfMatchIsFinished()
     }
 
     fun addPlayerB(playerID: Int) {
         playerBID = playerID
     }
 
-    private fun verifyCantAddWordsWithoutPlayerB(): Boolean {
+    private fun isPlayerBMissingFromMatch(): Boolean {
         return playerBID == null && getCurrentRound().roundNumber == 1 && getCurrentRound().turn == Turn.SECOND
     }
 
-    private fun verifyMatchIsFinished() {
-        if (rounds.last().turn == Turn.FINISHED) {
+    private fun calculateWinnerIfMatchIsFinished() {
+        if (isLastTurnFinished()) {
             calculateWinner()
         }
     }
 
-    private fun calculateWinner() {
-        val playerAWins = rounds.count() { it.roundWinner == RoundWinner.PLAYERA }
-        val playerBWins = rounds.count() { it.roundWinner == RoundWinner.PLAYERB }
+    private fun isLastTurnFinished() = rounds.last().turn == Turn.FINISHED
 
-        winner = if(playerAWins == playerBWins){
-            0
-        } else if(playerAWins > playerBWins){
-            playerAID
-        } else {
-            playerBID
-        }
+    private fun calculateWinner() {
+        val playerAWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERA)
+        val playerBWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERB)
+
+        winner = calculateWinner(playerAWins, playerBWins)
 
     }
 
+    private fun calculateWinner(playerAWins: Int, playerBWins: Int):Int {
+        return if (playerAWins == playerBWins) {
+            0
+        } else if (playerAWins > playerBWins) {
+            playerAID
+        } else {
+            playerBID!!
+        }
+    }
+
+    private fun countNumberOfTurnsWonByPlayer(enum: RoundWinner) = rounds.count() { it.roundWinner == enum }
+
     fun getCurrentRound(): Round {
-        return rounds.first() { it.turn != Turn.FINISHED }
+        return try {
+            rounds.first() { it.turn != Turn.FINISHED }
+        } catch (e:NoSuchElementException) {
+            rounds.last()
+        }
     }
 
     fun currentTurnPlayerID(): Int? {
