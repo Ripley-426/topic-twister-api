@@ -1,4 +1,4 @@
-package model
+package entities
 
 import com.example.dataSources.repositories.interfaces.IMatchDependencies
 import com.example.dataSources.repositories.MatchTestDependencies

@@ -1,4 +1,4 @@
-package services
+package entities.useCases
 
 import com.example.entities.useCases.LetterRandomizer
 import org.junit.jupiter.api.Assertions.*

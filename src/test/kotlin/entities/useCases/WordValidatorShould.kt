@@ -1,4 +1,4 @@
-package services
+package entities.useCases
 
 import com.example.entities.dataClasses.TopicAndWord
 import com.example.entities.useCases.WordValidator

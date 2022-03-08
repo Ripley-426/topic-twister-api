@@ -1,4 +1,4 @@
-package model
+package entities
 
 import com.example.entities.enumClasses.Turn
 import com.example.entities.Match
