@@ -20,11 +20,6 @@ class AddWordsToMatch() {
         if (wordsList.size < 6){for (i in wordsList.size..4) {wordsList.add("")}}
         matchToPlay.addWords(wordsList)
 
-        if (secondWords != "") {
-            var secondWordsList = secondWords.split(",").toMutableList()
-            matchToPlay.addWords(secondWordsList)
-        }
-
         DBMatchLoader().updateMatch(matchToPlay)
     }
 

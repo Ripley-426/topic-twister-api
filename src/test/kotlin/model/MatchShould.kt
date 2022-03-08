@@ -77,23 +77,7 @@ class MatchShould {
         assertEquals(2, result)
     }
 
-    /*
-    @Test
-    fun `Become complete when all sets of words are added` () {
-        match.addWords(listOfWordsPlayerA)
-        match.addWords(listOfWordsPlayerB)
 
-        match.addWords(listOfWordsPlayerB)
-        match.addWords(listOfWordsPlayerA)
-
-        match.addWords(listOfWordsPlayerA)
-        match.addWords(listOfWordsPlayerB)
-
-        val result = match.winner
-
-        assertNotNull(result)
-    }
-*/
     @Test
     fun `Calculate winner when match is completed` () {
 
