@@ -1,6 +1,6 @@
 package entities.useCases
 
-import com.example.entities.useCases.LetterRandomizer
+import com.example.letterRandomizer.LetterRandomizer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

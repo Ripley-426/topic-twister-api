@@ -1,8 +1,8 @@
 package entities.useCases
 
-import com.example.entities.dataClasses.TopicAndWord
-import com.example.entities.useCases.WordValidator
-import com.example.dataSources.repositories.InMemoryTopicLoader
+import com.example.wordValidator.domain.TopicAndWord
+import com.example.wordValidator.domain.WordValidator
+import com.example.match.infrastructure.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

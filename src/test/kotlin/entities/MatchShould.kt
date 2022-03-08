@@ -1,14 +1,14 @@
 package entities
 
-import com.example.entities.enumClasses.Turn
-import com.example.entities.Match
-import com.example.dataSources.repositories.DBMatchIDLoader
-import com.example.dataSources.repositories.InMemoryTopicLoader
+import com.example.match.domain.enumClasses.Turn
+import com.example.match.domain.Match
+import com.example.match.infrastructure.DBMatchIDLoader
+import com.example.match.infrastructure.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import com.example.entities.useCases.LetterRandomizer
+import com.example.letterRandomizer.LetterRandomizer
 
 class MatchShould {
 

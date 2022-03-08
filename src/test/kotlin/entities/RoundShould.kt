@@ -1,17 +1,17 @@
 package entities
 
-import com.example.dataSources.repositories.interfaces.IMatchDependencies
-import com.example.dataSources.repositories.MatchTestDependencies
-import com.example.entities.Round
-import com.example.entities.enumClasses.RoundWinner
-import com.example.entities.enumClasses.Turn
-import com.example.entities.useCases.TopicRandomizer
-import com.example.entities.useCases.WordValidator
+import com.example.match.domain.IMatchDependencies
+import com.example.match.infrastructure.MatchTestDependencies
+import com.example.match.domain.Round
+import com.example.match.domain.enumClasses.RoundWinner
+import com.example.match.domain.enumClasses.Turn
+import com.example.topic.application.TopicRandomizer
+import com.example.wordValidator.domain.WordValidator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import com.example.entities.useCases.LetterRandomizer
+import com.example.letterRandomizer.LetterRandomizer
 
 class RoundShould {
 
