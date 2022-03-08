@@ -57,7 +57,8 @@ class DBMatchLoader: IMatchLoader {
             val match = createLoadedMatchFromDBObject(dbMatch)
             addPlayerB(match.id, playerID)
             val updatedMatchWithPlayerB = loadMatch(match.id)
-            matchToSend = MatchToSend(updatedMatchWithPlayerB)
+            matchToSend = MatchToSend()
+            matchToSend.convertMatch(updatedMatchWithPlayerB)
 
         } else {
 
@@ -130,7 +131,9 @@ class DBMatchLoader: IMatchLoader {
         val rematch = startRematch.createNewMatch(playerID)
         addPlayerB(rematch.matchid, opponentID)
         val updatedRematch = loadMatch(rematch.matchid)
-        return MatchToSend(updatedRematch)
+        val matchToSend = MatchToSend()
+        matchToSend.convertMatch(updatedRematch)
+        return matchToSend
     }
 
     override fun addPlayerB(matchID: Int, playerID: Int) {

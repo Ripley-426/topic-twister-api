@@ -21,6 +21,8 @@ class StartNewMatch {
 
         val newMatch = Match(playerAID, matchIDLoader, letterRandomizer, topicLoader)
         matchLoader.saveMatch(newMatch)
-        return MatchToSend(newMatch)
+        val matchToSend = MatchToSend()
+        matchToSend.convertMatch(matchLoader.loadMatch(newMatch.id))
+        return matchToSend
     }
 }
