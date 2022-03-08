@@ -1,6 +1,5 @@
 package model
 
-import com.example.dependencies.IMatchDependencies
 import com.example.dependencies.TestDependencies
 import com.example.model.Round
 import com.example.enumClasses.RoundWinner
@@ -22,7 +21,7 @@ class RoundShould {
     @BeforeEach
     fun setup(){
 
-        val testDependencies:IMatchDependencies = TestDependencies()
+        val testDependencies = TestDependencies()
 
         val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
         Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')

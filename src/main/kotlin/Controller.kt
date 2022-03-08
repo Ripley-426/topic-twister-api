@@ -79,7 +79,8 @@ class APIController {
     @GetMapping("match/GetMatchWithID")
     fun getMatchWithID(@RequestParam matchID: Int): String {
         val loadedMatch = matchLoader.loadMatch(matchID)
-        val matchToSend = MatchToSend(loadedMatch)
+        val matchToSend = MatchToSend()
+        matchToSend.convertMatch(loadedMatch)
         return gson.toJson(matchToSend)
     }
 
@@ -89,7 +90,8 @@ class APIController {
         addWordsToMatch.addWords(playerID, matchID, words)
 
         val loadedMatch = matchLoader.loadMatch(matchID)
-        val matchToSend = MatchToSend(loadedMatch)
+        val matchToSend = MatchToSend()
+        matchToSend.convertMatch(loadedMatch)
         return gson.toJson(matchToSend)
     }
 
@@ -105,7 +107,9 @@ class APIController {
         val matchesList = mutableListOf<MatchToSend>()
 
         matches.forEach {
-            matchesList.add(MatchToSend(it))
+            val matchToSend = MatchToSend()
+            matchToSend.convertMatch(it)
+            matchesList.add(matchToSend)
         }
 
         return gson.toJson(matchesList)

@@ -1,16 +1,29 @@
 package com.example.dao
 
+import com.example.enumClasses.RoundWinner
+import com.example.enumClasses.Turn
 import com.example.model.Round
 
-data class RoundToSend(val round: Round) {
-    var roundNumber = round.roundNumber
-    var letter = round.letter
-    var topics = round.topics
-    var playerAWords = round.playerAWords
-    var playerBWords = round.playerBWords
-    var playerAWordsValidation = round.playerAWordsValidation
-    var playerBWordsValidation = round.playerBWordsValidation
+data class RoundToSend(var roundNumber: Int = 0) {
+    var letter: Char = 'A'
+    var topics: List<String> = arrayListOf()
+    var playerAWords: MutableList<String> = mutableListOf()
+    var playerBWords: MutableList<String> = mutableListOf()
+    var playerAWordsValidation = mutableListOf<Boolean>()
+    var playerBWordsValidation = mutableListOf<Boolean>()
 
-    var turn = round.turn
-    var roundWinner = round.roundWinner
+    var turn: Turn = Turn.FIRST
+    var roundWinner: RoundWinner = RoundWinner.NONE
+
+    fun convertRound(round: Round) {
+        roundNumber = round.roundNumber
+        letter = round.letter
+        topics = round.topics
+        playerAWords = round.playerAWords
+        playerBWords = round.playerBWords
+        playerAWordsValidation = round.playerAWordsValidation
+        playerBWordsValidation = round.playerBWordsValidation
+        turn = round.turn
+        roundWinner = round.roundWinner
+    }
 }
