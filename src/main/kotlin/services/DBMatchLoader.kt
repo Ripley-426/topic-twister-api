@@ -83,20 +83,20 @@ class DBMatchLoader: IMatchLoader {
 
         dbMatch.next()
 
-        val matchToSend:MatchToSend
-
-        if (dbMatch.row == 1) {
+        val matchToSend:MatchToSend = if (dbMatch.row == 1) {
 
             val match = createLoadedMatchFromDBObject(dbMatch)
-            addPlayerB(match.id, playerID)
-            val updatedMatch = loadMatch(match.id)
-            matchToSend = MatchToSend(updatedMatch)
 
+            addPlayerB(match.id, playerID)
+
+            val updatedMatch = loadMatch(match.id)
+
+            MatchToSend(updatedMatch)
         } else {
 
             val startNewMatch = StartNewMatch()
-            matchToSend = startNewMatch.createNewMatch(playerID)
 
+            startNewMatch.createNewMatch(playerID)
         }
 
         return matchToSend
