@@ -1,7 +1,7 @@
 package com.example
-import com.example.dao.MatchToSend
-import com.example.dataSources.repositories.DBMatchLoader
-import com.example.entities.useCases.AddWordsToMatch
+import com.example.match.dao.MatchToSend
+import com.example.match.infrastructure.DBMatchLoader
+import com.example.match.application.AddWordsToMatch
 import com.google.gson.Gson
 import org.springframework.web.bind.annotation.*
 
