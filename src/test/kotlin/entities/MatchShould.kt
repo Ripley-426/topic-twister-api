@@ -95,6 +95,19 @@ class MatchShould {
         assertEquals(playerAID, result)
     }
 
+    @Test
+    fun `finish when two rounds are won` () {
+        match.addWords(listOfWordsPlayerA)
+        match.addPlayerB(playerBID)
+        match.addWords(listOfWordsPlayerB)
+
+        match.addWords(listOfWordsPlayerB)
+        match.addWords(listOfWordsPlayerA)
+
+        val result = match.winner
+        assertEquals(playerAID, result)
+    }
+
 
 
 

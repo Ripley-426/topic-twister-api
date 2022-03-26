@@ -45,6 +45,10 @@ open class Match constructor (val playerAID: Int,
         calculateWinnerIfMatchIsFinished()
     }
 
+    fun addWordsToFinishMatch(words: MutableList<String>){
+        getCurrentRound().addWords(words)
+    }
+
     fun addPlayerB(playerID: Int) {
         playerBID = playerID
     }
@@ -54,9 +58,27 @@ open class Match constructor (val playerAID: Int,
     }
 
     private fun calculateWinnerIfMatchIsFinished() {
+        if (playerHasTwoWins()){
+            completeMatch()
+        }
         if (isLastTurnFinished()) {
             calculateWinner()
         }
+    }
+
+    private fun completeMatch() {
+        val list : MutableList<String> = mutableListOf("A", "A", "A", "A", "A")
+        addWordsToFinishMatch(list)
+        addWordsToFinishMatch(list)
+    }
+
+    private fun playerHasTwoWins(): Boolean {
+        val playerAWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERA)
+        val playerBWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERB)
+        if (playerAWins >= 2 || playerBWins >= 2){
+            return true
+        }
+        return false
     }
 
     private fun isLastTurnFinished() = rounds.last().turn == Turn.FINISHED
