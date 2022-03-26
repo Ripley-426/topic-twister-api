@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import com.example.letterRandomizer.LetterRandomizer
+import com.example.wordValidator.application.ValidateWords
 
 class RoundShould {
 
@@ -28,7 +29,7 @@ class RoundShould {
         Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
 
         val topicRandomizer = TopicRandomizer(matchTestDependencies.topicLoader)
-        val wordValidator = WordValidator(matchTestDependencies.topicLoader)
+        val wordValidator = ValidateWords(matchTestDependencies.topicLoader)
 
         firstRound = Round(1, topicRandomizer, mockLetterRandomizerDependency, wordValidator)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")

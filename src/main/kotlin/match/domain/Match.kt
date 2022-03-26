@@ -6,7 +6,6 @@ import com.example.match.domain.enumClasses.Turn
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords
-import com.example.wordValidator.domain.WordValidator
 
 open class Match constructor (val playerAID: Int,
                               matchIDLoaderDependency: IMatchIDLoader,

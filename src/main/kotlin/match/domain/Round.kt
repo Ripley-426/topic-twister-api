@@ -7,11 +7,13 @@ import com.example.match.domain.enumClasses.Turn
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.topic.domain.ITopicRandomizer
 import com.example.wordValidator.domain.IWordValidator
+import com.example.wordValidator.domain.WordValidator
 
-open class Round (val roundNumber: Int,
-                  topicRandomizerDependency: ITopicRandomizer,
-                  letterRandomizerDependency: ILetterRandomizer,
-                  wordValidatorDependency: IWordValidator
+open class Round(
+    val roundNumber: Int,
+    topicRandomizerDependency: ITopicRandomizer,
+    letterRandomizerDependency: ILetterRandomizer,
+    wordValidatorDependency: IWordValidator
 )
 {
     var letter: Char = 'A'
