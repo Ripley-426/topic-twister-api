@@ -2,13 +2,12 @@ package com.example.match.application
 
 import com.example.match.dao.MatchToSend
 import com.example.match.infrastructure.DBMatchLoader
-import com.example.match.domain.IMatchIDLoader
-import com.example.match.domain.IMatchLoader
 import com.example.topic.domain.ITopicLoader
-import com.example.match.domain.IMatchDependencies
 import com.example.match.infrastructure.MatchDBDependencies
-import com.example.match.domain.Match
 import com.example.letterRandomizer.ILetterRandomizer
+import com.example.match.domain.*
+import com.example.topic.application.TopicRandomizer
+import com.example.wordValidator.application.ValidateWords
 
 class StartNewMatch {
     private val dependencies: IMatchDependencies = MatchDBDependencies()
@@ -16,10 +15,13 @@ class StartNewMatch {
     private val letterRandomizer: ILetterRandomizer = dependencies.letterRandomizer
     private val topicLoader: ITopicLoader = dependencies.topicLoader
     private val matchLoader: IMatchLoader = DBMatchLoader()
+    private val topicRandomizer = TopicRandomizer(topicLoader)
+    private val wordValidator = ValidateWords(topicLoader)
 
     fun createNewMatch(playerAID: Int): MatchToSend {
 
-        val newMatch = Match(playerAID, matchIDLoader, letterRandomizer, topicLoader)
+        val round = Round(1, topicRandomizer, letterRandomizer, wordValidator)
+        val newMatch = Match(playerAID, round, matchIDLoader)
         matchLoader.saveMatch(newMatch)
         val matchToSend = MatchToSend()
         matchToSend.convertMatch(matchLoader.loadMatch(newMatch.id))

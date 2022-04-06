@@ -3,17 +3,18 @@ package com.example.match.dto
 import com.example.match.infrastructure.MatchDBDependencies
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.match.domain.IMatchIDLoader
+import com.example.match.domain.IRound
 import com.example.topic.domain.ITopicLoader
 import com.example.match.domain.Match
+import com.example.match.domain.Round
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords
 import com.example.wordValidator.domain.WordValidator
 
 class LoadedMatch(
     playerAID: Int,
+    round: IRound,
     matchIDLoaderDependency: IMatchIDLoader,
-    letterRandomizerDependency: ILetterRandomizer,
-    topicLoaderDependency: ITopicLoader,
     loadedId: Int,
     loadedPlayerBID:Int? = null,
     loadedWinner:Int? = null,
@@ -41,7 +42,7 @@ class LoadedMatch(
     loadedRound3PlayerBWordsValidation:List<Boolean>,
     loadedRound3Turn: Int,
     loadedRound3Winner: Int
-) : Match(playerAID, matchIDLoaderDependency, letterRandomizerDependency, topicLoaderDependency) {
+) : Match(playerAID, round, matchIDLoaderDependency) {
 
     init {
 

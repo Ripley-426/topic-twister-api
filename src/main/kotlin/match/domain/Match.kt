@@ -1,23 +1,13 @@
 package com.example.match.domain
 
-import com.example.topic.domain.ITopicLoader
 import com.example.match.domain.enumClasses.RoundWinner
 import com.example.match.domain.enumClasses.Turn
-import com.example.letterRandomizer.ILetterRandomizer
-import com.example.topic.application.TopicRandomizer
-import com.example.wordValidator.application.ValidateWords
 
 open class Match constructor (val playerAID: Int,
-                              matchIDLoaderDependency: IMatchIDLoader,
-                              letterRandomizerDependency: ILetterRandomizer,
-                              topicLoaderDependency: ITopicLoader
+                              val round: IRound,
+                              val matchIDLoader: IMatchIDLoader
 )
 {
-    private val matchIDLoader = matchIDLoaderDependency
-    private val letterRandomizer = letterRandomizerDependency
-    private val topicRandomizer = TopicRandomizer(topicLoaderDependency)
-    private val wordValidator = ValidateWords(topicLoaderDependency)
-
     var id: Int = 0
     var playerBID: Int? = null
     var winner: Int? = null
@@ -30,7 +20,7 @@ open class Match constructor (val playerAID: Int,
 
     open fun instantiateRounds() {
         for (i in 1..3) {
-            rounds.add(Round(i, topicRandomizer, letterRandomizer, wordValidator))
+            rounds.add(round.getRound(i))
         }
     }
 

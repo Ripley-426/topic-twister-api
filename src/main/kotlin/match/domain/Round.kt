@@ -7,20 +7,16 @@ import com.example.match.domain.enumClasses.Turn
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.topic.domain.ITopicRandomizer
 import com.example.wordValidator.domain.IWordValidator
-import com.example.wordValidator.domain.WordValidator
 
 open class Round(
     val roundNumber: Int,
-    topicRandomizerDependency: ITopicRandomizer,
-    letterRandomizerDependency: ILetterRandomizer,
-    wordValidatorDependency: IWordValidator
-)
-{
+    val topicRandomizer: ITopicRandomizer,
+    val letterRandomizer: ILetterRandomizer,
+    val wordsValidator: IWordValidator
+
+):IRound {
     var letter: Char = 'A'
     var topics: List<String> = arrayListOf()
-    private val topicRandomizer = topicRandomizerDependency
-    private val letterRandomizer = letterRandomizerDependency
-    private val wordsValidator = wordValidatorDependency
 
     var playerAWords: MutableList<String> = mutableListOf()
     var playerBWords: MutableList<String> = mutableListOf()
@@ -133,5 +129,9 @@ open class Round(
 
     fun debugSetLetter() {
         letter = 'A'
+    }
+
+    override fun getRound(i: Int): Round {
+        return Round (i, topicRandomizer, letterRandomizer, wordsValidator)
     }
 }
