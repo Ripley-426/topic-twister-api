@@ -127,10 +127,6 @@ open class Round(
         }
     }
 
-    fun debugSetLetter() {
-        letter = 'A'
-    }
-
     override fun getRound(i: Int): Round {
         return Round (i, topicRandomizer, letterRandomizer, wordsValidator)
     }

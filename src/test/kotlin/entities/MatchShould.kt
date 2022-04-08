@@ -9,6 +9,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import com.example.letterRandomizer.LetterRandomizer
+import com.example.match.domain.Round
+import com.example.topic.application.TopicRandomizer
+import com.example.wordValidator.application.ValidateWords
 
 class MatchShould {
 
@@ -30,9 +33,11 @@ class MatchShould {
 
         val topicLoaderDependency = InMemoryTopicLoader()
 
+        val roundDependency = Round(0, TopicRandomizer(topicLoaderDependency), mockLetterRandomizerDependency, ValidateWords(topicLoaderDependency))
+
         playerAID = 1
         playerBID = 2
-        match = Match(playerAID, mockMatchIDLoaderDependency, mockLetterRandomizerDependency, topicLoaderDependency)
+        match = Match(playerAID, roundDependency, mockMatchIDLoaderDependency)
         listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
