@@ -9,37 +9,31 @@ import org.junit.jupiter.api.Test
 class WordValidatorShould {
 
     private val topicLoaderDependency = InMemoryTopicLoader()
-    private val sut = WordValidator(topicLoaderDependency)
+    private val wordValidator = WordValidator(topicLoaderDependency)
 
     @Test
     fun `validate a correct word and return true`() {
-
-        val result = sut.validate("ANIMALS", "ANACONDA")
-
+        val result = wordValidator.validate("ANIMALS", "ANACONDA")
         assertTrue(result)
     }
 
     @Test
     fun `validate an incorrect word and return false`() {
-
-        val result = sut.validate("ANIMALS", "ANACOND")
-
+        val result = wordValidator.validate("ANIMALS", "ANACOND")
         assertFalse(result)
     }
 
     @Test
     fun `return false when topic does not exist`() {
-
-        val result = sut.validate("AAAAAA", "AAAAAA")
+        val result = wordValidator.validate("AAAAAA", "AAAAAA")
+        assertFalse(result)
     }
 
     @Test
     fun `return false when a word has a different starting letter`() {
         val topicAndWord= TopicAndWord("ANIMALS", "ANACONDA")
         val letter = 'B'
-
-        val result = sut.validateAnswer(topicAndWord, letter)
-
+        val result = wordValidator.validateAnswer(topicAndWord, letter)
         assertFalse(result)
     }
 

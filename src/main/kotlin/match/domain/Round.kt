@@ -39,7 +39,7 @@ open class Round(
         return topics
     }
 
-    fun addWords(wordsList: MutableList<String>) {
+    fun addWordsAndChangeTurn(wordsList: MutableList<String>) {
 
         setWordsToPlayersAndValidate(wordsList)
 
@@ -111,14 +111,20 @@ open class Round(
     }
 
     private fun calculateRoundScore(){
-        roundWinner = if (playerAWordsValidation.count { it } > playerBWordsValidation.count { it }) {
+        roundWinner = if (playerAHasMoreCorrectWordsThanPlayerB()) {
             RoundWinner.PLAYERA
-        } else if (playerAWordsValidation.count { it } < playerBWordsValidation.count { it }) {
+        } else if (playerAHasLessCorrectWordsThanPlayerB()) {
             RoundWinner.PLAYERB
         } else {
             RoundWinner.DRAW
         }
     }
+
+    private fun playerAHasLessCorrectWordsThanPlayerB() =
+        playerAWordsValidation.count { it } < playerBWordsValidation.count { it }
+
+    private fun playerAHasMoreCorrectWordsThanPlayerB() =
+        playerAWordsValidation.count { it } > playerBWordsValidation.count { it }
 
     private fun changeTurn() {
         when (turn) {

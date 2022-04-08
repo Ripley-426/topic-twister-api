@@ -11,16 +11,12 @@ class LetterRandomizerShould {
 
     @Test
     fun `return a letter`() {
-
         assertTrue(result.isLetter())
-
     }
 
     @Test
     fun `be uppercase`() {
-
         assertTrue(result.isUpperCase())
-
     }
 
 }

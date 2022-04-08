@@ -6,7 +6,6 @@ import com.example.match.domain.Round
 import com.example.match.domain.enumClasses.RoundWinner
 import com.example.match.domain.enumClasses.Turn
 import com.example.topic.application.TopicRandomizer
-import com.example.wordValidator.domain.WordValidator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,35 +37,28 @@ class RoundShould {
 
     @Test
     fun `have a letter`() {
-
-        //When
         val result = firstRound.letter
 
-        //Then
         assertTrue(result.isLetter())
     }
 
     @Test
     fun `have five Topics`() {
-
         assertEquals(5,firstRound.readTopics().count())
     }
 
     @Test
     fun `add playerA words`() {
-
-        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
         val result = firstRound.playerAWords
-
 
         assertEquals(listOfWordsPlayerA, result)
     }
 
     @Test
     fun `validate playerA words after adding them`() {
-
         val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
-        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
 
         val result = firstRound.playerAWordsValidation
 
@@ -76,8 +68,7 @@ class RoundShould {
 
     @Test
     fun `Change To Second Turn After Adding First Words`() {
-
-        firstRound.addWords(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
 
         val result = firstRound.turn
 
@@ -86,9 +77,8 @@ class RoundShould {
 
     @Test
     fun `assign playerB words the second time adding words`() {
-
-        firstRound.addWords(listOfWordsPlayerA)
-        firstRound.addWords(listOfWordsPlayerB)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
         val result = firstRound.playerBWords
 
         assertEquals(listOfWordsPlayerB, result)
@@ -96,10 +86,9 @@ class RoundShould {
 
     @Test
     fun `validate playerB words after adding them`() {
-
         val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
-        firstRound.addWords(listOfWordsPlayerA)
-        firstRound.addWords(listOfWordsPlayerB)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
 
         val result = firstRound.playerBWordsValidation
 
@@ -108,9 +97,8 @@ class RoundShould {
 
     @Test
     fun `change to turn to finished after adding second set of words`() {
-
-        firstRound.addWords(listOfWordsPlayerA)
-        firstRound.addWords(listOfWordsPlayerB)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
 
         val result = firstRound.turn
 
@@ -119,9 +107,8 @@ class RoundShould {
 
     @Test
     fun `calculate score when turn is over`() {
-
-        firstRound.addWords(listOfWordsPlayerA)
-        firstRound.addWords(listOfWordsPlayerB)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
+        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
 
         val result = firstRound.roundWinner
 

@@ -14,8 +14,8 @@ open class Match constructor (val playerAID: Int,
     var rounds: MutableList<Round> = mutableListOf()
 
     init {
-        this.getMatchIDFromDB()
-        this.instantiateRounds()
+        getMatchIDFromDB()
+        instantiateRounds()
     }
 
     open fun instantiateRounds() {
@@ -30,13 +30,13 @@ open class Match constructor (val playerAID: Int,
 
     fun addWords(words: MutableList<String>) {
         if (isPlayerBMissingFromMatch()) { return }
-        getCurrentRound().addWords(words)
+        getCurrentRound().addWordsAndChangeTurn(words)
 
         calculateWinnerIfMatchIsFinished()
     }
 
     fun addWordsToFinishMatch(words: MutableList<String>){
-        getCurrentRound().addWords(words)
+        getCurrentRound().addWordsAndChangeTurn(words)
     }
 
     fun addPlayerB(playerID: Int) {
@@ -103,11 +103,13 @@ open class Match constructor (val playerAID: Int,
 
     fun currentTurnPlayerID(): Int? {
         val currentRound = getCurrentRound()
-        return if (currentRound.roundNumber % 2 == 0) {
+        return if (isCurrentRoundEven(currentRound)) {
             if (currentRound.turn == Turn.FIRST) { playerBID } else { playerAID }
         } else {
             if (currentRound.turn == Turn.FIRST) { playerAID } else { playerBID }
         }
     }
+
+    private fun isCurrentRoundEven(currentRound: Round) = currentRound.roundNumber % 2 == 0
 
 }
