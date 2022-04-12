@@ -2,18 +2,19 @@ package entities
 
 import com.example.match.domain.Match
 import com.example.match.infrastructure.DBMatchIDLoader
-import com.example.match.infrastructure.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import com.example.letterRandomizer.LetterRandomizer
-import com.example.match.domain.Round
+import com.example.match.domain.RoundFactory
+import com.example.match.infrastructure.MatchTestDependencies
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords
 
 class MatchShould {
 
+    private val dependencies = MatchTestDependencies()
     private lateinit var match: Match
     private lateinit var listOfWordsThreeCorrect: MutableList<String>
     private lateinit var listOfWordsTwoCorrect: MutableList<String>
@@ -30,13 +31,13 @@ class MatchShould {
         val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
         Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
 
-        val topicLoaderDependency = InMemoryTopicLoader()
+        val topicLoaderDependency = dependencies.topicLoader
 
-        val roundDependency = Round(0, TopicRandomizer(topicLoaderDependency), mockLetterRandomizerDependency, ValidateWords(topicLoaderDependency))
+        val roundsFactory = RoundFactory(TopicRandomizer(topicLoaderDependency), mockLetterRandomizerDependency, ValidateWords(topicLoaderDependency) )
 
         playerAID = 1
         playerBID = 2
-        match = Match(playerAID, roundDependency, mockMatchIDLoaderDependency)
+        match = Match(playerAID, roundsFactory, mockMatchIDLoaderDependency)
         listOfWordsThreeCorrect = mutableListOf("A", "B", "A", "B", "A")
         listOfWordsTwoCorrect = mutableListOf("B", "B", "A", "B", "A")
     }
@@ -103,7 +104,7 @@ class MatchShould {
     }
 
     @Test
-    fun `finish when two rounds are won` () {
+    fun `finish when two rounds are won by player A` () {
         match.addWords(listOfWordsThreeCorrect)
         match.addPlayerB(playerBID)
         match.addWords(listOfWordsTwoCorrect)
@@ -115,7 +116,16 @@ class MatchShould {
         assertEquals(playerAID, result)
     }
 
+    @Test
+    fun `finish when two rounds are won by player B` () {
+        match.addWords(listOfWordsTwoCorrect)
+        match.addPlayerB(playerBID)
+        match.addWords(listOfWordsThreeCorrect)
 
+        match.addWords(listOfWordsThreeCorrect)
+        match.addWords(listOfWordsTwoCorrect)
 
-
+        val result = match.winner
+        assertEquals(playerBID, result)
+    }
 }

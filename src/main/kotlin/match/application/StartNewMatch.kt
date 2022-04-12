@@ -11,17 +11,17 @@ import com.example.wordValidator.application.ValidateWords
 
 class StartNewMatch {
     private val dependencies: IMatchDependencies = MatchDBDependencies()
-    private val matchIDLoader: IMatchIDLoader = dependencies.matchIDLoader
-    private val letterRandomizer: ILetterRandomizer = dependencies.letterRandomizer
-    private val topicLoader: ITopicLoader = dependencies.topicLoader
     private val matchLoader: IMatchLoader = DBMatchLoader()
-    private val topicRandomizer = TopicRandomizer(topicLoader)
-    private val wordValidator = ValidateWords(topicLoader)
+    private val matchIDLoader: IMatchIDLoader = dependencies.matchIDLoader
+
+    private val topicRandomizer = TopicRandomizer(dependencies.topicLoader)
+    private val wordValidator = ValidateWords(dependencies.topicLoader)
+    private val letterRandomizer: ILetterRandomizer = dependencies.letterRandomizer
 
     fun createNewMatch(playerAID: Int): MatchToSend {
 
-        val round = Round(1, topicRandomizer, letterRandomizer, wordValidator)
-        val newMatch = Match(playerAID, round, matchIDLoader)
+        val roundsFactory = RoundFactory(topicRandomizer, letterRandomizer, wordValidator)
+        val newMatch = Match(playerAID, roundsFactory, matchIDLoader)
         matchLoader.saveMatch(newMatch)
         val matchToSend = MatchToSend()
         matchToSend.convertMatch(matchLoader.loadMatch(newMatch.id))

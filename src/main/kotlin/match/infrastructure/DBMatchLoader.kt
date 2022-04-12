@@ -8,9 +8,9 @@ import com.example.match.domain.IMatchLoader
 import com.example.match.domain.Match
 import com.example.match.domain.Round
 import com.example.match.application.StartNewMatch
+import com.example.match.domain.RoundFactory
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords
-import com.example.wordValidator.domain.WordValidator
 import java.sql.ResultSet
 
 class DBMatchLoader: IMatchLoader {
@@ -114,9 +114,9 @@ class DBMatchLoader: IMatchLoader {
 
         val dbDependencies = MatchDBDependencies()
 
-        val roundDependency = Round(0, TopicRandomizer(dbDependencies.topicLoader), dbDependencies.letterRandomizer, ValidateWords(dbDependencies.topicLoader));
+        val roundFactory = RoundFactory(TopicRandomizer(dbDependencies.topicLoader), dbDependencies.letterRandomizer, ValidateWords(dbDependencies.topicLoader));
 
-        return LoadedMatch (playeraid, roundDependency, dbDependencies.matchIDLoader, matchid, playerbid,
+        return LoadedMatch (playeraid, roundFactory, dbDependencies.matchIDLoader, matchid, playerbid,
             winner, round1Letter, round1Topics, round1PlayerAWords, round1PlayerBWords, round1PlayerAWordsValidation,
             round1PlayerBWordsValidation, round1Turn, round1Winner,
             round2Letter, round2Topics, round2PlayerAWords, round2PlayerBWords, round2PlayerAWordsValidation,

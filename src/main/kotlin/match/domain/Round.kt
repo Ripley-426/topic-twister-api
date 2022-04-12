@@ -1,20 +1,16 @@
 package com.example.match.domain
 
-import com.example.wordValidator.domain.TopicAndWord
-import com.example.wordValidator.domain.ValidationContainer
 import com.example.match.domain.enumClasses.RoundWinner
 import com.example.match.domain.enumClasses.Turn
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.topic.domain.ITopicRandomizer
-import com.example.wordValidator.domain.IWordValidator
+import com.example.wordValidator.domain.IValidateWords
 
 open class Round(
     val roundNumber: Int,
-    val topicRandomizer: ITopicRandomizer,
-    val letterRandomizer: ILetterRandomizer,
-    val wordsValidator: IWordValidator
+    val wordsValidator: IValidateWords
 
-):IRound {
+){
     var letter: Char = 'A'
     var topics: List<String> = arrayListOf()
 
@@ -25,15 +21,6 @@ open class Round(
 
     var turn: Turn = Turn.FIRST
     var roundWinner: RoundWinner = RoundWinner.NONE
-
-    init {
-        instantiateTopicsAndLetter()
-    }
-
-    open fun instantiateTopicsAndLetter() {
-        topics = topicRandomizer.getRandomTopics(5)
-        letter = letterRandomizer.getRandomLetter()
-    }
 
     fun readTopics(): List<String> {
         return topics
@@ -81,34 +68,15 @@ open class Round(
 
     private fun setWordsToPlayerAAndValidate(wordsList: MutableList<String>){
         playerAWords = wordsList
-        validatePlayerAWords()
-    }
-
-    private fun validatePlayerAWords() {
-        playerAWordsValidation = wordsValidator.getValidationResult(convertToValidationContainer(playerAWords))
+        playerAWordsValidation = validateWords(playerAWords)
     }
 
     private fun setWordsToPlayerBAndValidate(wordsList: MutableList<String>){
         playerBWords = wordsList
-        validatePlayerBWords()
+        playerBWordsValidation = validateWords(playerBWords)
     }
 
-    private fun validatePlayerBWords() {
-        playerBWordsValidation = wordsValidator.getValidationResult(convertToValidationContainer(playerBWords))
-    }
-
-    private fun convertToValidationContainer(wordList: MutableList<String>): ValidationContainer {
-        var topicAndWordList: MutableList<TopicAndWord> = mutableListOf()
-        topics.forEachIndexed { index, element ->
-            if (index >= wordList.size) {
-                topicAndWordList.add(TopicAndWord(element, ""))
-            } else {
-                topicAndWordList.add(TopicAndWord(element, wordList[index]))
-            }
-        }
-
-        return ValidationContainer(letter, topicAndWordList)
-    }
+    private fun validateWords(wordsList: MutableList<String>) = wordsValidator.getValidationResult(letter, topics, wordsList)
 
     private fun calculateRoundScore(){
         roundWinner = if (playerAHasMoreCorrectWordsThanPlayerB()) {
@@ -120,20 +88,16 @@ open class Round(
         }
     }
 
-    private fun playerAHasLessCorrectWordsThanPlayerB() =
-        playerAWordsValidation.count { it } < playerBWordsValidation.count { it }
-
     private fun playerAHasMoreCorrectWordsThanPlayerB() =
         playerAWordsValidation.count { it } > playerBWordsValidation.count { it }
+
+    private fun playerAHasLessCorrectWordsThanPlayerB() =
+        playerAWordsValidation.count { it } < playerBWordsValidation.count { it }
 
     private fun changeTurn() {
         when (turn) {
             Turn.FIRST -> turn = Turn.SECOND
             Turn.SECOND -> turn = Turn.FINISHED
         }
-    }
-
-    override fun getRound(i: Int): Round {
-        return Round (i, topicRandomizer, letterRandomizer, wordsValidator)
     }
 }

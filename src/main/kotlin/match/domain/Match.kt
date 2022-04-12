@@ -4,7 +4,7 @@ import com.example.match.domain.enumClasses.RoundWinner
 import com.example.match.domain.enumClasses.Turn
 
 open class Match constructor (val playerAID: Int,
-                              val round: IRound,
+                              val roundsFactory: IRoundFactory,
                               val matchIDLoader: IMatchIDLoader
 )
 {
@@ -14,18 +14,16 @@ open class Match constructor (val playerAID: Int,
     var rounds: MutableList<Round> = mutableListOf()
 
     init {
-        getMatchIDFromDB()
+        getMatchID()
         instantiateRounds()
     }
 
-    open fun instantiateRounds() {
-        for (i in 1..3) {
-            rounds.add(round.getRound(i))
-        }
+    private fun getMatchID() {
+        id = matchIDLoader.getID()
     }
 
-    open fun getMatchIDFromDB() {
-        id = matchIDLoader.getID()
+    open fun instantiateRounds() {
+        rounds = roundsFactory.getRounds(3)
     }
 
     fun addWords(words: MutableList<String>) {

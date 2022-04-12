@@ -2,7 +2,7 @@ package entities.useCases
 
 import com.example.wordValidator.domain.TopicAndWord
 import com.example.wordValidator.domain.WordValidator
-import com.example.match.infrastructure.InMemoryTopicLoader
+import com.example.topic.infrastructure.InMemoryTopicLoader
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

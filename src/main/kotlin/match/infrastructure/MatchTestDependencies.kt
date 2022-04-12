@@ -5,6 +5,7 @@ import com.example.match.domain.IMatchIDLoader
 import com.example.topic.domain.ITopicLoader
 import com.example.match.domain.IMatchDependencies
 import com.example.letterRandomizer.LetterRandomizer
+import com.example.topic.infrastructure.InMemoryTopicLoader
 
 class MatchTestDependencies: IMatchDependencies {
     override var matchIDLoader: IMatchIDLoader = InMemoryMatchIDLoader()

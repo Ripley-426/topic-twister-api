@@ -1,19 +1,15 @@
 package com.example.match.dto
 
 import com.example.match.infrastructure.MatchDBDependencies
-import com.example.letterRandomizer.ILetterRandomizer
 import com.example.match.domain.IMatchIDLoader
-import com.example.match.domain.IRound
-import com.example.topic.domain.ITopicLoader
+import com.example.match.domain.IRoundFactory
 import com.example.match.domain.Match
-import com.example.match.domain.Round
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords
-import com.example.wordValidator.domain.WordValidator
 
 class LoadedMatch(
     playerAID: Int,
-    round: IRound,
+    round: IRoundFactory,
     matchIDLoaderDependency: IMatchIDLoader,
     loadedId: Int,
     loadedPlayerBID:Int? = null,
@@ -53,20 +49,20 @@ class LoadedMatch(
 
         rounds = mutableListOf()
 
-        rounds.add(LoadedRound(1, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, ValidateWords(dependencies.topicLoader), loadedRound1Letter,
-        loadedRound1Topics, loadedRound1PlayerAWords, loadedRound1PlayerBWords, loadedRound1PlayerAWordsValidation, loadedRound1PlayerBWordsValidation, loadedRound1Turn, loadedRound1Winner))
+        rounds.add(LoadedRound(1, ValidateWords(dependencies.topicLoader), loadedRound1Letter,
+            loadedRound1Topics, loadedRound1PlayerAWords, loadedRound1PlayerBWords, loadedRound1PlayerAWordsValidation,
+            loadedRound1PlayerBWordsValidation, loadedRound1Turn, loadedRound1Winner))
 
-        rounds.add(LoadedRound(2, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, ValidateWords(dependencies.topicLoader), loadedRound2Letter,
-            loadedRound2Topics, loadedRound2PlayerAWords, loadedRound2PlayerBWords, loadedRound2PlayerAWordsValidation, loadedRound2PlayerBWordsValidation, loadedRound2Turn,
+        rounds.add(LoadedRound(2, ValidateWords(dependencies.topicLoader), loadedRound2Letter,
+            loadedRound2Topics, loadedRound2PlayerAWords, loadedRound2PlayerBWords, loadedRound2PlayerAWordsValidation,
+            loadedRound2PlayerBWordsValidation, loadedRound2Turn,
             loadedRound2Winner))
 
-        rounds.add(LoadedRound(3, TopicRandomizer(dependencies.topicLoader), dependencies.letterRandomizer, ValidateWords(dependencies.topicLoader), loadedRound3Letter,
-            loadedRound3Topics, loadedRound3PlayerAWords, loadedRound3PlayerBWords, loadedRound3PlayerAWordsValidation, loadedRound3PlayerBWordsValidation, loadedRound3Turn,
+        rounds.add(LoadedRound(3, ValidateWords(dependencies.topicLoader), loadedRound3Letter,
+            loadedRound3Topics, loadedRound3PlayerAWords, loadedRound3PlayerBWords, loadedRound3PlayerAWordsValidation,
+            loadedRound3PlayerBWordsValidation, loadedRound3Turn,
             loadedRound3Winner))
 
-    }
-
-    override fun getMatchIDFromDB() {
     }
 
     override fun instantiateRounds() {

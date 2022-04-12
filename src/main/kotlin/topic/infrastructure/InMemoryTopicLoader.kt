@@ -1,4 +1,4 @@
-package com.example.match.infrastructure
+package com.example.topic.infrastructure
 
 import com.example.topic.domain.ITopicLoader
 import com.example.topic.domain.Topic

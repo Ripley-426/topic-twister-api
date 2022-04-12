@@ -4,14 +4,12 @@ import com.example.match.domain.enumClasses.RoundWinner
 import com.example.match.domain.enumClasses.Turn
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.topic.domain.ITopicRandomizer
-import com.example.wordValidator.domain.IWordValidator
+import com.example.wordValidator.domain.IValidateWords
 import com.example.match.domain.Round
 
 class LoadedRound(
     roundNumber: Int,
-    topicRandomizerDependency: ITopicRandomizer,
-    letterRandomizerDependency: ILetterRandomizer,
-    wordValidatorDependency: IWordValidator,
+    wordValidatorDependency: IValidateWords,
     loadedLetter:Char,
     loadedTopics:List<String>,
     loadedPlayerAWords:List<String>? = null,
@@ -20,7 +18,7 @@ class LoadedRound(
     loadedPlayerBWordsValidation:List<Boolean>,
     loadedTurn: Int,
     loadedWinner: Int,
-) : Round(roundNumber, topicRandomizerDependency, letterRandomizerDependency, wordValidatorDependency) {
+) : Round(roundNumber, wordValidatorDependency) {
 
     init {
 
@@ -43,10 +41,6 @@ class LoadedRound(
             3 -> RoundWinner.DRAW
             else -> RoundWinner.NONE
         }
-    }
-
-    override fun instantiateTopicsAndLetter() {
-
     }
 
 }

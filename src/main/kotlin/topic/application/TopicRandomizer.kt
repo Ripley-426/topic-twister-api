@@ -1,7 +1,7 @@
 package com.example.topic.application
 
-import com.example.topic.domain.ITopicLoader
 import com.example.topic.domain.Topic
+import com.example.topic.domain.ITopicLoader
 import com.example.topic.domain.ITopicRandomizer
 
 class TopicRandomizer(topicLoaderDependency: ITopicLoader): ITopicRandomizer {

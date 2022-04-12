@@ -8,7 +8,6 @@ class AddWordsToMatch {
 
     fun addWords(playerID: Int, matchID: Int, words: String) {
 
-
         var matchToPlay = matchLoader.loadMatch(matchID)
 
         if (playerID != matchToPlay.currentTurnPlayerID()) { return }
