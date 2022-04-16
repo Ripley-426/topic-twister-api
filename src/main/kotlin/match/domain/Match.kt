@@ -33,7 +33,7 @@ open class Match constructor (val playerAID: Int,
         calculateWinnerIfMatchIsFinished()
     }
 
-    fun addWordsToFinishMatch(words: MutableList<String>){
+    private fun addWordsToFinishMatch(words: MutableList<String>){
         getCurrentRound().addWordsAndChangeTurn(words)
     }
 
@@ -42,16 +42,18 @@ open class Match constructor (val playerAID: Int,
     }
 
     private fun isPlayerBMissingFromMatch(): Boolean {
-        return playerBID == null && getCurrentRound().roundNumber == 1 && getCurrentRound().turn == Turn.SECOND
+        return thereIsNoPlayerB() && isRoundOne() && isSecondTurn()
     }
 
+    private fun thereIsNoPlayerB() = playerBID == null
+
+    private fun isSecondTurn() = getCurrentRound().turn == Turn.SECOND
+
+    private fun isRoundOne() = getCurrentRound().roundNumber == 1
+
     private fun calculateWinnerIfMatchIsFinished() {
-        if (playerHasTwoWins()){
-            completeMatch()
-        }
-        if (isLastTurnFinished()) {
-            calculateWinner()
-        }
+        if (playerHasTwoWins()) { completeMatch() }
+        if (isLastTurnFinished()) { calculateWinner() }
     }
 
     private fun completeMatch() {
@@ -61,8 +63,8 @@ open class Match constructor (val playerAID: Int,
     }
 
     private fun playerHasTwoWins(): Boolean {
-        val playerAWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERA)
-        val playerBWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERB)
+        val playerAWins = countNumberOfTurnsWonBy(RoundWinner.PLAYERA)
+        val playerBWins = countNumberOfTurnsWonBy(RoundWinner.PLAYERB)
         if (playerAWins >= 2 || playerBWins >= 2){
             return true
         }
@@ -72,24 +74,20 @@ open class Match constructor (val playerAID: Int,
     private fun isLastTurnFinished() = rounds.last().turn == Turn.FINISHED
 
     private fun calculateWinner() {
-        val playerAWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERA)
-        val playerBWins = countNumberOfTurnsWonByPlayer(RoundWinner.PLAYERB)
+        val playerAWins = countNumberOfTurnsWonBy(RoundWinner.PLAYERA)
+        val playerBWins = countNumberOfTurnsWonBy(RoundWinner.PLAYERB)
 
         winner = calculateWinner(playerAWins, playerBWins)
 
     }
 
     private fun calculateWinner(playerAWins: Int, playerBWins: Int):Int {
-        return if (playerAWins == playerBWins) {
-            0
-        } else if (playerAWins > playerBWins) {
-            playerAID
-        } else {
-            playerBID!!
-        }
+        return if (playerAWins > playerBWins) { playerAID }
+        else if (playerAWins < playerBWins) { playerBID!! }
+        else { 0 }
     }
 
-    private fun countNumberOfTurnsWonByPlayer(enum: RoundWinner) = rounds.count { it.roundWinner == enum }
+    private fun countNumberOfTurnsWonBy(enum: RoundWinner) = rounds.count { it.roundWinner == enum }
 
     fun getCurrentRound(): Round {
         return try {
