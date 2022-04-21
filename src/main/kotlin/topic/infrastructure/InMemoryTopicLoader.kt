@@ -13,7 +13,7 @@ class InMemoryTopicLoader : ITopicLoader {
     }
 
     private fun addTopics() {
-        var animalTopic: Topic = Topic("ANIMALS", mutableListOf(
+        val animalTopic: Topic = Topic("ANIMALS", mutableListOf(
             "Aardvark", "Alligator", "Alpaca", "Anaconda", "Ant", "Antelope", "Ape", "Aphid", "Armadillo", "Asp", "Ass",
             "Baboon", "Badger", "Bald Eagle", "Barracuda", "Bass", "Basset Hound", "Bat", "Bear", "Beaver", "Bedbug",
             "Bee", "Beetle", "Bird", "Bison", "Black panther", "Black Widow Spider", "Blue Jay", "Blue Whale", "Bobcat",
@@ -32,7 +32,7 @@ class InMemoryTopicLoader : ITopicLoader {
         ))
         topicList.addTopic(animalTopic)
 
-        var namesTopic: Topic = Topic("NAMES", mutableListOf(
+        val namesTopic: Topic = Topic("NAMES", mutableListOf(
             "Abigail", "Addison", "Aiden", "Alexander", "Amelia", "Anthony", "Aria", "Asher", "Aurora", "Ava", "Avery",
             "Benjamin", "Camila", "Carter", "Charlotte", "Chloe", "Daniel", "David", "Eleanor", "Elena", "Eli",
             "Eliana", "Elias", "Elijah", "Elizabeth", "Ella", "Ellie", "Emilia", "Emily", "Emma", "Ethan", "Evelyn",
@@ -46,7 +46,7 @@ class InMemoryTopicLoader : ITopicLoader {
         ))
         topicList.addTopic(namesTopic)
 
-        var countriesTopic: Topic = Topic("COUNTRIES", mutableListOf(
+        val countriesTopic: Topic = Topic("COUNTRIES", mutableListOf(
             "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria",
             "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin",
             "Bhutan", "Bolivia", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burma", "Burundi", "Cambodia", "Cameroon",
@@ -68,7 +68,7 @@ class InMemoryTopicLoader : ITopicLoader {
         ))
         topicList.addTopic(countriesTopic)
 
-        var plantsTopic: Topic = Topic("PLANTS", mutableListOf(
+        val plantsTopic: Topic = Topic("PLANTS", mutableListOf(
             "acorn", "agriculture", "alfalfa", "angiosperm", "annual", "antherapical meristem", "autotroph", "axil",
             "axilary bud", "bamboo", "bark", "beanberry", "biennial", "blade", "blossom", "botany", "bract", "branch",
             "bromeliad", "brush", "bud", "bulb", "bulbel", "bush", "cactus", "calyx", "canopy", "carpel", "cleft leaf",
@@ -92,7 +92,7 @@ class InMemoryTopicLoader : ITopicLoader {
         ))
         topicList.addTopic(plantsTopic)
 
-        var jobsTopic: Topic = Topic("JOBS", mutableListOf(
+        val jobsTopic: Topic = Topic("JOBS", mutableListOf(
             "actor", "baker", "butcher", "carpenter", "cook", "doctor", "engineer", "farmer", "fireman", "fireworker",
             "fisherman", "gardener", "goldsmith", "hairdresser", "journalist", "judge", "lawyer", "mason", "mechanic",
             "nurse", "painter", "pilot", "plumber", "policeman", "postman", "secretary", "singer", "soldier", "tailor",

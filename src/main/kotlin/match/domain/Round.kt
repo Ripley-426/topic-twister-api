@@ -27,11 +27,8 @@ open class Round(
     }
 
     fun addWordsAndChangeTurn(wordsList: MutableList<String>) {
-
         setWordsToPlayersAndValidate(wordsList)
-
         changeTurn()
-
         if (turn == Turn.FINISHED) { calculateRoundScore() }
     }
 
