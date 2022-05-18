@@ -8,7 +8,7 @@ import com.example.match.domain.IMatchLoader
 import com.example.match.domain.Match
 import com.example.match.domain.Round
 import com.example.match.application.StartNewMatch
-import com.example.match.domain.RoundFactory
+import com.example.match.application.RoundFactory
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords
 import java.sql.ResultSet

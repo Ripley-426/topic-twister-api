@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import com.example.letterRandomizer.LetterRandomizer
-import com.example.match.domain.RoundFactory
+import com.example.match.application.RoundFactory
 import com.example.match.infrastructure.MatchTestDependencies
 import com.example.topic.application.TopicRandomizer
 import com.example.wordValidator.application.ValidateWords

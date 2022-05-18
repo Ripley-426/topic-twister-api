@@ -1,6 +1,8 @@
-package com.example.match.domain
+package com.example.match.application
 
 import com.example.letterRandomizer.ILetterRandomizer
+import com.example.match.domain.IRoundFactory
+import com.example.match.domain.Round
 import com.example.topic.domain.ITopicRandomizer
 import com.example.wordValidator.domain.IValidateWords
 

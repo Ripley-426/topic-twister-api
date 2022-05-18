@@ -2,7 +2,6 @@ package com.example.match.application
 
 import com.example.match.dao.MatchToSend
 import com.example.match.infrastructure.DBMatchLoader
-import com.example.topic.domain.ITopicLoader
 import com.example.match.infrastructure.MatchDBDependencies
 import com.example.letterRandomizer.ILetterRandomizer
 import com.example.match.domain.*
