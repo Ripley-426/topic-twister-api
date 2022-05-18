@@ -25,22 +25,80 @@ class MatchShould {
     @BeforeEach
     fun setUp(){
 
-        val mockMatchIDLoaderDependency = Mockito.mock(DBMatchIDLoader::class.java)
-        Mockito.`when`(mockMatchIDLoaderDependency.getID()).thenReturn(1)
+        val mockMatchIDLoaderDependency = createTestDoubleMatchIDLoader()
+        val mockLetterRandomizerDependency = createTestDoubleLetterRandomizer()
+        val topicRandomizerDependency = createTestDoubleTopicRandomizer()
+        val validateWordsDependency = createTestDoubleValidateWords()
 
-        val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
-        Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
+        listOfWordsThreeCorrect = mutableListOf("AnimalsWord", "", "NamesWord", "", "PlantsWord")
+        listOfWordsTwoCorrect = mutableListOf(" ", " ", "NamesWord", "CountriesWord", "")
 
-        val topicLoaderDependency = dependencies.topicLoader
+        addTestLogicToTestDoubles(mockMatchIDLoaderDependency,
+            mockLetterRandomizerDependency,
+            topicRandomizerDependency,
+            validateWordsDependency)
 
-        val roundsFactory = RoundFactory(TopicRandomizer(topicLoaderDependency), mockLetterRandomizerDependency, ValidateWords(topicLoaderDependency) )
+        val roundsFactory = RoundFactory(topicRandomizerDependency, mockLetterRandomizerDependency, validateWordsDependency)
 
         playerAID = 1
         playerBID = 2
         match = Match(playerAID, roundsFactory, mockMatchIDLoaderDependency)
-        listOfWordsThreeCorrect = mutableListOf("A", "B", "A", "B", "A")
-        listOfWordsTwoCorrect = mutableListOf("B", "B", "A", "B", "A")
     }
+
+    private fun addTestLogicToTestDoubles(
+        mockMatchIDLoaderDependency: DBMatchIDLoader,
+        mockLetterRandomizerDependency: LetterRandomizer,
+        topicRandomizerDependency: TopicRandomizer,
+        validateWordsDependency: ValidateWords,
+    ) {
+        addReturnFixedMatchID(mockMatchIDLoaderDependency)
+        addReturnFixedLetter(mockLetterRandomizerDependency)
+        addReturnFixedTopicList(topicRandomizerDependency)
+        addReturnValidationForThreeCorrectWords(validateWordsDependency, topicRandomizerDependency)
+        addReturnValidationForTwoCorrectWords(validateWordsDependency, topicRandomizerDependency)
+    }
+
+    private fun addReturnFixedLetter(mockLetterRandomizerDependency: LetterRandomizer) {
+        Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
+    }
+
+    private fun addReturnFixedMatchID(mockMatchIDLoaderDependency: DBMatchIDLoader) {
+        Mockito.`when`(mockMatchIDLoaderDependency.getID()).thenReturn(1)
+    }
+
+    private fun createTestDoubleMatchIDLoader() = Mockito.mock(DBMatchIDLoader::class.java)
+
+    private fun createTestDoubleLetterRandomizer() = Mockito.mock(LetterRandomizer::class.java)
+
+    private fun addReturnFixedTopicList(topicRandomizerDependency: TopicRandomizer) {
+        Mockito.`when`(topicRandomizerDependency.getRandomTopics(5)).thenReturn(
+            mutableListOf("ANIMALS", "JOBS", "NAMES", "COUNTRIES", "PLANTS")
+        )
+    }
+
+    private fun createTestDoubleTopicRandomizer() = Mockito.mock(TopicRandomizer::class.java)
+
+    private fun addReturnValidationForTwoCorrectWords(
+        validateWordsDependency: ValidateWords,
+        topicRandomizerDependency: TopicRandomizer,
+    ) {
+        Mockito.`when`(validateWordsDependency.getValidationResult('A',
+            topicRandomizerDependency.getRandomTopics(5),
+            listOfWordsTwoCorrect
+        )).thenReturn(mutableListOf(false, false, true, true, false))
+    }
+
+    private fun addReturnValidationForThreeCorrectWords(
+        validateWordsDependency: ValidateWords,
+        topicRandomizerDependency: TopicRandomizer,
+    ) {
+        Mockito.`when`(validateWordsDependency.getValidationResult('A',
+            topicRandomizerDependency.getRandomTopics(5),
+            listOfWordsThreeCorrect
+        )).thenReturn(mutableListOf(true, false, true, false, true))
+    }
+
+    private fun createTestDoubleValidateWords() = Mockito.mock(ValidateWords::class.java)
 
     @Test
     fun `have three rounds when created`() {
