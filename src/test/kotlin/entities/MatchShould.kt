@@ -45,6 +45,8 @@ class MatchShould {
         match = Match(playerAID, roundsFactory, mockMatchIDLoaderDependency)
     }
 
+
+    //region SetupFunctions
     private fun addTestLogicToTestDoubles(
         mockMatchIDLoaderDependency: DBMatchIDLoader,
         mockLetterRandomizerDependency: LetterRandomizer,
@@ -99,6 +101,7 @@ class MatchShould {
     }
 
     private fun createTestDoubleValidateWords() = Mockito.mock(ValidateWords::class.java)
+    //endregion
 
     @Test
     fun `have three rounds when created`() {
@@ -110,15 +113,14 @@ class MatchShould {
     fun `not add second set of words without a playerB`() {
         match.addWords(listOfWordsThreeCorrect)
         match.addWords(listOfWordsTwoCorrect)
+
         val result = match.getCurrentRound().playerBWords.isEmpty()
         assertTrue(result)
     }
 
     @Test
     fun `change round when two set of words are added` () {
-        match.addWords(listOfWordsThreeCorrect)
-        match.addPlayerB(playerBID)
-        match.addWords(listOfWordsTwoCorrect)
+        addSecondPlayerAndFirstPlayerWinsTheRound()
 
         val result = match.getCurrentRound().roundNumber
 
@@ -127,16 +129,9 @@ class MatchShould {
 
     @Test
     fun `have player A as winner when the match is finished` () {
-
-        match.addWords(listOfWordsThreeCorrect)
-        match.addPlayerB(playerBID)
-        match.addWords(listOfWordsTwoCorrect)
-
-        match.addWords(listOfWordsTwoCorrect)
-        match.addWords(listOfWordsThreeCorrect)
-
-        match.addWords(listOfWordsThreeCorrect)
-        match.addWords(listOfWordsTwoCorrect)
+        addSecondPlayerAndFirstPlayerWinsTheRound()
+        secondPlayerWinTheRound()
+        firstPlayerWinTheRound()
 
         val result = match.winner
 
@@ -145,16 +140,9 @@ class MatchShould {
 
     @Test
     fun `have player B as winner when the match is finished` () {
-
-        match.addWords(listOfWordsTwoCorrect)
-        match.addPlayerB(playerBID)
-        match.addWords(listOfWordsThreeCorrect)
-
-        match.addWords(listOfWordsThreeCorrect)
-        match.addWords(listOfWordsTwoCorrect)
-
-        match.addWords(listOfWordsTwoCorrect)
-        match.addWords(listOfWordsThreeCorrect)
+        addSecondPlayerAndSecondPlayerWinsTheRound()
+        firstPlayerWinTheRound()
+        secondPlayerWinTheRound()
 
         val result = match.winner
 
@@ -163,27 +151,44 @@ class MatchShould {
 
     @Test
     fun `finish when two rounds are won by player A` () {
-        match.addWords(listOfWordsThreeCorrect)
-        match.addPlayerB(playerBID)
-        match.addWords(listOfWordsTwoCorrect)
-
-        match.addWords(listOfWordsTwoCorrect)
-        match.addWords(listOfWordsThreeCorrect)
+        addSecondPlayerAndFirstPlayerWinsTheRound()
+        secondPlayerWinTheRound()
 
         val result = match.winner
+
         assertEquals(playerAID, result)
     }
 
     @Test
     fun `finish when two rounds are won by player B` () {
+        addSecondPlayerAndSecondPlayerWinsTheRound()
+        firstPlayerWinTheRound()
+
+        val result = match.winner
+
+        assertEquals(playerBID, result)
+    }
+
+    private fun secondPlayerWinTheRound() {
+        match.addWords(listOfWordsTwoCorrect)
+        match.addWords(listOfWordsThreeCorrect)
+    }
+
+    private fun addSecondPlayerAndFirstPlayerWinsTheRound() {
+        match.addWords(listOfWordsThreeCorrect)
+        match.addPlayerB(playerBID)
+        match.addWords(listOfWordsTwoCorrect)
+    }
+
+
+    private fun addSecondPlayerAndSecondPlayerWinsTheRound() {
         match.addWords(listOfWordsTwoCorrect)
         match.addPlayerB(playerBID)
         match.addWords(listOfWordsThreeCorrect)
+    }
 
+    private fun firstPlayerWinTheRound() {
         match.addWords(listOfWordsThreeCorrect)
         match.addWords(listOfWordsTwoCorrect)
-
-        val result = match.winner
-        assertEquals(playerBID, result)
     }
 }
