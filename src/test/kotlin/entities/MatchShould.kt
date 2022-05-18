@@ -14,7 +14,6 @@ import com.example.wordValidator.application.ValidateWords
 
 class MatchShould {
 
-    private val dependencies = MatchTestDependencies()
     private lateinit var match: Match
     private lateinit var listOfWordsThreeCorrect: MutableList<String>
     private lateinit var listOfWordsTwoCorrect: MutableList<String>
@@ -103,6 +102,7 @@ class MatchShould {
     private fun createTestDoubleValidateWords() = Mockito.mock(ValidateWords::class.java)
     //endregion
 
+    //region Basic Tests
     @Test
     fun `have three rounds when created`() {
         val result = match.rounds.count()
@@ -126,7 +126,9 @@ class MatchShould {
 
         assertEquals(2, result)
     }
+    //endregion
 
+    //region Victory Tests
     @Test
     fun `have player A as winner when the match is finished` () {
         addSecondPlayerAndFirstPlayerWinsTheRound()
@@ -168,7 +170,9 @@ class MatchShould {
 
         assertEquals(playerBID, result)
     }
+    //endregion
 
+    //region Tests Functions
     private fun secondPlayerWinTheRound() {
         match.addWords(listOfWordsTwoCorrect)
         match.addWords(listOfWordsThreeCorrect)
@@ -191,4 +195,5 @@ class MatchShould {
         match.addWords(listOfWordsThreeCorrect)
         match.addWords(listOfWordsTwoCorrect)
     }
+    //endregion
 }
