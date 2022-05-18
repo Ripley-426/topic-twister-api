@@ -37,7 +37,8 @@ class DBMatchLoader: IMatchLoader {
         val matchesList = mutableListOf<Match>()
 
         val dbMatch = stmt.executeQuery("SELECT * FROM MATCH INNER JOIN ROUND ON ROUND.matchid " +
-                " = MATCH.idmatch WHERE MATCH.playeraid = $playerID OR MATCH.playerbid = $playerID")
+                " = MATCH.idmatch WHERE MATCH.playeraid = $playerID OR MATCH.playerbid = $playerID " +
+                "order by MATCH.idmatch, ROUND.idround")
 
         while (dbMatch.next()) {
             matchesList.add(createLoadedMatchFromDBObject(dbMatch))
