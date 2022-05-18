@@ -1,7 +1,5 @@
 package entities
 
-import com.example.match.domain.IMatchDependencies
-import com.example.match.infrastructure.MatchTestDependencies
 import com.example.match.domain.Round
 import com.example.match.domain.enumClasses.RoundWinner
 import com.example.match.domain.enumClasses.Turn
@@ -15,146 +13,225 @@ import com.example.match.domain.RoundFactory
 import com.example.wordValidator.application.ValidateWords
 
 class RoundShould {
-
     private lateinit var firstRound: Round
     private lateinit var secondRound: Round
-    private lateinit var listOfWordsPlayerA: MutableList<String>
-    private lateinit var listOfWordsPlayerB: MutableList<String>
+    private lateinit var listOfWordsThreeCorrect: MutableList<String>
+    private lateinit var listOfWordsTwoCorrect: MutableList<String>
 
     @BeforeEach
     fun setup(){
 
-        val matchTestDependencies: IMatchDependencies = MatchTestDependencies()
+        val mockLetterRandomizerDependency = createTestDoubleLetterRandomizer()
+        val topicRandomizerDependency = createTestDoubleTopicRandomizer()
+        val validateWordsDependency = createTestDoubleValidateWords()
+        listOfWordsThreeCorrect = mutableListOf("AnimalsWord", "", "NamesWord", "", "PlantsWord")
+        listOfWordsTwoCorrect = mutableListOf(" ", " ", "NamesWord", "CountriesWord", "")
 
-        val mockLetterRandomizerDependency = Mockito.mock(LetterRandomizer::class.java)
-        Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
+        addTestLogicToTestDoubles(mockLetterRandomizerDependency,topicRandomizerDependency,validateWordsDependency)
 
-        val topicRandomizer = TopicRandomizer(matchTestDependencies.topicLoader)
-        val wordValidator = ValidateWords(matchTestDependencies.topicLoader)
-
-        val rounds = RoundFactory(topicRandomizer, mockLetterRandomizerDependency, wordValidator).getRounds(3)
+        val rounds = RoundFactory(topicRandomizerDependency, mockLetterRandomizerDependency, validateWordsDependency).getRounds(3)
         firstRound = rounds[0]
         secondRound = rounds[1]
-        listOfWordsPlayerA = mutableListOf("A", "B", "A", "B", "A")
-        listOfWordsPlayerB = mutableListOf("B", "B", "A", "B", "A")
     }
+
+    //region Setup Functions
+
+    private fun createTestDoubleLetterRandomizer() = Mockito.mock(LetterRandomizer::class.java)
+    private fun createTestDoubleTopicRandomizer() = Mockito.mock(TopicRandomizer::class.java)
+    private fun createTestDoubleValidateWords() = Mockito.mock(ValidateWords::class.java)
+
+    private fun addTestLogicToTestDoubles(mockLetterRandomizerDependency: LetterRandomizer,
+        topicRandomizerDependency: TopicRandomizer,
+        validateWordsDependency: ValidateWords,
+    ) {
+        addReturnFixedLetter(mockLetterRandomizerDependency)
+        addReturnFixedTopicList(topicRandomizerDependency)
+        addReturnValidationForTwoCorrectWords(validateWordsDependency, topicRandomizerDependency)
+        addReturnValidationForThreeCorrectWords(validateWordsDependency, topicRandomizerDependency)
+    }
+
+    private fun addReturnFixedLetter(mockLetterRandomizerDependency: LetterRandomizer) {
+        Mockito.`when`(mockLetterRandomizerDependency.getRandomLetter()).thenReturn('A')
+    }
+
+    private fun addReturnFixedTopicList(topicRandomizerDependency: TopicRandomizer) {
+        Mockito.`when`(topicRandomizerDependency.getRandomTopics(5)).thenReturn(
+            mutableListOf("ANIMALS", "JOBS", "NAMES", "COUNTRIES", "PLANTS"))
+    }
+
+    private fun addReturnValidationForTwoCorrectWords(
+        validateWordsDependency: ValidateWords,
+        topicRandomizerDependency: TopicRandomizer,
+    ) {
+        Mockito.`when`(validateWordsDependency.getValidationResult('A',
+            topicRandomizerDependency.getRandomTopics(5),
+            listOfWordsTwoCorrect
+        )).thenReturn(mutableListOf(false, false, true, true, false))
+    }
+
+    private fun addReturnValidationForThreeCorrectWords(
+        validateWordsDependency: ValidateWords,
+        topicRandomizerDependency: TopicRandomizer,
+    ) {
+        Mockito.`when`(validateWordsDependency.getValidationResult('A',
+            topicRandomizerDependency.getRandomTopics(5),
+            listOfWordsThreeCorrect
+        )).thenReturn(mutableListOf(true, false, true, false, true))
+    }
+    //endregion
+
+    //region Basic Tests
 
     @Test
     fun `have a letter`() {
-        val result = firstRound.letter
+        val result = getFirstRoundLetter()
 
         assertTrue(result.isLetter())
     }
 
     @Test
     fun `have five Topics`() {
-        assertEquals(5,firstRound.readTopics().count())
+        val result = countFirstRoundTopics()
+
+        assertEquals(5, result)
     }
 
     @Test
-    fun `add playerA words the first time adding words on first turn`() {
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-        val result = firstRound.playerAWords
-
-        assertEquals(listOfWordsPlayerA, result)
-    }
-
-    @Test
-    fun `validate playerA words after adding them on first turn`() {
-        val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-
-        val result = firstRound.playerAWordsValidation
-
-        assertEquals(expectedBoolList, result)
-    }
-
-    @Test
-    fun `add playerB words the first time adding words on second turn`() {
-        secondRound.addWordsAndChangeTurn(listOfWordsPlayerB)
-        val result = secondRound.playerBWords
-
-        assertEquals(listOfWordsPlayerB, result)
-    }
-
-    @Test
-    fun `validate playerB words after adding them on second turn`() {
-        val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
-        secondRound.addWordsAndChangeTurn(listOfWordsPlayerB)
-
-        val result = secondRound.playerBWordsValidation
-
-        assertEquals(expectedBoolList, result)
-    }
-
-
-    @Test
-    fun `Change To Second Turn After Adding First Words`() {
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-
-        val result = firstRound.turn
+    fun `Change to second turn after adding first words`() {
+        addThreeCorrectWordsToFirstRound()
+        val result = getFirstRoundTurn()
 
         assertEquals(Turn.SECOND, result)
     }
 
     @Test
-    fun `assign playerB words the second time adding words on first turn`() {
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
-        val result = firstRound.playerBWords
-
-        assertEquals(listOfWordsPlayerB, result)
-    }
-
-    @Test
-    fun `validate playerB words after adding them on first turn`() {
-        val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
-
-        val result = firstRound.playerBWordsValidation
-
-        assertEquals(expectedBoolList, result)
-    }
-
-    @Test
-    fun `assign playerA words the second time adding words on second turn`() {
-        secondRound.addWordsAndChangeTurn(listOfWordsPlayerB)
-        secondRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-        val result = secondRound.playerAWords
-
-        assertEquals(listOfWordsPlayerA, result)
-    }
-
-    @Test
-    fun `validate playerA words after adding them on second turn`() {
-        val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
-        secondRound.addWordsAndChangeTurn(listOfWordsPlayerB)
-        secondRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-
-        val result = secondRound.playerAWordsValidation
-
-        assertEquals(expectedBoolList, result)
-    }
-
-    @Test
     fun `change to turn to finished after adding second set of words`() {
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
+        addThreeCorrectWordsToFirstRound()
+        addTwoCorrectWordsToFirstRound()
 
-        val result = firstRound.turn
+        val result = getFirstRoundTurn()
 
         assertEquals(Turn.FINISHED, result)
     }
 
     @Test
-    fun `calculate score when turn is over`() {
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerA)
-        firstRound.addWordsAndChangeTurn(listOfWordsPlayerB)
+    fun `calculate score when the round is over`() {
+        addThreeCorrectWordsToFirstRound()
+        addTwoCorrectWordsToFirstRound()
 
-        val result = firstRound.roundWinner
+        val result = getFirstRoundWinner()
 
         assertEquals(RoundWinner.PLAYERA, result)
     }
+    //endregion
+
+    //region First Round Tests
+    @Test
+    fun `add first set of words to Player A on first turn`() {
+        addThreeCorrectWordsToFirstRound()
+        val result = getFirstRoundPlayerAWords()
+
+        assertEquals(listOfWordsThreeCorrect, result)
+    }
+
+    @Test
+    fun `validate playerA words after adding them on first turn`() {
+        val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
+
+        addThreeCorrectWordsToFirstRound()
+        val result = getFirstRoundPlayerAValidations()
+
+        assertEquals(expectedBoolList, result)
+    }
+
+    @Test
+    fun `add second set of words to Player B on first round`() {
+        addThreeCorrectWordsToFirstRound()
+        addTwoCorrectWordsToFirstRound()
+        val result = getFirstRoundPlayerBWords()
+
+        assertEquals(listOfWordsTwoCorrect, result)
+    }
+
+    @Test
+    fun `validate playerB words after adding them on first round`() {
+        val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
+
+        addThreeCorrectWordsToFirstRound()
+        addTwoCorrectWordsToFirstRound()
+        val result = getFirstRoundPlayerBValidations()
+
+        assertEquals(expectedBoolList, result)
+    }
+    //endregion
+
+    //region Second Round Tests
+    @Test
+    fun `add first set of words to Player B on second turn`() {
+        addTwoCorrectWordsToSecondRound()
+        val result = getSecondRoundPlayerBWords()
+
+        assertEquals(listOfWordsTwoCorrect, result)
+    }
+
+    @Test
+    fun `validate playerB words after adding them on second round`() {
+        val expectedBoolList: MutableList<Boolean> = mutableListOf(false, false, true, false, true)
+
+        addTwoCorrectWordsToSecondRound()
+        val result = getSecondRoundPlayerBValidations()
+
+        assertEquals(expectedBoolList, result)
+    }
+
+    @Test
+    fun `add second set of words to Player A on second turn`() {
+        addTwoCorrectWordsToSecondRound()
+        addThreeCorrectWordsToSecondRound()
+        val result = getSecondRoundPlayerAWords()
+
+        assertEquals(listOfWordsThreeCorrect, result)
+    }
+
+    @Test
+    fun `validate playerA words after adding them on second turn`() {
+        val expectedBoolList: MutableList<Boolean> = mutableListOf(true, false, true, false, true)
+
+        addTwoCorrectWordsToSecondRound()
+        addThreeCorrectWordsToSecondRound()
+        val result = getSecondRoundPlayerAValidations()
+
+        assertEquals(expectedBoolList, result)
+    }
+    //endregion
+
+    //region Test Functions
+
+    private fun getFirstRoundLetter() = firstRound.letter
+    private fun countFirstRoundTopics() = firstRound.readTopics().count()
+    private fun getFirstRoundTurn() = firstRound.turn
+    private fun getFirstRoundWinner() = firstRound.roundWinner
+    private fun getFirstRoundPlayerAWords() = firstRound.playerAWords
+    private fun getFirstRoundPlayerAValidations() = firstRound.playerAWordsValidation
+    private fun getFirstRoundPlayerBWords() = firstRound.playerBWords
+    private fun getFirstRoundPlayerBValidations() = firstRound.playerBWordsValidation
+    private fun getSecondRoundPlayerAWords() = secondRound.playerAWords
+    private fun getSecondRoundPlayerAValidations() = secondRound.playerAWordsValidation
+    private fun getSecondRoundPlayerBWords() = secondRound.playerBWords
+    private fun getSecondRoundPlayerBValidations() = secondRound.playerBWordsValidation
+
+    private fun addThreeCorrectWordsToFirstRound() {
+        firstRound.addWordsAndChangeTurn(listOfWordsThreeCorrect)
+    }
+    private fun addTwoCorrectWordsToFirstRound() {
+        firstRound.addWordsAndChangeTurn(listOfWordsTwoCorrect)
+    }
+    private fun addThreeCorrectWordsToSecondRound() {
+        secondRound.addWordsAndChangeTurn(listOfWordsThreeCorrect)
+    }
+    private fun addTwoCorrectWordsToSecondRound() {
+        secondRound.addWordsAndChangeTurn(listOfWordsTwoCorrect)
+    }
+    //endregion
 
 }
